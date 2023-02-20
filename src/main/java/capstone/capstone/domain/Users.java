@@ -1,2 +1,4 @@
-package capstone.capstone.domain;public class Users {
+package capstone.capstone.domain;
+
+public class Users {
 }

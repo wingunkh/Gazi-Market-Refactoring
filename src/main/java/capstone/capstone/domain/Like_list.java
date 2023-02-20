@@ -1,2 +1,4 @@
-package capstone.capstone.domain;public class Like_list {
+package capstone.capstone.domain;
+
+public class Like_list {
 }

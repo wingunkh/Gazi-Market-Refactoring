@@ -1,2 +1,4 @@
-package capstone.capstone.domain;public class Review {
+package capstone.capstone.domain;
+
+public class Review {
 }

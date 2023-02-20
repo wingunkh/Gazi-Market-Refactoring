@@ -1,2 +1,4 @@
-package capstone.capstone.domain;public class Purchase_list {
+package capstone.capstone.domain;
+
+public class Purchase_list {
 }

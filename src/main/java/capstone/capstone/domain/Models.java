@@ -1,2 +1,4 @@
-package capstone.capstone.domain;public class Models {
+package capstone.capstone.domain;
+
+public class Models {
 }

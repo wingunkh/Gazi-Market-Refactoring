@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class Posts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer post_num;
+    private Integer post_no;
 
     @Column(name = "model_name")
     private String model_name;
@@ -34,4 +34,68 @@ public class Posts {
 
     @Column(name = "post_content")
     private String post_content;
+
+    public Integer getPost_no() {
+        return post_no;
+    }
+
+    public void setPost_no(Integer post_no) {
+        this.post_no = post_no;
+    }
+
+    public String getModel_name() {
+        return model_name;
+    }
+
+    public void setModel_name(String model_name) {
+        this.model_name = model_name;
+    }
+
+    public Integer getUser_no() {
+        return user_no;
+    }
+
+    public void setUser_no(Integer user_no) {
+        this.user_no = user_no;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public String getPost_title() {
+        return post_title;
+    }
+
+    public void setPost_title(String post_title) {
+        this.post_title = post_title;
+    }
+
+    public String getPost_content() {
+        return post_content;
+    }
+
+    public void setPost_content(String post_content) {
+        this.post_content = post_content;
+    }
 }

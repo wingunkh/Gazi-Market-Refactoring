@@ -18,14 +18,17 @@ public class PostController {
 
     //Service를 호출해서 글 목록의 데이터를 리턴하는 메소드
     @GetMapping("/post") // GET 방식: 정보를 단순히 조회하기 위해 사용하는 방식
-    public ResponseEntity<List<Posts>> getAllPosts() {
+    public List<Posts> getAllPost() {
         return postService.getAllPost();
     }
+
+
 
 
     //Service를 호출해서 글을 저장하는 메소드
     @PostMapping("/post") // POST 방식: 특정 데이터를 서버로 제출하여 해당 데이터를 추가, 수정 또는 삭제하기 위해 데이터를 전송하는 방식
     public Posts createPost(@RequestBody Posts post) {
+        System.out.println(post);
         return postService.createPost(post);
     }
 

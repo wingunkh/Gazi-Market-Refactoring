@@ -5,9 +5,10 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "posts")
+@Table(name = "post")
 @DynamicInsert  //INSERT 시 NULL인 부분을 제외하기 위해 사용, 동적 인서트
 @DynamicUpdate  //UPDATE 시 NULL인 부분을 제외하기 위해 사용, 동적 업데이트
+
 public class Posts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

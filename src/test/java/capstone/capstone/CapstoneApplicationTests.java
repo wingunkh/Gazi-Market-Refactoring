@@ -9,5 +9,4 @@ class CapstoneApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

@@ -5,16 +5,23 @@ import capstone.capstone.exception.ResourceNotFoundException;
 import capstone.capstone.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PostService {
     @Autowired
     private PostRepository postRepository;
 
-    public List<Posts> getAllPost() {
-        return postRepository.findAll();
+    public ResponseEntity<List<Posts>> getAllPost() {
+        List<Posts> posts = postRepository.findALLList();
+        return ResponseEntity.ok(posts);
     }
+
+/*    public List<Posts> getAllPost() {
+        return postRepository.findAll();
+    }*/
 
     public Posts createPost(Posts post) {
         return postRepository.save(post);

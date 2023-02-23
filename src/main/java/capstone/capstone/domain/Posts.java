@@ -8,11 +8,14 @@ import javax.persistence.*;
 @Table(name = "post")
 @DynamicInsert  //INSERT 시 NULL인 부분을 제외하기 위해 사용, 동적 인서트
 @DynamicUpdate  //UPDATE 시 NULL인 부분을 제외하기 위해 사용, 동적 업데이트
-
 public class Posts {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO, generator = "post_SEQUENCE_GENERATOR")
+    @SequenceGenerator(name="post_SEQUENCE_GENERATOR", sequenceName = "SQ", initialValue = 1, allocationSize = 1)
     private Integer post_no;
+
+
+
 
     @Column(name = "model_name")
     private String model_name;

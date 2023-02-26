@@ -14,9 +14,6 @@ public class Posts {
     @SequenceGenerator(name="post_SEQUENCE_GENERATOR", sequenceName = "SQ", initialValue = 1, allocationSize = 1)
     private Integer post_no;
 
-
-
-
     @Column(name = "model_name")
     private String model_name;
 

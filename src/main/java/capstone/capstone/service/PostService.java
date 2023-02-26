@@ -14,11 +14,6 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
-/*    public ResponseEntity<List<Posts>> getAllPost() {
-        List<Posts> posts = postRepository.findALLList();
-        return ResponseEntity.ok(posts);
-    }*/
-
     public List<Posts> getAllPost() {
         System.out.println("----------------------");
         System.out.println(postRepository.findAll());

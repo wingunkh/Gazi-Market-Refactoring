@@ -3,6 +3,8 @@ package capstone.capstone.domain;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "post")
@@ -34,6 +36,17 @@ public class Posts {
 
     @Column(name = "post_content")
     private String post_content;
+
+    @Column(name = "updateat")
+    private LocalDateTime updateat;
+
+    public LocalDateTime getUpdateat() {
+        return updateat;
+    }
+
+    public void setUpdateat(LocalDateTime updateat) {
+        this.updateat = updateat;
+    }
 
     public Integer getPost_no() {
         return post_no;

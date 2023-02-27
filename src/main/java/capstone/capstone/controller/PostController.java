@@ -1,14 +1,12 @@
 package capstone.capstone.controller;
 
+
 import capstone.capstone.domain.Posts;
 import capstone.capstone.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -39,4 +37,5 @@ public class PostController {
             @PathVariable Integer no) {
         return postService.getPost(no);
     }
+
 }

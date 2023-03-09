@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@CrossOrigin(origins = {"http://52.78.130.186:3000", "http:localhost:3000"}) // CORS 문제를 해결하기 위한 어노테이션
+@CrossOrigin(origins = {"http://52.78.130.186:3000"}) // CORS 문제를 해결하기 위한 어노테이션
 @RestController // @Controller에 @ResponseBody가 결합한 어노테이션, 문자열과 JSON 등을 전송 가능
 @RequestMapping("/api")
 public class CategoryController {

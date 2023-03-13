@@ -39,7 +39,7 @@ public class PostController {
     @GetMapping("/post/date")
     public List<Posts> getDatePost() {return postService.getDatePost();}
 
-    @GetMapping("posts/{category}")
+    @GetMapping("post/{category}")
     public List<Posts> getPostByCategory(@PathVariable String category){
         return postService.getcategoryPosts(category);
     }

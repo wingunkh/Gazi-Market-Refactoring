@@ -15,9 +15,13 @@ public class PostService {
     private PostRepository postRepository;
 
     public List<Posts> getAllPost() {
-        System.out.println("----------------------");
+        System.out.println("get All posts");
         System.out.println(postRepository.findAll());
         return postRepository.findAll();
+    }
+
+    public List<Posts> getDatePost() {
+        return postRepository.findDate();
     }
 
     public Posts createPost(Posts post) {
@@ -28,5 +32,9 @@ public class PostService {
         Posts post = postRepository.findById(no)
                 .orElseThrow(() -> new ResourceNotFoundException("Not exist Board Data by no : ["+no+"]"));
         return ResponseEntity.ok(post);
+    }
+
+    public List<Posts> getcategoryPosts(String category){
+        return postRepository.findCategory(category);
     }
 }

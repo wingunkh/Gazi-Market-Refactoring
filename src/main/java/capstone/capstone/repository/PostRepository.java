@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-//간단한 CRUD 기능은 JpaRepository를 상속하는 것으로 구현이 가능하다.
+//Spring Data JPA 사용
 public interface PostRepository extends JpaRepository<Posts, Integer> {
     //날짜 순 내림차순 정렬
     @Query(value="select * from Posts order by Posts.updateat desc", nativeQuery = true)

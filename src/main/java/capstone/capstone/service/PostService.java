@@ -37,4 +37,6 @@ public class PostService {
     public List<Posts> getCategoryPosts(String category){
         return postRepository.findCategory(category);
     }
+
+    public List<Posts> getModelPosts(String model) { return postRepository.findModel(model); }
 }

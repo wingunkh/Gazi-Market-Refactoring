@@ -29,7 +29,7 @@ public class PostController {
     }
 
     //특정 게시글을 리턴
-    @GetMapping("/posts/{no}")
+    @GetMapping("/post/{no}")
     public ResponseEntity<Posts> getPostByNo(
             @PathVariable Integer no) {
         return postService.getPost(no);
@@ -40,8 +40,14 @@ public class PostController {
     public List<Posts> getDatePost() {return postService.getDatePost();}
 
     //해당 카테고리 내의 게시글을 리턴
-    @GetMapping("post/{category}")
+    @GetMapping("post/category/{category}")
     public List<Posts> getPostByCategory(@PathVariable String category){
         return postService.getCategoryPosts(category);
+    }
+
+    //해당 모델의 게시글을 리턴
+    @GetMapping("post/model/{model}")
+    public List<Posts> getPostByModel(@PathVariable String model) {
+        return postService.getModelPosts(model);
     }
 }

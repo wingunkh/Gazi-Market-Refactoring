@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class Posts {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO, generator = "post_SEQUENCE_GENERATOR")
-    @SequenceGenerator(name="post_SEQUENCE_GENERATOR", sequenceName = "SQ", initialValue = 1, allocationSize = 1)
+    @SequenceGenerator(name="post_SEQUENCE_GENERATOR", sequenceName = "post_SQ", initialValue = 1, allocationSize = 1)
     private Integer post_no;
 
     @Column(name = "model_name")

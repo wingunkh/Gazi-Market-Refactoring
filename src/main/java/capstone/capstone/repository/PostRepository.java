@@ -19,4 +19,13 @@ public interface PostRepository extends JpaRepository<Posts, Integer> {
     //모델 별 포스트 반환
     @Query(value="select * from Posts p where p.MODEL_NAME = :model order by p.updateat desc", nativeQuery = true)
     List<Posts> findModel(String model);
+
+    @Query(value="select p.user_no from Posts p where p.post_no == post_no", nativeQuery = true)
+    int findHost(int post_no);
+
+    @Query(value="select p.post_title from Posts p where p.post_no == post_no", nativeQuery = true)
+    String findName(int post_no);
+
+    @Query(value="select u.user_info from User u where u.user_no == (select p.user_no from Posts p where p.post_no == post_no)", nativeQuery = true)
+    String findHostInfo(int post_no);
 }

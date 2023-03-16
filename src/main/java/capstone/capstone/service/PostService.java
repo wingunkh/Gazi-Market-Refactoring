@@ -54,4 +54,8 @@ public class PostService {
     }
 
     public List<Posts> getModelPosts(String model) { return postRepository.findModel(model); }
+
+    public String getPost_Name(int post_no) { return postRepository.findName(post_no); }
+
+    public String getPost_Host_info(int post_no) { return postRepository.findHostInfo(post_no);}
 }

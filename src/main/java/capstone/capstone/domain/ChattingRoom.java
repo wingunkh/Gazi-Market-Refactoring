@@ -3,10 +3,7 @@ package capstone.capstone.domain;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "chattingroom")
@@ -14,6 +11,8 @@ import javax.persistence.Table;
 @DynamicUpdate  //UPDATE 시 NULL인 부분을 제외하기 위해 사용, 동적 업데이트
 public class ChattingRoom {
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO, generator = "post_SEQUENCE_GENERATOR")
+    @SequenceGenerator(name="chattingroom_SEQUENCE_GENERATOR", sequenceName = "cht_SQ", initialValue = 1, allocationSize = 1)
     private int cht_room_num;
 
     @Column(name = "post_no")

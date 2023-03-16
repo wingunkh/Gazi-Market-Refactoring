@@ -1,6 +1,7 @@
 package capstone.capstone.service;
 
 import capstone.capstone.domain.Picture;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
+@Component
 public class FileHandler {
     public List<Picture> parseFileInfo(
             Integer boardID,

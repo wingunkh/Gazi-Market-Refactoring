@@ -1,7 +1,5 @@
 package capstone.capstone.controller;
-import capstone.capstone.domain.Picture;
 import capstone.capstone.domain.Posts;
-import capstone.capstone.service.PictureService;
 import capstone.capstone.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,7 +17,6 @@ import java.util.List;
 public class PostController {
     @Autowired // 객체 생성 시점에 스프링 컨테이너에서 해당 스프링 빈을 찾아서 주입
     private PostService postService;
-    private PictureService pictureService;
 
     //글 목록의 데이터를 리턴
     @GetMapping("/post") // GET 방식: 정보를 단순히 조회하기 위해 사용하는 방식
@@ -28,14 +26,14 @@ public class PostController {
 
     //글을 저장
     @PostMapping("/post") // POST 방식: 특정 데이터를 서버로 제출하여 해당 데이터를 추가, 수정 또는 삭제하기 위해 데이터를 전송하는 방식
-    public Posts createPost_savePicture(
+    public ResponseEntity<?> createPost(
             @RequestBody Posts post, @Valid @RequestParam("files") List<MultipartFile> files
-    ) {
-        Picture picture = new Picture(post.getPost_no(), "ABC");
-        pictureService.createPicture(picture);
-
+    ) throws Exception {
         post.setUpdateat(LocalDateTime.now());
-        return postService.createPost(post);
+        postService.createPost(post, files);
+        URI uriLocation = new URI("/post/" + post.getPost_no());
+
+        return ResponseEntity.created(uriLocation).body("{}");
     }
 
     //특정 게시글을 리턴

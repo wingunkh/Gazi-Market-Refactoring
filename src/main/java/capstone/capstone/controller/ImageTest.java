@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class PictureController {
+public class ImageTest {
     public static void main(String[] args) {
         Path filePath = Paths.get("/Users/khg/Desktop/capstone/image_test1/ggami.jpeg"); // 기존 파일 경로
         Path targetPath = Paths.get("/Users/khg/Desktop/capstone/image_test2/ggami.jpeg"); // 목표 파일 경로

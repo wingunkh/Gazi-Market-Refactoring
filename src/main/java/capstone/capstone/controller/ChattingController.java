@@ -2,18 +2,12 @@ package capstone.capstone.controller;
 
 import capstone.capstone.domain.Chatting;
 import capstone.capstone.domain.ChattingRoom;
-import capstone.capstone.domain.Posts;
 import capstone.capstone.service.ChattingRoomService;
 import capstone.capstone.service.ChattingService;
 import capstone.capstone.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @CrossOrigin(origins = {"http://localhost:3000"})

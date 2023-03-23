@@ -1,6 +1,7 @@
 package capstone.capstone.service;
 
 import capstone.capstone.domain.Picture;
+import capstone.capstone.domain.PostWithPicture;
 import capstone.capstone.domain.Posts;
 import capstone.capstone.exception.ResourceNotFoundException;
 import capstone.capstone.repository.PictureRepository;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,14 +38,20 @@ public class PostService {
         return null;
     }
 
-    public List<Posts> getAllPost() {
+    public List<Posts> getAllPost() throws IOException {
+        getPost(61);
+
         return postRepository.findAll();
     }
 
-    public ResponseEntity<Posts> getPost(Integer no) {
-        Posts post = postRepository.findById(no)
-                .orElseThrow(() -> new ResourceNotFoundException("Not exist Board Data by no : ["+no+"]"));
-        return ResponseEntity.ok(post);
+    public PostWithPicture getPost(Integer no) throws IOException {
+        PostWithPicture postWithPicture = new PostWithPicture(postRepository.findById(no)
+                .orElseThrow(() -> new ResourceNotFoundException("Not exist Post Data by no : ["+no+"]")));
+
+        postWithPicture.setPictureURL(pictureRepository.findByPostNo(no));
+        System.out.println(postWithPicture.getPictureURL());
+
+        return postWithPicture;
     }
 
     public List<Posts> getDatePost() {

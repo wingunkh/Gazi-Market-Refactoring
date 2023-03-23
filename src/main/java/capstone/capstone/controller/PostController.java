@@ -1,13 +1,12 @@
 package capstone.capstone.controller;
+import capstone.capstone.domain.PostWithPicture;
 import capstone.capstone.domain.Posts;
-import capstone.capstone.service.PostService;
-import org.slf4j.Logger;
+import capstone.capstone.service.PostService;;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
-import java.net.URI;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,29 +19,26 @@ public class PostController {
 
     //글 목록의 데이터를 리턴
     @GetMapping("/post") // GET 방식: 정보를 단순히 조회하기 위해 사용하는 방식
-    public List<Posts> getAllPost() {
+    public List<Posts> getAllPost() throws IOException {
         return postService.getAllPost();
     }
 
     //글을 저장
     @PostMapping("/post") // POST 방식: 특정 데이터를 서버로 제출하여 해당 데이터를 추가, 수정 또는 삭제하기 위해 데이터를 전송하는 방식
-    public ResponseEntity<?> createPost(
+    public Posts createPost(
             @Valid @RequestPart("post") // multipart/form-data에 특화되어 여러 복잡한 값을 처리할 때 사용할 수 있는 어노테이션이다.
             Posts post,
             @Valid @RequestPart // 쿼리 파라미터, 폼 데이터, Multipart 등 많은 요청 파라미터를 처리할 수 있는 어노테이션이다.
             List<MultipartFile> files
     ) throws Exception {
         post.setUpdateat(LocalDateTime.now());
-        postService.createPost(post, files);
-        URI uriLocation = new URI("/post/" + post.getPost_no());
 
-        return ResponseEntity.created(uriLocation).body("{}");
+        return postService.createPost(post, files);
     }
 
-    //특정 게시글을 리턴
+    //특정 게시글과 게시글의 사진 리턴
     @GetMapping("/post/{no}")
-    public ResponseEntity<Posts> getPostByNo(
-            @PathVariable Integer no) {
+    public PostWithPicture getPostByNo(@PathVariable Integer no) throws IOException {
         return postService.getPost(no);
     }
 

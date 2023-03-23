@@ -16,31 +16,31 @@ public class Posts {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO, generator = "post_SEQUENCE_GENERATOR")
     @SequenceGenerator(name="post_SEQUENCE_GENERATOR", sequenceName = "post_SQ", initialValue = 1, allocationSize = 1)
-    private Integer post_no;
+    protected Integer post_no;
 
     @Column(name = "model_name")
-    private String model_name;
+    protected String model_name;
 
     @Column(name = "user_no")
-    private Integer user_no;
+    protected Integer user_no;
 
     @Column(name = "grade")
-    private String grade;
+    protected String grade;
 
     @Column(name = "status")
-    private String status;
+    protected String status;
 
     @Column(name = "price")
-    private Integer price;
+    protected Integer price;
 
     @Column(name = "post_title")
-    private String post_title;
+    protected String post_title;
 
     @Column(name = "post_content")
-    private String post_content;
+    protected String post_content;
 
     @Column(name = "updateat")
-    private LocalDateTime updateat;
+    protected LocalDateTime updateat;
 
     public LocalDateTime getUpdateat() {
         return updateat;

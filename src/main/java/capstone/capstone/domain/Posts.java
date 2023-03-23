@@ -1,5 +1,6 @@
 package capstone.capstone.domain;
 
+import lombok.Builder;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "post")
 @DynamicInsert  //INSERT 시 NULL인 부분을 제외하기 위해 사용, 동적 인서트
 @DynamicUpdate  //UPDATE 시 NULL인 부분을 제외하기 위해 사용, 동적 업데이트
+//@Builder
 public class Posts {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO, generator = "post_SEQUENCE_GENERATOR")

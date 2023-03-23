@@ -1,17 +1,17 @@
 package capstone.capstone.controller;
 import capstone.capstone.domain.Posts;
 import capstone.capstone.service.PostService;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:3000"}) // CORS 문제를 해결하기 위한 어노테이션
+@CrossOrigin(origins = "http://localhost:3000") // CORS 문제를 해결하기 위한 어노테이션
 @RestController // @Controller에 @ResponseBody가 결합한 어노테이션, 문자열과 JSON 등을 전송 가능
 @RequestMapping("/api") // 요청에 대해 어떤 Controller, 어떤 메소드가 처리할지를 맵핑하기 위한 어노테이션
 public class PostController {
@@ -27,7 +27,10 @@ public class PostController {
     //글을 저장
     @PostMapping("/post") // POST 방식: 특정 데이터를 서버로 제출하여 해당 데이터를 추가, 수정 또는 삭제하기 위해 데이터를 전송하는 방식
     public ResponseEntity<?> createPost(
-            @RequestBody Posts post, @Valid @RequestParam("files") List<MultipartFile> files
+            @Valid @RequestPart("post") // multipart/form-data에 특화되어 여러 복잡한 값을 처리할 때 사용할 수 있는 어노테이션이다.
+            Posts post,
+            @Valid @RequestPart // 쿼리 파라미터, 폼 데이터, Multipart 등 많은 요청 파라미터를 처리할 수 있는 어노테이션이다.
+            List<MultipartFile> files
     ) throws Exception {
         post.setUpdateat(LocalDateTime.now());
         postService.createPost(post, files);
@@ -58,4 +61,9 @@ public class PostController {
     public List<Posts> getPostByModel(@PathVariable String model) {
         return postService.getModelPosts(model);
     }
+
+
+    @GetMapping("post/name/{type}/{name}")  //type에는 무조건 asc OR desc로, asc:오름차순, desc:내림차순
+    public List<Posts> getPostByName(@PathVariable String type, @PathVariable String name) {
+        return postService.getNamePosts(type, name); }
 }

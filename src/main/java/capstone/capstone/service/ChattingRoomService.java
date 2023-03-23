@@ -36,15 +36,19 @@ public class ChattingRoomService {
     }
 
     public List<Chatting> getChattingRoom(Integer post_no, Integer guest_no) {
-        ChattingRoom chattingRoom = chattingRoomRepository.findByOne(post_no, guest_no);
+        List<ChattingRoom> chattingRoom = chattingRoomRepository.findByOne(post_no, guest_no);
+        ChattingRoom ch;
         if(chattingRoom == null){
-            chattingRoom.setPost_no(post_no);
-            chattingRoom.setGuest_member(guest_no);
-            chattingRoom.setHost_member(postRepository.findHost(post_no));
-            chattingRoom = createChattingRoom(chattingRoom);
+            ch = new ChattingRoom();
+            ch.setPost_no(post_no);
+            ch.setGuest_member(guest_no);
+            ch.setHost_member(postRepository.findHost(post_no));
+            ch = createChattingRoom(ch);
+        }else{
+            ch = chattingRoom.get(0);
         }
 
-        List<Chatting> chatting = chattingRepository.findAllDate(chattingRoom.getCht_room_num());
+        List<Chatting> chatting = chattingRepository.findAllDate(ch.getCht_room_num());
 
         return chatting;
     }

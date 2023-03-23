@@ -21,4 +21,9 @@ public class ChattingService {
     public String getLastmsg(int cht_room_no){
         return  chattingRepository.findlastmsg(cht_room_no);
     }
+
+    public Chatting createChatting(Chatting chatting) {
+        return chattingRepository.save(chatting);
+    }
+
 }

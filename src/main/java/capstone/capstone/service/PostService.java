@@ -23,6 +23,9 @@ public class PostService {
     private FileHandler fileHandler;
 
     public Posts createPost(Posts post, List<MultipartFile> files) throws Exception {
+        postRepository.save(post);
+        System.out.println(post.getPost_no());
+
         List<Picture> list = fileHandler.parseFileInfo(post.getPost_no(), files);
 
         List<Picture> pictures = new ArrayList<>();
@@ -30,12 +33,10 @@ public class PostService {
             pictures.add(pictureRepository.save(picture));
         }
 
-        return postRepository.save(post);
+        return null;
     }
 
     public List<Posts> getAllPost() {
-        System.out.println("get All posts");
-        System.out.println(postRepository.findAll());
         return postRepository.findAll();
     }
 
@@ -54,6 +55,10 @@ public class PostService {
     }
 
     public List<Posts> getModelPosts(String model) { return postRepository.findModel(model); }
+
+    public List<Posts> getNamePosts(String type, String name) {
+        return postRepository.findIncludeName(type, name);
+    }
 
     public String getPost_Name(int post_no) { return postRepository.findName(post_no); }
 

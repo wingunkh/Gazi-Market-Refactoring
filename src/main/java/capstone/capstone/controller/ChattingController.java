@@ -1,16 +1,20 @@
 package capstone.capstone.controller;
 
+import capstone.capstone.domain.Categories;
 import capstone.capstone.domain.Chatting;
 import capstone.capstone.domain.ChattingRoom;
 import capstone.capstone.service.ChattingRoomService;
 import capstone.capstone.service.ChattingService;
 import capstone.capstone.service.PostService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:3000"})
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class ChattingController {
@@ -22,9 +26,9 @@ public class ChattingController {
     @Autowired
     private PostService postService;
 
-    @GetMapping("/chattingroom/{guest_no}")
+    @GetMapping("chattingroom/guest/{guest_no}")    //테스트 완료
     public List<ChattingRoomList> getAllChattingRoom(@PathVariable Integer guest_no) {
-        List<ChattingRoomList> chattingRoomList = null;
+        List<ChattingRoomList> chattingRoomList = new ArrayList<ChattingRoomList>();
         for( ChattingRoom chattingRoom : chattingRoomService.getAllChattingRoom(guest_no) )
         {
             chattingRoomList.add(new ChattingRoomList(chattingRoom));
@@ -33,18 +37,24 @@ public class ChattingController {
     }
 
 
-    @GetMapping("/chattingroom/{post_no}/{guest_no}")
+    @GetMapping("chattingroom/post/{post_no}/{guest_no}")   //테스트 완료
     public List<Chatting> getChattingByNo(@PathVariable Integer post_no, @PathVariable Integer guest_no) {
         return chattingRoomService.getChattingRoom(post_no, guest_no);
     }
 
-    @GetMapping("/chatting/{cht_room_no}")
+    @GetMapping("/chatting/{cht_room_no}")  //테스트 완료
     public List<Chatting> getAllChattingDate(@PathVariable Integer cht_room_no){
         return chattingService.getAllChattingDate(cht_room_no);
     }
 
+    @PostMapping("/chatting")
+    public Chatting createChatting(@RequestBody Chatting chatting) {
+        chatting.setCht_time(LocalDateTime.now());
+        return chattingService.createChatting(chatting);
+    }
 
-    public class ChattingRoomList{
+    @Getter
+    class ChattingRoomList{
         int cht_room_no;
         int post_num;
         String host_info;
@@ -60,5 +70,3 @@ public class ChattingController {
         }
     }
 }
-
-

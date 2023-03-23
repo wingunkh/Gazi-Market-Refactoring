@@ -3,20 +3,21 @@ package capstone.capstone.domain;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "chatting")
+@IdClass(chatting_room.class) //복합키 매핑을 위한 어노테이션
 @DynamicInsert  //INSERT 시 NULL인 부분을 제외하기 위해 사용, 동적 인서트
 @DynamicUpdate  //UPDATE 시 NULL인 부분을 제외하기 위해 사용, 동적 업데이트
 public class Chatting {
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO, generator = "chatting_SEQUENCE_GENERATOR")
+    @SequenceGenerator(name="chatting_SEQUENCE_GENERATOR", sequenceName = "cht_SQ", initialValue = 1, allocationSize = 1)
     private int cht_no;
-    @Column
+
+    @Id
     private int cht_room_num;
 
     @Column(name = "cht_member")

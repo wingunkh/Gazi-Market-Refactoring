@@ -25,7 +25,7 @@ public class PostWithPicture extends Posts {
     public void setPictureURL(List<String> picture_location) throws MalformedURLException {
         pictureURL = new ArrayList<UrlResource>();
         for(String pl : picture_location) {
-            this.pictureURL.add( new UrlResource("file:" + absolutePath + "/" + pl));
+            this.pictureURL.add( new UrlResource("file:" + absolutePath + pl));
         }
     }
 

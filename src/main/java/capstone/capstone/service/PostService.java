@@ -39,7 +39,7 @@ public class PostService {
     }
 
     public List<Posts> getAllPost() throws IOException {
-        getPost(61);
+        // getPost(61);
 
         return postRepository.findAll();
     }

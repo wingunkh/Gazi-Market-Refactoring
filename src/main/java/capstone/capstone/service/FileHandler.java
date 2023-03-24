@@ -13,7 +13,7 @@ import java.util.List;
 @Component
 public class FileHandler {
     public List<Picture> parseFileInfo(
-            Integer boardID,
+            Integer post_no,
             List<MultipartFile> multipartFiles
     ) throws Exception {
         // 반환을 할 파일 리스트
@@ -29,7 +29,7 @@ public class FileHandler {
         String current_date = simpleDateFormat.format(new Date());
 
         // 프로젝트 폴더에 저장하기 위해 절대경로를 설정 (Window 의 Tomcat 은 Temp 파일을 이용한다)
-        String absolutePath = new File("").getAbsolutePath() + "\\";
+        String absolutePath = new File("").getAbsolutePath() + "/";
 
         // 경로를 지정하고 그곳에다가 저장할 심산이다
         String path = "images/" + current_date;
@@ -64,12 +64,13 @@ public class FileHandler {
                     }
                 }
                 // 각 이름은 겹치면 안되므로 나노 초까지 동원하여 지정
-                String new_file_name = Long.toString(System.nanoTime()) + originalFileExtension;
+                String new_file_name = System.nanoTime() + originalFileExtension;
                 // 생성 후 리스트에 추가
-                Picture boardPicture = Picture.builder()
-                        .picture_location(multipartFile.getOriginalFilename())
+                Picture picture = Picture.builder()
+                        .post_no(post_no)
+                        .picture_location(path+ "/" + new_file_name)
                         .build();
-                fileList.add(boardPicture);
+                fileList.add(picture);
 
                 // 저장된 파일로 변경하여 이를 보여주기 위함
                 file = new File(absolutePath + path + "/" + new_file_name);

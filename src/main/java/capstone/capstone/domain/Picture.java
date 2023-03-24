@@ -1,6 +1,7 @@
 package capstone.capstone.domain;
 
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.io.Serializable;
 @DynamicUpdate
 @IdClass(Posts_Picture.class) //복합키 매핑을 위한 어노테이션
 @Builder
+@NoArgsConstructor
 public class Picture implements Serializable {
     @Id
     private Integer post_no;

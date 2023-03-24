@@ -58,7 +58,6 @@ public class PostController {
         return postService.getModelPosts(model);
     }
 
-
     @GetMapping("post/name/{type}/{name}")  //type에는 무조건 asc OR desc로, asc:오름차순, desc:내림차순
     public List<Posts> getPostByName(@PathVariable String type, @PathVariable String name) {
         return postService.getNamePosts(type, name); }

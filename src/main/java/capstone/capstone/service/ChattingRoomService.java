@@ -27,8 +27,12 @@ public class ChattingRoomService {
     @Autowired
     private PostRepository postRepository;
 
-    public List<ChattingRoom> getAllChattingRoom(int guest_no) {
+    public List<ChattingRoom> getguestAllChattingRoom(int guest_no) {
         return chattingRoomRepository.findAllId(guest_no);
+    }
+
+    public List<ChattingRoom> getAllChattingRoom(){
+        return chattingRoomRepository.findAll();
     }
 
     public ChattingRoom createChattingRoom(ChattingRoom chattingRoom){

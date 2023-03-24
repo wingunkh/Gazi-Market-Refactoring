@@ -26,10 +26,20 @@ public class ChattingController {
     @Autowired
     private PostService postService;
 
-    @GetMapping("chattingroom/guest/{guest_no}")    //테스트 완료, 고객 기존 채팅방 내역
+    @GetMapping("/chattingroom/guest/{guest_no}")    //테스트 완료, 고객 기존 채팅방 내역
     public List<ChattingRoomList> getAllChattingRoom(@PathVariable Integer guest_no) {
         List<ChattingRoomList> chattingRoomList = new ArrayList<ChattingRoomList>();
-        for( ChattingRoom chattingRoom : chattingRoomService.getAllChattingRoom(guest_no) )
+        for( ChattingRoom chattingRoom : chattingRoomService.getguestAllChattingRoom(guest_no) )
+        {
+            chattingRoomList.add(new ChattingRoomList(chattingRoom));
+        }
+        return chattingRoomList;
+    }
+
+    @GetMapping("/chattingroom")
+    public List<ChattingRoomList> getChattingRoom(){
+        List<ChattingRoomList> chattingRoomList = new ArrayList<ChattingRoomList>();
+        for(ChattingRoom chattingRoom : chattingRoomService.getAllChattingRoom())
         {
             chattingRoomList.add(new ChattingRoomList(chattingRoom));
         }
@@ -37,7 +47,9 @@ public class ChattingController {
     }
 
 
-    @GetMapping("chattingroom/post/{post_no}/{guest_no}")   //테스트 완료, 포스트 채팅방 입장
+
+
+    @GetMapping("/chattingroom/post/{post_no}/{guest_no}")   //테스트 완료, 포스트 채팅방 입장
     public List<Chatting> getChattingByNo(@PathVariable Integer post_no, @PathVariable Integer guest_no) {
         return chattingRoomService.getChattingRoom(post_no, guest_no);
     }

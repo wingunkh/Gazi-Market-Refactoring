@@ -36,7 +36,7 @@ public class ChattingController {
         return chattingRoomList;
     }
 
-    @GetMapping("/chattingroom")
+    @GetMapping("/chattingroom")    //테스트 완료, 전체 채팅방 내역, 관리자
     public List<ChattingRoomList> getChattingRoom(){
         List<ChattingRoomList> chattingRoomList = new ArrayList<ChattingRoomList>();
         for(ChattingRoom chattingRoom : chattingRoomService.getAllChattingRoom())

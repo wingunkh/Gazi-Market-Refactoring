@@ -25,4 +25,9 @@ public class ModelController {
         System.out.println(model);
         return modelService.createModel(model);
     }
+
+    @GetMapping("/{category}/model")
+    public List<Models> getCategoryModel(@RequestBody String category){
+        return modelService.getCategoryModel(category);
+    }
 }

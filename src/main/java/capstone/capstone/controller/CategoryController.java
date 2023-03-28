@@ -25,4 +25,6 @@ public class CategoryController {
     public Categories createCategory(@RequestBody Categories category) {
         return categoryService.createCategory(category);
     }
+
+
 }

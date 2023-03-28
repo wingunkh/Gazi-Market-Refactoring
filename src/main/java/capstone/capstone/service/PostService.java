@@ -1,5 +1,6 @@
 package capstone.capstone.service;
 
+import capstone.capstone.domain.Models;
 import capstone.capstone.domain.Picture;
 import capstone.capstone.domain.PostWithPicture;
 import capstone.capstone.domain.Posts;
@@ -23,6 +24,9 @@ public class PostService {
     private PictureRepository pictureRepository;
     @Autowired
     private FileHandler fileHandler;
+
+    @Autowired
+    private ModelService modelService;
 
     public Posts createPost(Posts post, List<MultipartFile> files) throws Exception {
         postRepository.save(post);
@@ -50,6 +54,8 @@ public class PostService {
 
         postWithPicture.setPictureURL(pictureRepository.findByPostNo(no));
         System.out.println(postWithPicture.getPictureURL());
+        
+        postWithPicture.setCategory_name(modelService.getCategoryName(postWithPicture.getModel_name()));
 
         return postWithPicture;
     }

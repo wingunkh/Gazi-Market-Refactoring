@@ -1,6 +1,7 @@
 package capstone.capstone.domain;
 
 import capstone.capstone.service.ModelService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +14,6 @@ public class PostWithPicture extends Posts {
     List<UrlResource> pictureURL;
     String category_name;
 
-    ModelService modelService = new ModelService();
 
     public PostWithPicture(Posts post) throws IOException {
         this.post_no = post.getPost_no();
@@ -25,7 +25,7 @@ public class PostWithPicture extends Posts {
         this.post_title = post.getPost_title();
         this.post_content = post.getPost_content();
         this.updateat = post.getUpdateat();
-        this.category_name = modelService.getCategoryName(post.getModel_name());
+
     }
 
     public void setPictureURL(List<String> picture_location) throws MalformedURLException {
@@ -35,6 +35,11 @@ public class PostWithPicture extends Posts {
         }
     }
 
+    public void setCategory_name(String category_name){
+        this.category_name = category_name;
+    }
+
+    public String getCategory_name() { return category_name; }
     public List<UrlResource> getPictureURL() {
         return pictureURL;
     }

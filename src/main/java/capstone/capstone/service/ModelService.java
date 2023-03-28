@@ -20,5 +20,5 @@ public class ModelService {
 
     public List<Models> getCategoryModel(String category) {return modelRepository.findCategory(category);}
 
-    public String getCategoryName(String model_name) {return modelRepository.findCategoryName(model_name);}
+    public String getCategoryName(String model_name) { return modelRepository.findCategoryName(model_name);}
 }

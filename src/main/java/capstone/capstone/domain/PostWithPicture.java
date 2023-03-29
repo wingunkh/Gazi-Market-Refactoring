@@ -25,7 +25,6 @@ public class PostWithPicture extends Posts {
         this.post_title = post.getPost_title();
         this.post_content = post.getPost_content();
         this.updateat = post.getUpdateat();
-
     }
 
     public void setPictureURL(List<String> picture_location) throws MalformedURLException {

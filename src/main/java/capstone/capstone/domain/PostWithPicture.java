@@ -11,7 +11,7 @@ import java.util.List;
 
 public class PostWithPicture extends Posts {
     String absolutePath = new File("").getAbsolutePath() + "/";
-    List<UrlResource> pictureURL;
+    List<String> pictureURL;
     String category_name;
 
 
@@ -28,9 +28,9 @@ public class PostWithPicture extends Posts {
     }
 
     public void setPictureURL(List<String> picture_location) throws MalformedURLException {
-        pictureURL = new ArrayList<UrlResource>();
+        pictureURL = new ArrayList<String>();
         for(String pl : picture_location) {
-            this.pictureURL.add( new UrlResource("file:" + absolutePath + pl));
+            this.pictureURL.add( new String("file:" + absolutePath + pl));
         }
     }
 
@@ -39,7 +39,7 @@ public class PostWithPicture extends Posts {
     }
 
     public String getCategory_name() { return category_name; }
-    public List<UrlResource> getPictureURL() {
+    public List<String> getPictureURL() {
         return pictureURL;
     }
 }

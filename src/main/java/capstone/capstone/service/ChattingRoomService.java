@@ -39,6 +39,18 @@ public class ChattingRoomService {
         return chattingRoomRepository.save(chattingRoom);
     }
 
+    public String getChattingPostTitle(int cht_room_no){
+        return chattingRoomRepository.getPostTitle(cht_room_no);
+    }
+
+    public int getHostInfo(int cht_room_no){
+        return chattingRoomRepository.getHostInfo(cht_room_no);
+    }
+
+    public int getGuestInfo(int cht_room_no){
+        return chattingRoomRepository.getGuestInfo(cht_room_no);
+    }
+
     public List<Chatting> getChattingRoom(Integer post_no, Integer guest_no) {
         List<ChattingRoom> chattingRoom = chattingRoomRepository.findByOne(post_no, guest_no);
         ChattingRoom ch;

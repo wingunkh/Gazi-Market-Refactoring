@@ -29,24 +29,20 @@ public class ChattingController {
     @GetMapping("/chattingroom/guest/{guest_no}")    //테스트 완료, 고객 기존 채팅방 내역
     public List<ChattingRoomList> getAllChattingRoom(@PathVariable Integer guest_no) {
         List<ChattingRoomList> chattingRoomList = new ArrayList<ChattingRoomList>();
-        for( ChattingRoom chattingRoom : chattingRoomService.getguestAllChattingRoom(guest_no) )
-        {
+        for (ChattingRoom chattingRoom : chattingRoomService.getguestAllChattingRoom(guest_no)) {
             chattingRoomList.add(new ChattingRoomList(chattingRoom));
         }
         return chattingRoomList;
     }
 
     @GetMapping("/chattingroom")    //테스트 완료, 전체 채팅방 내역, 관리자
-    public List<ChattingRoomList> getChattingRoom(){
+    public List<ChattingRoomList> getChattingRoom() {
         List<ChattingRoomList> chattingRoomList = new ArrayList<ChattingRoomList>();
-        for(ChattingRoom chattingRoom : chattingRoomService.getAllChattingRoom())
-        {
+        for (ChattingRoom chattingRoom : chattingRoomService.getAllChattingRoom()) {
             chattingRoomList.add(new ChattingRoomList(chattingRoom));
         }
         return chattingRoomList;
     }
-
-
 
 
     @GetMapping("/chattingroom/post/{post_no}/{guest_no}")   //테스트 완료, 포스트 채팅방 입장
@@ -55,8 +51,13 @@ public class ChattingController {
     }
 
     @GetMapping("/chatting/{cht_room_no}")  //테스트 완료, 채팅방 입장
-    public List<Chatting> getAllChattingDate(@PathVariable Integer cht_room_no){
-        return chattingService.getAllChattingDate(cht_room_no);
+    public ChattingList getAllChattingDate(@PathVariable Integer cht_room_no) {
+        ChattingList chattingList = new ChattingList(chattingService.getAllChattingDate(cht_room_no));
+
+        chattingList.setPost_title(chattingRoomService.getChattingPostTitle(cht_room_no));
+        chattingList.setinfo(chattingRoomService.getHostInfo(cht_room_no), chattingRoomService.getGuestInfo(cht_room_no));
+
+        return chattingList;
     }
 
     @PostMapping("/chatting")
@@ -66,7 +67,7 @@ public class ChattingController {
     }
 
     @Getter
-    class ChattingRoomList{
+    class ChattingRoomList {
         int cht_room_no;
         int post_num;
         String host_info;
@@ -79,6 +80,27 @@ public class ChattingController {
             this.post_name = postService.getPost_Name(post_num);
             this.host_info = postService.getPost_Host_info(post_num);
             this.last_cht_msg = chattingService.getLastmsg(cht_room_no);
+        }
+    }
+
+    @Getter
+    class ChattingList {
+        List<Chatting> chattingList;
+        String post_title;
+        int host_no;
+        int guest_no;
+
+        public ChattingList(List<Chatting> chattingList) {
+            this.chattingList = chattingList;
+        }
+
+        public void setPost_title(String post_title) {
+            this.post_title = post_title;
+        }
+
+        public void setinfo(int host_no, int guest_no) {
+            this.host_no = host_no;
+            this.guest_no = guest_no;
         }
     }
 }

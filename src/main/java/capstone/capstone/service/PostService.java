@@ -32,7 +32,7 @@ public class PostService {
         postRepository.save(post);
         System.out.println(post.getPost_no());
 
-        List<Picture> list = fileHandler.parseFileInfo(post.getPost_no(), files);
+        List<Picture> list = fileHandler.saveToS3(post.getPost_no(), files);
 
         List<Picture> pictures = new ArrayList<>();
         for(Picture picture : list) {
@@ -43,8 +43,6 @@ public class PostService {
     }
 
     public List<Posts> getAllPost() throws IOException {
-        // getPost(161);
-
         return postRepository.findAll();
     }
 
@@ -52,10 +50,8 @@ public class PostService {
         PostWithPicture postWithPicture = new PostWithPicture(postRepository.findById(no)
                 .orElseThrow(() -> new ResourceNotFoundException("Not exist Post Data by no : ["+no+"]")));
 
-        postWithPicture.setPictureURL(pictureRepository.findByPostNo(no));
-        System.out.println(postWithPicture.getPictureURL());
-        
         postWithPicture.setCategory_name(modelService.getCategoryName(postWithPicture.getModel_name()));
+        postWithPicture.setPictureURL(pictureRepository.findByPostNo(no));
 
         return postWithPicture;
     }

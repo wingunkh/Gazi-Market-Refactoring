@@ -1,6 +1,11 @@
 package capstone.capstone.service;
 
 import capstone.capstone.domain.Picture;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,43 +16,45 @@ import java.util.Date;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class FileHandler {
-    public List<Picture> parseFileInfo(
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+    private final AmazonS3Client amazonS3Client;
+    public List<Picture> saveToS3(
             Integer post_no,
             List<MultipartFile> multipartFiles
     ) throws Exception {
-        // 반환을 할 파일 리스트
-        List<Picture> fileList = new ArrayList<>();
+        // 반환할 Picture 객체 리스트
+        List<Picture> PictureList = new ArrayList<>();
 
-        // 파일이 빈 것이 들어오면 빈 것을 반환
+        // 빈 파일이 들어오면 빈 Picture 객체 리스트 반환
         if (multipartFiles.isEmpty()) {
-            return fileList;
+            return PictureList;
         }
 
-        // 파일 이름을 업로드 한 날짜로 바꾸어서 저장할 것이다
+        // 업로드한 날짜를 파일명으로 지정
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
         String current_date = simpleDateFormat.format(new Date());
 
-        // 프로젝트 폴더에 저장하기 위해 절대경로를 설정 (Window 의 Tomcat 은 Temp 파일을 이용한다)
-        String absolutePath = new File("").getAbsolutePath() + "/";
+        // 로컬 폴더에 임시 저장하기 경로를 설정
+        String path = new File("").getAbsolutePath() + "/" + "images/";
 
-        // 경로를 지정하고 그곳에다가 저장할 심산이다
-        String path = "images/" + current_date;
         File file = new File(path);
-        // 저장할 위치의 디렉토리가 존지하지 않을 경우
+        // 저장할 위치에 디렉터리가 존재하지 않을 경우
         if (!file.exists()) {
             // mkdir() 함수와 다른 점은 상위 디렉토리가 존재하지 않을 때 그것까지 생성
             file.mkdirs();
         }
 
-        // 파일들을 이제 만져볼 것이다
+        // 파일 핸들링
         for (MultipartFile multipartFile : multipartFiles) {
-            // 파일이 비어 있지 않을 때 작업을 시작해야 오류가 나지 않는다
+            // 파일이 비어 있지 않을 때 작업해야 오류가 발생하지 않는다.
             if (!multipartFile.isEmpty()) {
                 // jpeg, png, gif 파일들만 받아서 처리할 예정
                 String contentType = multipartFile.getContentType();
                 String originalFileExtension;
-                // 확장자 명이 없으면 이 파일은 잘 못 된 것이다
+                // 확장자 명이 없으면 잘못된 파일이므로 반복문을 빠져나간다.
                 if (ObjectUtils.isEmpty(contentType)) {
                     break;
                 } else {
@@ -58,26 +65,34 @@ public class FileHandler {
                     } else if (contentType.contains("image/gif")) {
                         originalFileExtension = ".gif";
                     }
-                    // 다른 파일 명이면 아무 일 하지 않는다
+                    // 다른 파일명이면 반복문을 빠져나간다.
                     else {
                         break;
                     }
                 }
-                // 각 이름은 겹치면 안되므로 나노 초까지 동원하여 지정
+                // 파일명에 중복이 발생하지 않도록 나노 세컨드까지 동원하여 파일명 지정
                 String new_file_name = System.nanoTime() + originalFileExtension;
-                // 생성 후 리스트에 추가
+                // 생성 후 Picture 객체 리스트에 추가
                 Picture picture = Picture.builder()
                         .post_no(post_no)
-                        .picture_location(path+ "/" + new_file_name)
+                        .picture_location("여기에 S3 URL")
                         .build();
-                fileList.add(picture);
+                PictureList.add(picture);
 
-                // 저장된 파일로 변경하여 이를 보여주기 위함
-                file = new File(absolutePath + path + "/" + new_file_name);
-                multipartFile.transferTo(file);
+                file = new File(path  + new_file_name);
+                try {
+                    multipartFile.transferTo(file);
+                    amazonS3Client.putObject(new PutObjectRequest(bucket, "images/" + current_date + new_file_name, file)
+                            .withCannedAcl(CannedAccessControlList.PublicRead));
+                } catch (Exception e) {
+                    throw new RuntimeException();
+                } finally {
+                    if (file.exists()) {
+                        file.delete();
+                    }
+                }
             }
         }
-
-        return fileList;
+        return PictureList;
     }
 }

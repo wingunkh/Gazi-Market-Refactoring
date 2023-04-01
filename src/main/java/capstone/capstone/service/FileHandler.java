@@ -25,10 +25,10 @@ public class FileHandler {
             Integer post_no,
             List<MultipartFile> multipartFiles
     ) throws Exception {
-        // 반환할 Picture 객체 리스트
+        // 반환할 Picture 리스트
         List<Picture> PictureList = new ArrayList<>();
 
-        // 빈 파일이 들어오면 빈 Picture 객체 리스트 반환
+        // 빈 파일이 들어오면 빈 Picture 리스트 반환
         if (multipartFiles.isEmpty()) {
             return PictureList;
         }
@@ -51,7 +51,7 @@ public class FileHandler {
         for (MultipartFile multipartFile : multipartFiles) {
             // 파일이 비어 있지 않을 때 작업해야 오류가 발생하지 않는다.
             if (!multipartFile.isEmpty()) {
-                // jpeg, png, gif 파일들만 받아서 처리할 예정
+                // jpeg, png, gif 파일들만 받아서 처리
                 String contentType = multipartFile.getContentType();
                 String originalFileExtension;
                 // 확장자 명이 없으면 잘못된 파일이므로 반복문을 빠져나간다.
@@ -72,27 +72,31 @@ public class FileHandler {
                 }
                 // 파일명에 중복이 발생하지 않도록 나노 세컨드까지 동원하여 파일명 지정
                 String new_file_name = System.nanoTime() + originalFileExtension;
-                // 생성 후 Picture 객체 리스트에 추가
-                Picture picture = Picture.builder()
-                        .post_no(post_no)
-                        .picture_location("여기에 S3 URL")
-                        .build();
-                PictureList.add(picture);
-
                 file = new File(path  + new_file_name);
+
                 try {
                     multipartFile.transferTo(file);
+                    // Amazon S3 Bucket에 전달받은 파일 업로드
+
                     amazonS3Client.putObject(new PutObjectRequest(bucket, "images/" + current_date + new_file_name, file)
                             .withCannedAcl(CannedAccessControlList.PublicRead));
                 } catch (Exception e) {
                     throw new RuntimeException();
                 } finally {
+                    // 로컬 폴더에 임시 저장한 파일 삭제
                     if (file.exists()) {
                         file.delete();
                     }
                 }
+                // Picture 객체 생성 후 Picture 리스트에 추가
+                Picture picture = Picture.builder()
+                        .post_no(post_no)
+                        .picture_location(amazonS3Client.getUrl(bucket, "images/"+ current_date + new_file_name).toString())
+                        .build();
+                PictureList.add(picture);
             }
         }
+        // Picture 리스트 반환
         return PictureList;
     }
 }

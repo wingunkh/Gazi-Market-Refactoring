@@ -30,8 +30,8 @@ public class PostService {
 
     public Posts createPost(Posts post, List<MultipartFile> files) throws Exception {
         postRepository.save(post);
-        System.out.println(post.getPost_no());
 
+        // Amazon S3에 전달받은 사진을 업로드하고 해당 사진의 정보가 담긴 Picture 리스트를 반환받아 변수 list에 저장
         List<Picture> list = fileHandler.saveToS3(post.getPost_no(), files);
 
         List<Picture> pictures = new ArrayList<>();

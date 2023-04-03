@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @DynamicUpdate  //UPDATE 시 NULL인 부분을 제외하기 위해 사용, 동적 업데이트
 public class Chatting {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO, generator = "chatting_SEQUENCE_GENERATOR")
+    @GeneratedValue(strategy=GenerationType.IDENTITY, generator = "chatting_SEQUENCE_GENERATOR")
     @SequenceGenerator(name="chatting_SEQUENCE_GENERATOR", sequenceName = "cht_SQ", initialValue = 1, allocationSize = 1)
     private int cht_no;
 

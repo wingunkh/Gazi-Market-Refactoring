@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 //@Builder
 public class Posts {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO, generator = "post_SEQUENCE_GENERATOR")
+    @GeneratedValue(strategy=GenerationType.IDENTITY, generator = "post_SEQUENCE_GENERATOR")
     @SequenceGenerator(name="post_SEQUENCE_GENERATOR", sequenceName = "post_SQ", initialValue = 1, allocationSize = 1)
     protected Integer post_no;
 

@@ -11,7 +11,7 @@ import javax.persistence.*;
 @DynamicUpdate  //UPDATE 시 NULL인 부분을 제외하기 위해 사용, 동적 업데이트
 public class ChattingRoom {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO, generator = "chattingroom_SEQUENCE_GENERATOR")
+    @GeneratedValue(strategy=GenerationType.IDENTITY, generator = "chattingroom_SEQUENCE_GENERATOR")
     @SequenceGenerator(name="chattingroom_SEQUENCE_GENERATOR", sequenceName = "chtroom_SQ", initialValue = 1, allocationSize = 1)
     private int cht_room_num;
 

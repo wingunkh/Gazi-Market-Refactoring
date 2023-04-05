@@ -27,7 +27,7 @@ public class ModelController {
     }
 
     @GetMapping("/{category}/model")
-    public List<Models> getCategoryModel(@RequestBody String category){
+    public List<Models> getCategoryModel(@PathVariable String category){
         return modelService.getCategoryModel(category);
     }
 }

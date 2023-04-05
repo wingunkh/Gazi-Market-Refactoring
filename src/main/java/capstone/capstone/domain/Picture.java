@@ -1,5 +1,6 @@
 package capstone.capstone.domain;
 
+import capstone.capstone.idclass.Posts_Picture;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;

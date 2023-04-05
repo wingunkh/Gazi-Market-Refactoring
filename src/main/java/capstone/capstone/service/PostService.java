@@ -1,6 +1,5 @@
 package capstone.capstone.service;
 
-import capstone.capstone.domain.Models;
 import capstone.capstone.domain.Picture;
 import capstone.capstone.domain.PostWithPicture;
 import capstone.capstone.domain.Posts;
@@ -8,10 +7,8 @@ import capstone.capstone.exception.ResourceNotFoundException;
 import capstone.capstone.repository.PictureRepository;
 import capstone.capstone.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

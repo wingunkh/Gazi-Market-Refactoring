@@ -1,4 +1,5 @@
 package capstone.capstone.controller;
+
 import capstone.capstone.domain.PostWithPicture;
 import capstone.capstone.domain.Posts;
 import capstone.capstone.service.PostService;;

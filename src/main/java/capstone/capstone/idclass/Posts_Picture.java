@@ -1,4 +1,4 @@
-package capstone.capstone.domain;
+package capstone.capstone.idclass;
 
 import java.io.Serializable;
 

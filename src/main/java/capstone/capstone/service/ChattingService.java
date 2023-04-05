@@ -1,8 +1,6 @@
 package capstone.capstone.service;
 
-import capstone.capstone.domain.Categories;
 import capstone.capstone.domain.Chatting;
-import capstone.capstone.repository.CategoryRepository;
 import capstone.capstone.repository.ChattingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

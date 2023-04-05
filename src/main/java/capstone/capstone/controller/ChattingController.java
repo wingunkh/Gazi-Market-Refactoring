@@ -1,6 +1,5 @@
 package capstone.capstone.controller;
 
-import capstone.capstone.domain.Categories;
 import capstone.capstone.domain.Chatting;
 import capstone.capstone.domain.ChattingRoom;
 import capstone.capstone.service.ChattingRoomService;
@@ -9,7 +8,6 @@ import capstone.capstone.service.PostService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +42,6 @@ public class ChattingController {
         return chattingRoomList;
     }
 
-
     @GetMapping("/chattingroom/post/{post_no}/{guest_no}")   //테스트 완료, 포스트 채팅방 입장
     public List<Chatting> getChattingByNo(@PathVariable Integer post_no, @PathVariable Integer guest_no) {
         return chattingRoomService.getChattingRoom(post_no, guest_no);
@@ -53,10 +50,8 @@ public class ChattingController {
     @GetMapping("/chatting/{cht_room_no}")  //테스트 완료, 채팅방 입장
     public ChattingList getAllChattingDate(@PathVariable Integer cht_room_no) {
         ChattingList chattingList = new ChattingList(chattingService.getAllChattingDate(cht_room_no));
-
         chattingList.setPost_title(chattingRoomService.getChattingPostTitle(cht_room_no));
         chattingList.setinfo(chattingRoomService.getHostInfo(cht_room_no), chattingRoomService.getGuestInfo(cht_room_no));
-
         return chattingList;
     }
 

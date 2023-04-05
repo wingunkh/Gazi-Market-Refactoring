@@ -1,14 +1,14 @@
 package capstone.capstone.domain;
 
+import capstone.capstone.idclass.Chatting_ChattingRoom;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "chatting")
-@IdClass(chatting_room.class) //복합키 매핑을 위한 어노테이션
+@IdClass(Chatting_ChattingRoom.class) //복합키 매핑을 위한 어노테이션
 @DynamicInsert  //INSERT 시 NULL인 부분을 제외하기 위해 사용, 동적 인서트
 @DynamicUpdate  //UPDATE 시 NULL인 부분을 제외하기 위해 사용, 동적 업데이트
 public class Chatting {

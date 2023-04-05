@@ -1,6 +1,5 @@
 package capstone.capstone.controller;
 
-
 import capstone.capstone.domain.Categories;
 import capstone.capstone.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +24,4 @@ public class CategoryController {
     public Categories createCategory(@RequestBody Categories category) {
         return categoryService.createCategory(category);
     }
-
-
 }

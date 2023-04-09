@@ -27,13 +27,51 @@ public class PostController {
     //글을 저장
     @PostMapping("/post") // POST 방식: 특정 데이터를 서버로 제출하여 해당 데이터를 추가, 수정 또는 삭제하기 위해 데이터를 전송하는 방식
     public Posts createPost(
-            @Valid @RequestPart("post") // multipart/form-data에 특화되어 여러 복잡한 값을 처리할 때 사용할 수 있는 어노테이션이다.
+            @RequestPart(value = "post", required = false) // multipart/form-data에 특화되어 여러 복잡한 값을 처리할 때 사용할 수 있는 어노테이션이다.
             Posts post,
-            @Valid @RequestPart // 쿼리 파라미터, 폼 데이터, Multipart 등 많은 요청 파라미터를 처리할 수 있는 어노테이션이다.
+            @RequestPart(value = "files") // 쿼리 파라미터, 폼 데이터, Multipart 등 많은 요청 파라미터를 처리할 수 있는 어노테이션이다.
             List<MultipartFile> files
     ) throws Exception {
+
+        System.out.println(post);
+        System.out.println("--------------------");
+        System.out.println(files);
+        post.setUpdateat(LocalDateTime.now());
+        return postService.createPost(post, files);
+    }
+
+    @PostMapping("/post/native")
+    public Posts createPost(
+            @RequestPart(value = "model_name")
+            String model_name,
+            @RequestPart(value = "user_no")
+            String user_no,
+            @RequestPart(value = "grade")
+            String grade,
+            @RequestPart(value = "status")
+            String status,
+            @RequestPart(value = "price")
+            String price,
+            @RequestPart(value = "post_title")
+            String post_title,
+            @RequestPart(value = "post_content")
+            String post_content,
+            @RequestPart(value = "files")
+            List<MultipartFile> files
+    ) throws Exception {
+        Posts post = new Posts();
+        post.setModel_name(model_name);
+        post.setUser_no(Integer.parseInt(user_no));
+        post.setGrade(grade);
+        post.setStatus(status);
+        post.setPrice(Integer.parseInt(price));
+        post.setPost_title(post_title);
+        post.setPost_content(post_content);
         post.setUpdateat(LocalDateTime.now());
 
+        System.out.println(post);
+        System.out.println("--------------------");
+        System.out.println(files);
         return postService.createPost(post, files);
     }
 

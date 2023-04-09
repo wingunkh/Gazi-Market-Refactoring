@@ -25,8 +25,9 @@ public class PostWithPicture extends Posts {
 
     public void setPictureURL(List<String> picture_location) {
         pictureURL = new ArrayList<String>();
+
         for(String pl : picture_location) {
-            this.pictureURL.add( new String("file:" + absolutePath + pl));
+            this.pictureURL.add(pl);
         }
     }
 

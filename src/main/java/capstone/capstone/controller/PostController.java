@@ -20,8 +20,14 @@ public class PostController {
 
     //글 목록의 데이터를 리턴
     @GetMapping("/post") // GET 방식: 정보를 단순히 조회하기 위해 사용하는 방식
-    public List<Posts> getAllPost() throws IOException {
-        return postService.getAllPost();
+    public List<Posts> getAllPosts() throws IOException {
+        return postService.getAllPosts();
+    }
+
+    //승인 대기글 목록의 데이터를 리턴
+    @GetMapping("/approval")
+    public List<Posts> getAllWaitingApprovalPosts() throws IOException {
+        return postService.getAllWaitingApprovalPosts();
     }
 
     //글을 저장
@@ -80,6 +86,20 @@ public class PostController {
     public PostWithPicture getPostByNo(@PathVariable Integer no) throws IOException {
         return postService.getPost(no);
     }
+
+    //특정 승인 대기 게시글과 게시글의 사진 리턴
+    @GetMapping("/approval/{no}")
+    public PostWithPicture getWaitingApprovalPostByNo(@PathVariable Integer no) throws IOException {
+        return postService.getPost(no);
+    }
+
+    //승인 대기 게시글 승인
+    @PostMapping("/approval/{no}/approve")
+    public void approvePost(@PathVariable Integer no) {
+        postService.approvePost(no);
+    }
+
+    //승인 대기 게시글 거절
 
     //최신 순으로 정렬된 게시글 목록 리턴
     @GetMapping("/post/date")

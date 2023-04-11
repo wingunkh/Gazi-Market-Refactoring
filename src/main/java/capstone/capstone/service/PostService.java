@@ -10,11 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class PostService {
+    @Autowired
+    private ModelService modelService;
     @Autowired
     private PostRepository postRepository;
     @Autowired
@@ -22,25 +23,30 @@ public class PostService {
     @Autowired
     private FileHandler fileHandler;
 
-    @Autowired
-    private ModelService modelService;
-
     public Posts createPost(Posts post, List<MultipartFile> files) throws Exception {
         postRepository.save(post);
 
         // Amazon S3에 전달받은 사진을 업로드하고 해당 사진의 정보가 담긴 Picture 리스트를 반환받아 변수 list에 저장
         List<Picture> list = fileHandler.saveToS3(post.getPost_no(), files);
 
-        List<Picture> pictures = new ArrayList<>();
         for(Picture picture : list) {
-            pictures.add(pictureRepository.save(picture));
+            pictureRepository.save(picture);
         }
 
         return null;
     }
 
-    public List<Posts> getAllPost() throws IOException {
-        return postRepository.findAll();
+    public List<Posts> getAllPosts() throws IOException {
+        // return postRepository.findAllWaitingApprovalPosts();
+        return postRepository.findAllPosts();
+    }
+
+    public void approvePost(Integer no) {
+        postRepository.approvePost(no);
+    }
+
+    public List<Posts> getAllWaitingApprovalPosts() throws IOException {
+        return postRepository.findAllWaitingApprovalPosts();
     }
 
     public PostWithPicture getPost(Integer no) throws IOException {

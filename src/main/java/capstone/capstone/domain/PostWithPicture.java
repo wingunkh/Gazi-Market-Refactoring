@@ -1,13 +1,9 @@
 package capstone.capstone.domain;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PostWithPicture extends Posts {
-    String absolutePath = new File("").getAbsolutePath() + "/";
     List<String> pictureURL;
     String category_name;
 

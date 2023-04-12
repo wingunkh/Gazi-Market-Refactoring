@@ -94,12 +94,16 @@ public class PostController {
     }
 
     //승인 대기 게시글 승인
-    @PostMapping("/approval/{no}/approve")
-    public void approvePost(@PathVariable Integer no) {
-        postService.approvePost(no);
+    @PostMapping("/approval/{no}/{model_name}")
+    public void approvePost(@PathVariable Integer no, @PathVariable String model_name) {
+        postService.approvePost(no, model_name);
     }
 
     //승인 대기 게시글 거절
+    @PostMapping("/approval/{no}/reject")
+    public void rejectPost(@PathVariable Integer no) {
+        postService.rejectPost(no);
+    }
 
     //최신 순으로 정렬된 게시글 목록 리턴
     @GetMapping("/post/date")

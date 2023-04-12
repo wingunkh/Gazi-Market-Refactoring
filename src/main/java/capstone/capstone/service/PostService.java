@@ -41,8 +41,12 @@ public class PostService {
         return postRepository.findAllPosts();
     }
 
-    public void approvePost(Integer no) {
-        postRepository.approvePost(no);
+    public void approvePost(Integer no, String model_name) {
+        postRepository.approvePost(no, model_name);
+    }
+
+    public void rejectPost(Integer no) {
+        postRepository.rejectPost(no);
     }
 
     public List<Posts> getAllWaitingApprovalPosts() throws IOException {

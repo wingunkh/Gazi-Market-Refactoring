@@ -15,13 +15,13 @@ public interface ReportRepository extends JpaRepository<Report_list, Integer> {
     @Query(value = "UPDATE Post SET status = '숨김' WHERE post_no = (SELECT post_no FROM report_list WHERE report_num = :report_num)"
             + "UPDATE report_list SET status = '처리' WHERE report_num = :report_num",
             nativeQuery = true)
-    void hideReportList(@Param("report_num") Integer report_num);
+    void hideReportedPost(@Param("report_num") Integer report_num);
 
     // 해당 숨김 처리된 게시글 공개 처리
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Post SET status = 'S' WHERE post_no = (SELECT post_no FROM report_list WHERE report_num = :report_num)", nativeQuery = true)
-    void exposureReportList(@Param("report_num") Integer report_num);
+    @Query(value = "UPDATE Post SET status = '판매중' WHERE post_no = (SELECT post_no FROM report_list WHERE report_num = :report_num)", nativeQuery = true)
+    void exposureReportedPost(@Param("report_num") Integer report_num);
 
     // 해당 신고 게시글 삭제 처리
     @Modifying
@@ -29,7 +29,11 @@ public interface ReportRepository extends JpaRepository<Report_list, Integer> {
     @Query(value = "Delete from Post WHERE post_no = (SELECT post_no FROM report_list WHERE report_num = :report_num)"
             + "UPDATE report_list SET status = '처리' WHERE report_num = :report_num",
             nativeQuery = true)
-    void deleteReportList(@Param("report_num") Integer report_num);
+    void deleteReportedPost(@Param("report_num") Integer report_num);
+
+    // 해당 신고 게시글 번호 리턴
+    @Query(value = "SELECT post_no FROM post WHERE report_num = :report_num", nativeQuery = true)
+    Integer getPostNoByReportNum(@Param("report_num") Integer report_num);
 
     // 신고 목록 데이터 리턴
     @Query(value="select * from Report_list", nativeQuery = true)

@@ -21,20 +21,20 @@ public class ReportController {
 
     // 해당 신고 게시글 숨김 처리
     @PostMapping("/report/{report_num}/hide")
-    public void hideReportList(@PathVariable Integer report_num) {
-        reportService.hideReportList(report_num);
+    public void hideReportedPost(@PathVariable Integer report_num) {
+        reportService.hideReportedPost(report_num);
     }
 
     // 해당 숨김 처리된 게시글 공개 처리
     @PostMapping("/report/{report_num}/exposure")
-    public void exposureReportList(@PathVariable Integer report_num) {
-        reportService.exposureReportList(report_num);
+    public void exposureReportedPost(@PathVariable Integer report_num) {
+        reportService.exposureReportedPost(report_num);
     }
 
     // 해당 신고 게시글 삭제 처리
     @PostMapping("/report/{report_num}/delete")
-    public void deleteReportList(@PathVariable Integer report_num) {
-        reportService.deleteReportList(report_num);
+    public void deleteReportedPost(@PathVariable Integer report_num) {
+        reportService.deleteReportedPost(report_num);
     }
 
     // 신고 목록 데이터 리턴

@@ -46,6 +46,11 @@ public class PostService {
     }
 
     public void rejectPost(Integer no) {
+        List<String> list = pictureRepository.getPictureLocationByPostNo(no);
+        for(String picture_location : list) {
+            fileHandler.deleteFromS3(picture_location);
+        }
+
         postRepository.rejectPost(no);
     }
 
@@ -58,7 +63,7 @@ public class PostService {
                 .orElseThrow(() -> new ResourceNotFoundException("Not exist Post Data by no : ["+no+"]")));
 
         postWithPicture.setCategory_name(modelService.getCategoryName(postWithPicture.getModel_name()));
-        postWithPicture.setPictureURL(pictureRepository.findByPostNo(no));
+        postWithPicture.setPictureURL(pictureRepository.getPictureLocationByPostNo(no));
 
         return postWithPicture;
     }

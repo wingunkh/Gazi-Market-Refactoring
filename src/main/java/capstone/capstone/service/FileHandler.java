@@ -99,4 +99,9 @@ public class FileHandler {
         // Picture 리스트 반환
         return PictureList;
     }
+
+    public void deleteFromS3(String picture_location) {
+        String key = picture_location.replace("https://capstone-eggplant-bucket.s3.ap-northeast-2.amazonaws.com/", "");
+        amazonS3Client.deleteObject(bucket, key);
+    }
 }

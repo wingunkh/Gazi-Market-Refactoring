@@ -1,7 +1,7 @@
 package capstone.capstone.controller;
 
 import capstone.capstone.domain.PostWithPicture;
-import capstone.capstone.domain.Posts;
+import capstone.capstone.domain.Post;
 import capstone.capstone.service.PostService;;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,21 +19,21 @@ public class PostController {
 
     //글 목록의 데이터를 리턴
     @GetMapping("/post") // GET 방식: 정보를 단순히 조회하기 위해 사용하는 방식
-    public List<Posts> getAllPosts() throws IOException {
+    public List<Post> getAllPosts() throws IOException {
         return postService.getAllPosts();
     }
 
     //승인 대기글 목록의 데이터를 리턴
     @GetMapping("/approval")
-    public List<Posts> getAllWaitingApprovalPosts() throws IOException {
+    public List<Post> getAllWaitingApprovalPosts() throws IOException {
         return postService.getAllWaitingApprovalPosts();
     }
 
     //글을 저장
     @PostMapping("/post") // POST 방식: 특정 데이터를 서버로 제출하여 해당 데이터를 추가, 수정 또는 삭제하기 위해 데이터를 전송하는 방식
-    public Posts createPost(
+    public Post createPost(
             @RequestPart(value = "post", required = false) // multipart/form-data에 특화되어 여러 복잡한 값을 처리할 때 사용할 수 있는 어노테이션이다.
-            Posts post,
+            Post post,
             @RequestPart(value = "files") // 쿼리 파라미터, 폼 데이터, Multipart 등 많은 요청 파라미터를 처리할 수 있는 어노테이션이다.
             List<MultipartFile> files
     ) throws Exception {
@@ -41,12 +41,12 @@ public class PostController {
         System.out.println(post);
         System.out.println("--------------------");
         System.out.println(files);
-        post.setUpdateat(LocalDateTime.now());
+        post.setWritten_date(LocalDateTime.now());
         return postService.createPost(post, files);
     }
 
     @PostMapping("/post/native")
-    public Posts createPost(
+    public Post createPost(
             @RequestPart(value = "model_name")
             String model_name,
             @RequestPart(value = "user_no")
@@ -64,15 +64,15 @@ public class PostController {
             @RequestPart(value = "files")
             List<MultipartFile> files
     ) throws Exception {
-        Posts post = new Posts();
+        Post post = new Post();
         post.setModel_name(model_name);
-        post.setUser_no(Integer.parseInt(user_no));
+        post.setUser_num(Integer.parseInt(user_no));
         post.setGrade(grade);
         post.setStatus(status);
         post.setPrice(Integer.parseInt(price));
         post.setPost_title(post_title);
         post.setPost_content(post_content);
-        post.setUpdateat(LocalDateTime.now());
+        post.setWritten_date(LocalDateTime.now());
 
         System.out.println(post);
         System.out.println("--------------------");
@@ -106,21 +106,21 @@ public class PostController {
 
     //최신 순으로 정렬된 게시글 목록 리턴
     @GetMapping("/post/date")
-    public List<Posts> getDatePost() {return postService.getDatePost();}
+    public List<Post> getDatePost() {return postService.getDatePost();}
 
     //해당 카테고리 내의 게시글을 리턴
     @GetMapping("post/category/{category}")
-    public List<Posts> getPostByCategory(@PathVariable String category){
+    public List<Post> getPostByCategory(@PathVariable String category){
         return postService.getCategoryPosts(category);
     }
 
     //해당 모델의 게시글을 리턴
     @GetMapping("post/model/{model}")
-    public List<Posts> getPostByModel(@PathVariable String model) {
+    public List<Post> getPostByModel(@PathVariable String model) {
         return postService.getModelPosts(model);
     }
 
     @GetMapping("post/name/{type}/{name}")  //type에는 무조건 asc OR desc로, asc:오름차순, desc:내림차순
-    public List<Posts> getPostByName(@PathVariable String type, @PathVariable String name) {
+    public List<Post> getPostByName(@PathVariable String type, @PathVariable String name) {
         return postService.getNamePosts(type, name); }
 }

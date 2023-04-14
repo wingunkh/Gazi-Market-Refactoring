@@ -22,7 +22,7 @@ public class FileHandler {
     private String bucket;
     private final AmazonS3Client amazonS3Client;
     public List<Picture> saveToS3(
-            Integer post_no,
+            Integer post_num,
             List<MultipartFile> multipartFiles
     ) throws Exception {
         // 반환할 Picture 리스트
@@ -90,7 +90,7 @@ public class FileHandler {
                 }
                 // Picture 객체 생성 후 Picture 리스트에 추가
                 Picture picture = Picture.builder()
-                        .post_no(post_no)
+                        .post_num(post_num)
                         .picture_location(amazonS3Client.getUrl(bucket, "images/"+ current_date + new_file_name).toString())
                         .build();
                 PictureList.add(picture);

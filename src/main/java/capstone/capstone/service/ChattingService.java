@@ -11,13 +11,13 @@ public class ChattingService {
     @Autowired
     private ChattingRepository chattingRepository;
 
-    public List<Chatting> getAllChattingDate(int cht_room_no) {
-        return chattingRepository.findAllDate(cht_room_no);
+    public List<Chatting> getAllChattingDate(int cht_room_num) {
+        return chattingRepository.findAllDate(cht_room_num);
     }
 
 
-    public String getLastmsg(int cht_room_no){
-        return  chattingRepository.findlastmsg(cht_room_no);
+    public String getLastmsg(int cht_room_num){
+        return  chattingRepository.findlastmsg(cht_room_num);
     }
 
     public Chatting createChatting(Chatting chatting) {

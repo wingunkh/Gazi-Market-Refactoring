@@ -3,20 +3,20 @@ package capstone.capstone.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostWithPicture extends Posts {
+public class PostWithPicture extends Post {
     List<String> pictureURL;
     String category_name;
 
-    public PostWithPicture(Posts post) {
-        this.post_no = post.getPost_no();
+    public PostWithPicture(Post post) {
+        this.post_num = post.getPost_num();
         this.model_name = post.getModel_name();
-        this.user_no = post.getUser_no();
+        this.user_num = post.getUser_num();
         this.grade = post.getGrade();
         this.status = post.getStatus();
         this.price = post.getPrice();
         this.post_title = post.getPost_title();
         this.post_content = post.getPost_content();
-        this.updateat = post.getUpdateat();
+        this.written_date = post.getWritten_date();
     }
 
     public void setPictureURL(List<String> picture_location) {

@@ -26,7 +26,8 @@ public class SocketChatController {
         System.out.println(chat.getCht_text());
         chat.setCht_time(LocalDateTime.now());
         chat.setCht_text(chat.getCht_text());
-        chattingService.createChatting(chat);
+        Chatting ch = chattingService.createChatting(chat);
+        System.out.println(ch.getCht_num());
         template.convertAndSend("/sub/chat/room/" + chat.getCht_room_num(), chat);
     }
 

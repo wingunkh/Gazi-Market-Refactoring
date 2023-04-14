@@ -1,8 +1,8 @@
 package capstone.capstone.service;
 
 import capstone.capstone.domain.Picture;
+import capstone.capstone.domain.Post;
 import capstone.capstone.domain.PostWithPicture;
-import capstone.capstone.domain.Posts;
 import capstone.capstone.exception.ResourceNotFoundException;
 import capstone.capstone.repository.PictureRepository;
 import capstone.capstone.repository.PostRepository;
@@ -23,11 +23,11 @@ public class PostService {
     @Autowired
     private FileHandler fileHandler;
 
-    public Posts createPost(Posts post, List<MultipartFile> files) throws Exception {
+    public Post createPost(Post post, List<MultipartFile> files) throws Exception {
         postRepository.save(post);
 
         // Amazon S3에 전달받은 사진을 업로드하고 해당 사진의 정보가 담긴 Picture 리스트를 반환받아 변수 list에 저장
-        List<Picture> list = fileHandler.saveToS3(post.getPost_no(), files);
+        List<Picture> list = fileHandler.saveToS3(post.getPost_num(), files);
 
         for(Picture picture : list) {
             pictureRepository.save(picture);
@@ -36,53 +36,53 @@ public class PostService {
         return null;
     }
 
-    public List<Posts> getAllPosts() throws IOException {
+    public List<Post> getAllPosts() throws IOException {
         // return postRepository.findAllWaitingApprovalPosts();
         return postRepository.findAllPosts();
     }
 
-    public void approvePost(Integer no, String model_name) {
-        postRepository.approvePost(no, model_name);
+    public void approvePost(Integer num, String model_name) {
+        postRepository.approvePost(num, model_name);
     }
 
-    public void rejectPost(Integer no) {
-        List<String> list = pictureRepository.getPictureLocationByPostNo(no);
+    public void rejectPost(Integer num) {
+        List<String> list = pictureRepository.getPictureLocationByPostNo(num);
         for(String picture_location : list) {
             fileHandler.deleteFromS3(picture_location);
         }
 
-        postRepository.rejectPost(no);
+        postRepository.rejectPost(num);
     }
 
-    public List<Posts> getAllWaitingApprovalPosts() throws IOException {
+    public List<Post> getAllWaitingApprovalPosts() throws IOException {
         return postRepository.findAllWaitingApprovalPosts();
     }
 
-    public PostWithPicture getPost(Integer no) throws IOException {
-        PostWithPicture postWithPicture = new PostWithPicture(postRepository.findById(no)
-                .orElseThrow(() -> new ResourceNotFoundException("Not exist Post Data by no : ["+no+"]")));
+    public PostWithPicture getPost(Integer num) throws IOException {
+        PostWithPicture postWithPicture = new PostWithPicture(postRepository.findById(num)
+                .orElseThrow(() -> new ResourceNotFoundException("Not exist Post Data by no : ["+num+"]")));
 
         postWithPicture.setCategory_name(modelService.getCategoryName(postWithPicture.getModel_name()));
-        postWithPicture.setPictureURL(pictureRepository.getPictureLocationByPostNo(no));
+        postWithPicture.setPictureURL(pictureRepository.getPictureLocationByPostNo(num));
 
         return postWithPicture;
     }
 
-    public List<Posts> getDatePost() {
+    public List<Post> getDatePost() {
         return postRepository.findDate();
     }
 
-    public List<Posts> getCategoryPosts(String category){
+    public List<Post> getCategoryPosts(String category){
         return postRepository.findCategory(category);
     }
 
-    public List<Posts> getModelPosts(String model) { return postRepository.findModel(model); }
+    public List<Post> getModelPosts(String model) { return postRepository.findModel(model); }
 
-    public List<Posts> getNamePosts(String type, String name) {
+    public List<Post> getNamePosts(String type, String name) {
         return postRepository.findIncludeName(type, name);
     }
 
-    public String getPost_Name(int post_no) { return postRepository.findName(post_no); }
+    public String getPost_Name(int post_num) { return postRepository.findName(post_num); }
 
-    public String getPost_Host_info(int post_no) { return postRepository.findHostInfo(post_no);}
+    public String getPost_Host_info(int post_num) { return postRepository.findHostInfo(post_num);}
 }

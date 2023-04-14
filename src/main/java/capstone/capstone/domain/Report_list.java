@@ -1,5 +1,7 @@
 package capstone.capstone.domain;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
@@ -9,6 +11,8 @@ import java.time.LocalDateTime;
 @Table(name = "report_list")
 @DynamicInsert  //INSERT 시 NULL인 부분을 제외하기 위해 사용, 동적 인서트
 @DynamicUpdate  //UPDATE 시 NULL인 부분을 제외하기 위해 사용, 동적 업데이트
+@Getter
+@Setter
 public class Report_list {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY, generator = "report_SEQUENCE_GENERATOR")

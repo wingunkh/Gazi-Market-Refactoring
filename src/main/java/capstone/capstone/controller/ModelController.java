@@ -1,6 +1,6 @@
 package capstone.capstone.controller;
 
-import capstone.capstone.domain.Models;
+import capstone.capstone.domain.Model;
 import capstone.capstone.service.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,19 +15,19 @@ public class ModelController {
 
     //모델 목록의 데이터를 리턴
     @GetMapping("/model")
-    public List<Models> getAllModel() {
+    public List<Model> getAllModel() {
         return modelService.getAllModel();
     }
 
     //모델을 저장
     @PostMapping("/model")
-    public Models createModel(@RequestBody Models model) {
+    public Model createModel(@RequestBody Model model) {
         System.out.println(model);
         return modelService.createModel(model);
     }
 
     @GetMapping("/{category}/model")
-    public List<Models> getCategoryModel(@PathVariable String category){
+    public List<Model> getCategoryModel(@PathVariable String category){
         return modelService.getCategoryModel(category);
     }
 }

@@ -20,8 +20,8 @@ public class ChattingRoomService {
     @Autowired
     private PostRepository postRepository;
 
-    public List<ChattingRoom> getguestAllChattingRoom(int guest_no) {
-        return chattingRoomRepository.findAllId(guest_no);
+    public List<ChattingRoom> getguestAllChattingRoom(int guest_num) {
+        return chattingRoomRepository.findAllId(guest_num);
     }
 
     public List<ChattingRoom> getAllChattingRoom(){
@@ -32,26 +32,26 @@ public class ChattingRoomService {
         return chattingRoomRepository.save(chattingRoom);
     }
 
-    public String getChattingPostTitle(int cht_room_no){
-        return chattingRoomRepository.getPostTitle(cht_room_no);
+    public String getChattingPostTitle(int cht_room_num){
+        return chattingRoomRepository.getPostTitle(cht_room_num);
     }
 
-    public int getHostInfo(int cht_room_no){
-        return chattingRoomRepository.getHostInfo(cht_room_no);
+    public int getHostInfo(int cht_room_num){
+        return chattingRoomRepository.getHostInfo(cht_room_num);
     }
 
-    public int getGuestInfo(int cht_room_no){
-        return chattingRoomRepository.getGuestInfo(cht_room_no);
+    public int getGuestInfo(int cht_room_num){
+        return chattingRoomRepository.getGuestInfo(cht_room_num);
     }
 
-    public List<Chatting> getChattingRoom(Integer post_no, Integer guest_no) {
-        List<ChattingRoom> chattingRoom = chattingRoomRepository.findByOne(post_no, guest_no);
+    public List<Chatting> getChattingRoom(Integer post_num, Integer guest_num) {
+        List<ChattingRoom> chattingRoom = chattingRoomRepository.findByOne(post_num, guest_num);
         ChattingRoom ch;
         if(chattingRoom == null){
             ch = new ChattingRoom();
-            ch.setPost_no(post_no);
-            ch.setGuest_member(guest_no);
-            ch.setHost_member(postRepository.findHost(post_no));
+            ch.setPost_num(post_num);
+            ch.setGuest_member(guest_num);
+            ch.setHost_member(postRepository.findHost(post_num));
             ch = createChattingRoom(ch);
         }else{
             ch = chattingRoom.get(0);

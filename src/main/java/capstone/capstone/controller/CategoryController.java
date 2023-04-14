@@ -1,6 +1,6 @@
 package capstone.capstone.controller;
 
-import capstone.capstone.domain.Categories;
+import capstone.capstone.domain.Category;
 import capstone.capstone.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +15,13 @@ public class CategoryController {
 
     //카테고리 목록의 데이터를 리턴
     @GetMapping("/category")
-    public List<Categories> getAllCategory() {
+    public List<Category> getAllCategory() {
         return categoryService.getAllCategory();
     }
 
     //카테고리를 저장
     @PostMapping("/category")
-    public Categories createCategory(@RequestBody Categories category) {
+    public Category createCategory(@RequestBody Category category) {
         return categoryService.createCategory(category);
     }
 }

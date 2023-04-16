@@ -44,5 +44,4 @@ public class Post {
     @Column(name = "written_date")
     protected LocalDateTime written_date;
 
-
 }

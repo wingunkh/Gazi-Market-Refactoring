@@ -5,14 +5,17 @@ import capstone.capstone.domain.ChattingRoom;
 import capstone.capstone.service.ChattingRoomService;
 import capstone.capstone.service.ChattingService;
 import capstone.capstone.service.PostService;
+import capstone.capstone.service.UserService;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "http://52.78.130.186:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class ChattingController {
@@ -21,6 +24,8 @@ public class ChattingController {
     @Autowired
     private ChattingRoomService chattingRoomService;
 
+    @Autowired
+    private UserService userService;
     @Autowired
     private PostService postService;
 
@@ -80,13 +85,17 @@ public class ChattingController {
 
     @Getter
     class ChattingList {
-        List<Chatting> chattingList;
+        List<chatting_addname> chattingList;
         String post_title;
         int host_no;
         int guest_no;
 
         public ChattingList(List<Chatting> chattingList) {
-            this.chattingList = chattingList;
+            this.chattingList = new ArrayList<>();
+
+            for(Chatting chat : chattingList){
+                this.chattingList.add(new chatting_addname(chat));
+            }
         }
 
         public void setPost_title(String post_title) {
@@ -96,6 +105,27 @@ public class ChattingController {
         public void setinfo(int host_no, int guest_no) {
             this.host_no = host_no;
             this.guest_no = guest_no;
+        }
+    }
+
+    @Getter
+    @Setter
+    class chatting_addname{
+        private int cht_room_num;
+
+        private int cht_member;
+
+        private String cht_text;
+
+        private LocalDateTime cht_time;
+        String cht_member_name;
+
+        public chatting_addname(Chatting chatting){
+            this.cht_room_num = chatting.getCht_room_num();
+            this.cht_member = chatting.getCht_member();
+            this.cht_text = chatting.getCht_text();
+            this.cht_time = chatting.getCht_time();
+            this.cht_member_name = userService.findName(chatting.getCht_member());
         }
     }
 }

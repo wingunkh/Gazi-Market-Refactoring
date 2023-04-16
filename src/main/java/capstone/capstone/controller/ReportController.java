@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@CrossOrigin(origins = "http://52.78.130.186:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class ReportController {
@@ -14,13 +14,13 @@ public class ReportController {
     private ReportService reportService;
 
     // 신고 목록 저장
-    @PostMapping("/post/report/{post_num}/{reporter_num}")
+    @GetMapping("/post/report/{post_num}/{reporter_num}")
     public void createReportList(@PathVariable Integer post_num, @PathVariable Integer reporter_num) {
         reportService.createReportList(post_num, reporter_num);
     }
 
     // 해당 신고 게시글 숨김 처리
-    @PostMapping("/report/{report_num}/hide")
+    @GetMapping("/report/{report_num}/hide")
     public void hideReportedPost(@PathVariable Integer report_num) {
         reportService.hideReportedPost(report_num);
     }
@@ -32,7 +32,7 @@ public class ReportController {
     }
 
     // 해당 신고 게시글 삭제 처리
-    @PostMapping("/report/{report_num}/delete")
+    @GetMapping("/report/{report_num}/delete")
     public void deleteReportedPost(@PathVariable Integer report_num) {
         reportService.deleteReportedPost(report_num);
     }

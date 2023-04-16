@@ -76,7 +76,9 @@ public class PostService {
         return postRepository.findCategory(category);
     }
 
-    public List<Post> getModelPosts(String model) { return postRepository.findModel(model); }
+    public List<Post> getModelPosts(String model) {
+        return postRepository.findModel(model);
+    }
 
     public List<Post> getNamePosts(String type, String name) {
         return postRepository.findIncludeName(type, name);

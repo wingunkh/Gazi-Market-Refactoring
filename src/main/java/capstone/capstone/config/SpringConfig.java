@@ -2,7 +2,6 @@ package capstone.capstone.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
@@ -13,7 +12,7 @@ public class SpringConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // stomp 접속 주소 url => /ws-stomp
-        registry.addEndpoint("/ws-stomp").setAllowedOrigins("http://52.78.130.186:3000") // 연결될 엔드포인트
+        registry.addEndpoint("/ws-stomp").setAllowedOrigins("http://localhost:3000") // 연결될 엔드포인트
                 .withSockJS(); // SocketJS 를 연결한다는 설정
     }
 

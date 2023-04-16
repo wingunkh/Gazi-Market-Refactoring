@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://52.78.130.186:3000")
 @RestController
 @RequestMapping("/api")
 public class ChattingController {
@@ -85,7 +86,7 @@ public class ChattingController {
 
     @Getter
     class ChattingList {
-        List<chatting_addname> chattingList;
+        List<Chatting_addname> chattingList;
         String post_title;
         int host_no;
         int guest_no;
@@ -94,7 +95,7 @@ public class ChattingController {
             this.chattingList = new ArrayList<>();
 
             for(Chatting chat : chattingList){
-                this.chattingList.add(new chatting_addname(chat));
+                this.chattingList.add(new Chatting_addname(chat, userService.findName(chat.getCht_member())));
             }
         }
 
@@ -108,24 +109,24 @@ public class ChattingController {
         }
     }
 
-    @Getter
-    @Setter
-    class chatting_addname{
-        private int cht_room_num;
+}
+@Getter
+@Setter
+class Chatting_addname{
+    private int cht_room_num;
 
-        private int cht_member;
+    private int cht_member;
 
-        private String cht_text;
+    private String cht_text;
 
-        private LocalDateTime cht_time;
-        String cht_member_name;
+    private LocalDateTime cht_time;
+    String cht_member_name;
 
-        public chatting_addname(Chatting chatting){
-            this.cht_room_num = chatting.getCht_room_num();
-            this.cht_member = chatting.getCht_member();
-            this.cht_text = chatting.getCht_text();
-            this.cht_time = chatting.getCht_time();
-            this.cht_member_name = userService.findName(chatting.getCht_member());
-        }
+    public Chatting_addname(Chatting chatting, String cht_member_name){
+        this.cht_room_num = chatting.getCht_room_num();
+        this.cht_member = chatting.getCht_member();
+        this.cht_text = chatting.getCht_text();
+        this.cht_time = chatting.getCht_time();
+        this.cht_member_name = cht_member_name;
     }
 }

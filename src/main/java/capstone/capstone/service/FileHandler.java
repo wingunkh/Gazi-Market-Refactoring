@@ -45,6 +45,9 @@ public class FileHandler {
         if (!file.exists()) {
             // mkdir() 함수와 다른 점은 상위 디렉토리가 존재하지 않을 때 그것까지 생성
             file.mkdirs();
+            file.setReadable(true, false); // 읽기 권한 설정
+            file.setWritable(true, false); // 쓰기 권한 설정
+            file.setExecutable(true, false); // 실행 권한 설정
         }
 
         // 파일 핸들링

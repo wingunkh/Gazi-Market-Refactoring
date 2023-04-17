@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 //@CrossOrigin(origins = "http://localhost:3000") // CORS 문제를 해결하기 위한 어노테이션
-@CrossOrigin(origins = "http://52.78.130.186:80")
+//@CrossOrigin(origins = "http://52.78.130.186:80")
+@CrossOrigin(origins = "http://localhost:80")
 @RestController // @Controller에 @ResponseBody가 결합한 어노테이션, 문자열과 JSON 등을 전송 가능
 @RequestMapping("/api") // 요청에 대해 어떤 Controller, 어떤 메소드가 처리할지를 맵핑하기 위한 어노테이션
 public class PostController {

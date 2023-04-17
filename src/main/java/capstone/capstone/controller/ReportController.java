@@ -8,7 +8,7 @@ import java.util.List;
 
 //@CrossOrigin(origins = "http://localhost:3000")
 //@CrossOrigin(origins = "http://52.78.130.186:80")
-@CrossOrigin(origins = "http://ec2-52-78-130-186.ap-northeast-2.compute.amazonaws.com/:80")
+@CrossOrigin(origins = "http://52.78.130.186")
 @RestController
 @RequestMapping("/api")
 public class ReportController {

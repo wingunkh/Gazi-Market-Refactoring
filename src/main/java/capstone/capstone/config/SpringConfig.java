@@ -12,7 +12,7 @@ public class SpringConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // stomp 접속 주소 url => /ws-stomp
-        registry.addEndpoint("/ws-stomp").setAllowedOrigins("http://localhost:80") // 연결될 엔드포인트 52.78.130.186 / localhost
+        registry.addEndpoint("/ws-stomp").setAllowedOrigins("http://ec2-52-78-130-186.ap-northeast-2.compute.amazonaws.com/:80") // 연결될 엔드포인트 52.78.130.186 / localhost
                 .withSockJS(); // SocketJS 를 연결한다는 설정
     }
 

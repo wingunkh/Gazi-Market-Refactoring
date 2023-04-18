@@ -39,7 +39,6 @@ public class FileHandler {
 
         // 로컬 폴더에 임시 저장하기 경로를 설정
         String path = new File("").getAbsolutePath() + "/" + "images/";
-        System.out.println(path);
 
         File file = new File(path);
         // 저장할 위치에 디렉터리가 존재하지 않을 경우

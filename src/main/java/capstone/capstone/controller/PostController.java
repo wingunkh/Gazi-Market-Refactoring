@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ public class PostController {
     //글 목록의 데이터를 리턴
     @GetMapping("/post") // GET 방식: 정보를 단순히 조회하기 위해 사용하는 방식
     public List<post_addname> getAllPosts() throws IOException {
+        String path = new File("").getAbsolutePath() + "/" + "images/";
+        System.out.println(path);
         List<post_addname> postAddnames = new ArrayList<>();
         for (Post post : postService.getAllPosts()){
             postAddnames.add(new post_addname(post));

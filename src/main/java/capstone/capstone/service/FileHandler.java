@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import net.coobird.thumbnailator.Thumbnails;
 
 @Component
 @RequiredArgsConstructor
@@ -77,6 +78,10 @@ public class FileHandler {
                 // 파일명에 중복이 발생하지 않도록 나노 세컨드까지 동원하여 파일명 지정
                 String new_file_name = System.nanoTime() + originalFileExtension;
                 file = new File(path  + new_file_name);
+
+                Thumbnails.of(multipartFile.getInputStream())
+                        .size(800, 800)
+                        .toFile(file); // EOF 에러를 방지하기 위해 파일 크기 변경
 
                 try {
                     multipartFile.transferTo(file);

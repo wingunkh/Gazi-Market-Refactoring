@@ -29,7 +29,7 @@ dependencies {
 	implementation 'org.webjars:sockjs-client:1.5.1'						// sockjs
 	implementation 'org.webjars:stomp-websocket:2.3.4'						// stomp
 	implementation 'com.google.code.gson:gson:2.9.0'						// gson
-
+	implementation group: 'net.coobird', name: 'thumbnailator', version: '0.4.14'
 }
 
 tasks.named('test') {

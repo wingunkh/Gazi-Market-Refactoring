@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostWithPicture extends Post {
-    List<String> pictureURL;
+    String nickname;
     String category_name;
+    List<String> pictureURL;
 
     public PostWithPicture(Post post) {
         this.post_num = post.getPost_num();
@@ -19,20 +20,19 @@ public class PostWithPicture extends Post {
         this.written_date = post.getWritten_date();
     }
 
-    public void setPictureURL(List<String> picture_location) {
-        pictureURL = new ArrayList<String>();
-
-        for(String pl : picture_location) {
-            this.pictureURL.add(pl);
-        }
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public void setCategory_name(String category_name){
         this.category_name = category_name;
     }
 
-    public String getCategory_name() { return category_name; }
-    public List<String> getPictureURL() {
-        return pictureURL;
+    public void setPictureURL(List<String> picture_location) {
+        pictureURL = new ArrayList<String>();
+
+        for(String pl : picture_location) {
+            this.pictureURL.add(pl);
+        }
     }
 }

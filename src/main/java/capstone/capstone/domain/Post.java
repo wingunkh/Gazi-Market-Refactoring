@@ -25,7 +25,6 @@ public class Post {
     @Column(name = "model_name")
     protected String model_name;
 
-
     @Column(name = "grade")
     protected String grade;
 
@@ -43,5 +42,4 @@ public class Post {
 
     @Column(name = "written_date")
     protected LocalDateTime written_date;
-
 }

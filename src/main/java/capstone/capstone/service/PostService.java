@@ -6,6 +6,7 @@ import capstone.capstone.domain.PostWithPicture;
 import capstone.capstone.exception.ResourceNotFoundException;
 import capstone.capstone.repository.PictureRepository;
 import capstone.capstone.repository.PostRepository;
+import capstone.capstone.repository.UserMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +19,10 @@ public class PostService {
     private ModelService modelService;
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private UserMemberRepository userMemberRepository;
+
     @Autowired
     private PictureRepository pictureRepository;
     @Autowired
@@ -62,6 +67,7 @@ public class PostService {
         PostWithPicture postWithPicture = new PostWithPicture(postRepository.findById(num)
                 .orElseThrow(() -> new ResourceNotFoundException("Not exist Post Data by no : ["+num+"]")));
 
+        postWithPicture.setNickname(userMemberRepository.getNicknameByUserNum(postWithPicture.getUser_num()));
         postWithPicture.setCategory_name(modelService.getCategoryName(postWithPicture.getModel_name()));
         postWithPicture.setPictureURL(pictureRepository.getPictureLocationByPostNo(num));
 

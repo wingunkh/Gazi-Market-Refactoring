@@ -27,24 +27,24 @@ public class PostController {
 
     //글 목록의 데이터를 리턴
     @GetMapping("/post") // GET 방식: 정보를 단순히 조회하기 위해 사용하는 방식
-    public List<post_addname> getAllPosts() throws IOException {
+    public List<PostWithPicture> getAllPosts() throws IOException {
         String path = new File("").getAbsolutePath() + "/" + "images/";
         System.out.println(path);
-        List<post_addname> postAddnames = new ArrayList<>();
+        List<PostWithPicture> postList = new ArrayList<>();
         for (Post post : postService.getAllPosts()){
-            postAddnames.add(new post_addname(post));
+            postList.add(new PostWithPicture(post));
         }
-        return postAddnames;
+        return postList;
     }
 
     //승인 대기글 목록의 데이터를 리턴
     @GetMapping("/approval")
-    public List<post_addname> getAllWaitingApprovalPosts() throws IOException {
-        List<post_addname> postAddnames = new ArrayList<>();
+    public List<PostWithPicture> getAllWaitingApprovalPosts() throws IOException {
+        List<PostWithPicture> postList = new ArrayList<>();
         for (Post post : postService.getAllWaitingApprovalPosts()){
-            postAddnames.add(new post_addname(post));
+            postList.add(new PostWithPicture(post));
         }
-        return postAddnames;
+        return postList;
     }
 
     //글을 저장
@@ -55,10 +55,6 @@ public class PostController {
             @RequestPart(value = "files") // 쿼리 파라미터, 폼 데이터, Multipart 등 많은 요청 파라미터를 처리할 수 있는 어노테이션이다.
             List<MultipartFile> files
     ) throws Exception {
-
-        System.out.println(post);
-        System.out.println("--------------------");
-        System.out.println(files);
         post.setWritten_date(LocalDateTime.now());
         return postService.createPost(post, files);
     }
@@ -124,69 +120,40 @@ public class PostController {
 
     //최신 순으로 정렬된 게시글 목록 리턴
     @GetMapping("/post/date")
-    public List<post_addname> getDatePost() {
-        List<post_addname> postAddnames = new ArrayList<>();
+    public List<PostWithPicture> getDatePost() {
+        List<PostWithPicture> postList = new ArrayList<>();
         for (Post post : postService.getDatePost()){
-            postAddnames.add(new post_addname(post));
+            postList.add(new PostWithPicture(post));
         }
-        return postAddnames;
+        return postList;
     }
 
     //해당 카테고리 내의 게시글을 리턴
     @GetMapping("post/category/{category}")
-    public List<post_addname> getPostByCategory(@PathVariable String category){
-        List<post_addname> postAddnames = new ArrayList<>();
+    public List<PostWithPicture> getPostByCategory(@PathVariable String category){
+        List<PostWithPicture> postList = new ArrayList<>();
         for (Post post : postService.getCategoryPosts(category)){
-            postAddnames.add(new post_addname(post));
+            postList.add(new PostWithPicture(post));
         }
-        return postAddnames;
+        return postList;
     }
 
     //해당 모델의 게시글을 리턴
     @GetMapping("post/model/{model}")
-    public List<post_addname> getPostByModel(@PathVariable String model) {
-        List<post_addname> postAddnames = new ArrayList<>();
+    public List<PostWithPicture> getPostByModel(@PathVariable String model) {
+        List<PostWithPicture> postList = new ArrayList<>();
         for (Post post : postService.getModelPosts(model)){
-            postAddnames.add(new post_addname(post));
+            postList.add(new PostWithPicture(post));
         }
-        return postAddnames;
+        return postList;
     }
 
     @GetMapping("post/name/{type}/{name}")  //type에는 무조건 asc OR desc로, asc:오름차순, desc:내림차순
-    public List<post_addname> getPostByName(@PathVariable String type, @PathVariable String name) {
-        List<post_addname> postAddnames = new ArrayList<>();
+    public List<PostWithPicture> getPostByName(@PathVariable String type, @PathVariable String name) {
+        List<PostWithPicture> postList = new ArrayList<>();
         for (Post post : postService.getNamePosts(type, name)){
-            postAddnames.add(new post_addname(post));
+            postList.add(new PostWithPicture(post));
         }
-        return postAddnames;
-    }
-
-
-    @Getter
-    @Setter
-    class post_addname{
-        private Integer post_num;
-        private Integer user_num;
-        private String model_name;
-        private String grade;
-        private String status;
-        private Integer price;
-        private String post_title;
-        private String post_content;
-        private LocalDateTime written_date;
-        private String user_name;
-
-        public post_addname(Post post) {
-            this.post_num = post.getPost_num();
-            this.user_num = post.getUser_num();
-            this.model_name = post.getModel_name();
-            this.grade = post.getGrade();
-            this.status = post.getStatus();
-            this.price = post.getPrice();
-            this.post_title = post.getPost_title();
-            this.post_content = post.getPost_content();
-            this.written_date = post.getWritten_date();
-            this.user_name = postService.getPost_Host_info(post.getPost_num());
-        }
+        return postList;
     }
 }

@@ -35,4 +35,16 @@ public class PostWithPicture extends Post {
             this.pictureURL.add(pl);
         }
     }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public String getCategory_name() {
+        return category_name;
+    }
+
+    public List<String> getPictureURL() {
+        return pictureURL;
+    }
 }

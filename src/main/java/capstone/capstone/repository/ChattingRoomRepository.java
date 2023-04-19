@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ChattingRoomRepository extends JpaRepository<ChattingRoom, Integer> {
 
-    @Query(value="select * from ChattingRoom where ChattingRoom.guest_member = :guest_num order by ChattingRoom.cht_room_num", nativeQuery = true)
+    @Query(value="select * from ChattingRoom where ChattingRoom.guest_member = :guest_num OR ChattingRoom.host_member = :guest_num order by ChattingRoom.cht_room_num", nativeQuery = true)
     List<ChattingRoom> findAllId(@Param("guest_num") int guest_num);
 
     @Query(value="select * from ChattingRoom chr where chr.guest_member = :guest_num AND chr.post_num = :post_num", nativeQuery = true)

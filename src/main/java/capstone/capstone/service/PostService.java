@@ -42,9 +42,22 @@ public class PostService {
         return null;
     }
 
-    public List<Post> getAllPosts() throws IOException {
-        // return postRepository.findAllWaitingApprovalPosts();
-        return postRepository.findAllPosts();
+    public List<PostWithPicture> getAllPosts() throws IOException {
+        List<PostWithPicture> allPosts = null;
+
+        List<Post> list = postRepository.findAllPosts();
+        for(Post post : list) {
+            PostWithPicture postWithPicture = new PostWithPicture(postRepository.findById(post.getPost_num())
+                    .orElseThrow(() -> new ResourceNotFoundException("Not exist Post Data by no : ["+post.getPost_num()+"]")));
+
+            postWithPicture.setNickname(userMemberRepository.getNicknameByUserNum(postWithPicture.getUser_num()));
+            postWithPicture.setCategory_name(modelService.getCategoryName(postWithPicture.getModel_name()));
+            postWithPicture.setPictureURL(pictureRepository.getPictureLocationByPostNo(post.getPost_num()));
+
+            allPosts.add(postWithPicture);
+        }
+
+        return allPosts;
     }
 
     public void approvePost(Integer num, String model_name) {

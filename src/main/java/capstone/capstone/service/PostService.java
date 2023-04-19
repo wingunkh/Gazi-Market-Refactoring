@@ -48,8 +48,7 @@ public class PostService {
 
         List<Post> list = postRepository.findAllPosts();
         for(Post post : list) {
-            PostWithPicture postWithPicture = new PostWithPicture(postRepository.findById(post.getPost_num())
-                    .orElseThrow(() -> new ResourceNotFoundException("Not exist Post Data by no : ["+post.getPost_num()+"]")));
+            PostWithPicture postWithPicture = new PostWithPicture(post);
 
             postWithPicture.setNickname(userMemberRepository.getNicknameByUserNum(post.getUser_num()));
             postWithPicture.setCategory_name(modelService.getCategoryName(post.getModel_name()));

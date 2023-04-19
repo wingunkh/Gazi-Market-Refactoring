@@ -28,13 +28,7 @@ public class PostController {
     //글 목록의 데이터를 리턴
     @GetMapping("/post") // GET 방식: 정보를 단순히 조회하기 위해 사용하는 방식
     public List<PostWithPicture> getAllPosts() throws IOException {
-        String path = new File("").getAbsolutePath() + "/" + "images/";
-        System.out.println(path);
-        List<PostWithPicture> postList = new ArrayList<>();
-        for (Post post : postService.getAllPosts()){
-            postList.add(new PostWithPicture(post));
-        }
-        return postList;
+        return postService.getAllPosts();
     }
 
     //승인 대기글 목록의 데이터를 리턴

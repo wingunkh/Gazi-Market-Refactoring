@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,7 +44,7 @@ public class PostService {
     }
 
     public List<PostWithPicture> getAllPosts() throws IOException {
-        List<PostWithPicture> allPosts = null;
+        List<PostWithPicture> allPosts = new ArrayList<PostWithPicture>();
 
         List<Post> list = postRepository.findAllPosts();
         for(Post post : list) {

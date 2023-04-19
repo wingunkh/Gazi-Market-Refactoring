@@ -11,7 +11,7 @@ import java.util.List;
 //Spring Data JPA 사용
 public interface PostRepository extends JpaRepository<Post, Integer> {
     // 승인 대기 상태가 아니며 신고로 인해 숨김 처리 되지 않은 즉, 모델명이 기타가 아니면서 판매 상태가 숨김이 아닌 포스트 목록 반환
-    @Query(value="select * from Post p where p.model_name != '기타' AND p.status != '숨김'", nativeQuery = true)
+    @Query(value="select * from Post p where p.model_name != '기타' AND p.status != '숨김' order by Post.written_date desc", nativeQuery = true)
     List<Post> findAllPosts();
 
     // 승인 대기 상태인 즉, 모델명이 기타인 포스트 목록 반환

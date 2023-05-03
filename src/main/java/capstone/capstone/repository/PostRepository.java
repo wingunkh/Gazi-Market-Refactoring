@@ -14,6 +14,12 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query(value="select * from Post p where p.model_name != '기타' AND p.status != '숨김' order by p.written_date desc", nativeQuery = true)
     List<Post> findAllPosts();
 
+    // 게시글 삭제
+    @Modifying
+    @Transactional
+    @Query(value="delete * from Post p where p.post_num = :post_num", nativeQuery = true)
+    void deletePost(@Param("post_num") int post_num);
+
     // 승인 대기 상태인 즉, 모델명이 기타인 포스트 목록 반환
     @Query(value="select * from Post p where p.model_name = '기타'", nativeQuery = true)
     List<Post> findAllWaitingApprovalPosts();

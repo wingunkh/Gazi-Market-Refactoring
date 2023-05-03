@@ -94,6 +94,12 @@ public class PostController {
         return postService.getPost(no);
     }
 
+    //특정 게시글 삭제
+    @GetMapping("/post/{no}/delete")
+    public void deletePostByNo(@PathVariable Integer num){
+        postService.deletePost(num);
+    }
+
     //특정 승인 대기 게시글과 게시글의 사진 리턴
     @GetMapping("/approval/{no}")
     public PostWithPicture getWaitingApprovalPostByNo(@PathVariable Integer no) throws IOException {

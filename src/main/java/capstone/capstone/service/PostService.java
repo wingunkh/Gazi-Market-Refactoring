@@ -60,6 +60,10 @@ public class PostService {
         return allPosts;
     }
 
+    public void deletePost(Integer num) {
+        postRepository.deletePost(num);
+    }
+
     public void approvePost(Integer num, String model_name) {
         postRepository.approvePost(num, model_name);
     }

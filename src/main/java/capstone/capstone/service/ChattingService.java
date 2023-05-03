@@ -6,6 +6,7 @@ import capstone.capstone.repository.ChattingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 @Service
 public class ChattingService {
@@ -24,8 +25,15 @@ public class ChattingService {
         return  chattingRepository.findlastmsg(cht_room_num);
     }
 
+    public LocalDateTime getLasttime(int cht_room_num){
+        return  chattingRepository.findlasttime(cht_room_num);
+    }
+
     public Chatting createChatting(Chatting chatting) {
         return chattingRepository.save(chatting);
     }
+
+
+
 
 }

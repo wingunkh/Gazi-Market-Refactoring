@@ -76,13 +76,17 @@ public class ChattingController {
         String post_name;
         String last_cht_msg;
 
+        LocalDateTime last_cht_time;
+
         public ChattingRoomList(ChattingRoom chattingRoom) {
             this.cht_room_no = chattingRoom.getCht_room_num();
             this.post_num = chattingRoom.getPost_num();
             this.post_name = postService.getPost_Name(post_num);
             this.host_info = postService.getPost_Host_info(post_num);
             this.last_cht_msg = chattingService.getLastmsg(cht_room_no);
+            this.last_cht_time = chattingService.getLasttime(cht_room_no);
         }
+
     }
 
     @Getter

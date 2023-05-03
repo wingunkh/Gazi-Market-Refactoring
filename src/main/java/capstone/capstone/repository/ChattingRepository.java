@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ChattingRepository extends JpaRepository<Chatting, Integer> {
@@ -13,4 +14,7 @@ public interface ChattingRepository extends JpaRepository<Chatting, Integer> {
 
     @Query(value="select * from (select ch.cht_text from chatting ch where ch.cht_room_num = :cht_room_num order by ch.cht_time desc) where rownum <= 1", nativeQuery = true)
     String findlastmsg(@Param("cht_room_num") int cht_room_num);
+
+    @Query(value="select * from (select ch.cht_time from chatting ch where ch.cht_room_num = :cht_room_num order by ch.cht_time desc) where rownum <= 1", nativeQuery = true)
+    LocalDateTime findlasttime(@Param("cht_room_num") int cht_room_num);
 }

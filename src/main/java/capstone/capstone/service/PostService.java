@@ -30,19 +30,6 @@ public class PostService {
     @Autowired
     private FileHandler fileHandler;
 
-    public Post createPost(Post post, List<MultipartFile> files) throws Exception {
-        postRepository.save(post);
-
-        // Amazon S3에 전달받은 사진을 업로드하고 해당 사진의 정보가 담긴 Picture 리스트를 반환받아 변수 list에 저장
-        List<Picture> list = fileHandler.saveToS3(post.getPost_num(), files);
-
-        for(Picture picture : list) {
-            pictureRepository.save(picture);
-        }
-
-        return null;
-    }
-
     public List<PostWithPicture> getAllPosts() throws IOException {
         List<PostWithPicture> allPosts = new ArrayList<PostWithPicture>();
 
@@ -60,7 +47,37 @@ public class PostService {
         return allPosts;
     }
 
+    public void createPost(Post post, List<MultipartFile> files) throws Exception {
+        postRepository.save(post);
+
+        // Amazon S3에 전달받은 사진을 업로드하고 해당 사진의 정보가 담긴 Picture 리스트를 반환받아 변수 list에 저장
+        List<Picture> list = fileHandler.saveToS3(post.getPost_num(), files);
+        for(Picture picture : list) {
+            pictureRepository.save(picture);
+        }
+    }
+
+    public void modifyPost(Post post, List<MultipartFile> files) throws Exception {
+        // Amazon S3에 저장된 기존 사진을 삭제하고 새로운 사진을 업로드
+        List<String> list1 = pictureRepository.getPictureLocationByPostNo(post.getPost_num());
+        for(String picture_location : list1) {
+            fileHandler.deleteFromS3(picture_location);
+        }
+
+        List<Picture> list2 = fileHandler.saveToS3(post.getPost_num(), files);
+        for(Picture picture : list2) {
+            pictureRepository.save(picture);
+        }
+
+        postRepository.modifyPost(post.getPost_num(), post.getModel_name(), post.getGrade(), post.getStatus(), post.getPrice(), post.getPost_title(), post.getPost_content());
+    }
+
     public void deletePost(Integer num) {
+        List<String> list = pictureRepository.getPictureLocationByPostNo(num);
+        for(String picture_location : list) {
+            fileHandler.deleteFromS3(picture_location);
+        }
+
         postRepository.deletePost(num);
     }
 

@@ -1,16 +1,11 @@
 package capstone.capstone.controller;
 
-import capstone.capstone.domain.ChattingRoom;
 import capstone.capstone.domain.PostWithPicture;
 import capstone.capstone.domain.Post;
 import capstone.capstone.service.PostService;;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -43,18 +38,18 @@ public class PostController {
 
     //글을 저장
     @PostMapping("/post") // POST 방식: 특정 데이터를 서버로 제출하여 해당 데이터를 추가, 수정 또는 삭제하기 위해 데이터를 전송하는 방식
-    public Post createPost(
+    public void createPost(
             @RequestPart(value = "post", required = false) // multipart/form-data에 특화되어 여러 복잡한 값을 처리할 때 사용할 수 있는 어노테이션이다.
             Post post,
             @RequestPart(value = "files") // 쿼리 파라미터, 폼 데이터, Multipart 등 많은 요청 파라미터를 처리할 수 있는 어노테이션이다.
             List<MultipartFile> files
     ) throws Exception {
         post.setWritten_date(LocalDateTime.now());
-        return postService.createPost(post, files);
+        postService.createPost(post, files);
     }
 
     @PostMapping("/post/native")
-    public Post createPost(
+    public void createPost(
             @RequestPart(value = "model_name")
             String model_name,
             @RequestPart(value = "user_no")
@@ -85,7 +80,7 @@ public class PostController {
         System.out.println(post);
         System.out.println("--------------------");
         System.out.println(files);
-        return postService.createPost(post, files);
+        postService.createPost(post, files);
     }
 
     //특정 게시글과 게시글의 사진 리턴
@@ -94,9 +89,21 @@ public class PostController {
         return postService.getPost(no);
     }
 
+    //특정 게시글 수정
+    @PostMapping("/post/{no}/modify")
+    public void modifyPost(
+            @RequestPart(value = "post", required = false) // multipart/form-data에 특화되어 여러 복잡한 값을 처리할 때 사용할 수 있는 어노테이션이다.
+            Post post,
+            @RequestPart(value = "files") // 쿼리 파라미터, 폼 데이터, Multipart 등 많은 요청 파라미터를 처리할 수 있는 어노테이션이다.
+            List<MultipartFile> files
+    ) throws Exception {
+        post.setWritten_date(LocalDateTime.now());
+        postService.modifyPost(post, files);
+    }
+
     //특정 게시글 삭제
-    @GetMapping("/post/{no}/delete")
-    public void deletePostByNo(@PathVariable Integer num){
+    @GetMapping("/post/{num}/delete")
+    public void deletePost(@PathVariable Integer num){
         postService.deletePost(num);
     }
 

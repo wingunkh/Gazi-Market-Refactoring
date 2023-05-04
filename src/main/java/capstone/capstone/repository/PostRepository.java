@@ -18,14 +18,14 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Modifying
     @Transactional
     @Query(value="update Post p set p.model_name = :model_name, p.grade = :grade, p.status = :status, p.price = :price, " +
-            "p.title = :title, p.content = :content " + "where p.post_num = :post_num")
+            "p.post_title = :post_title, p.post_content = :post_content " + "where p.post_num = :post_num")
     void modifyPost(@Param("post_num") Integer post_num,
                     @Param("model_name") String model_name,
                     @Param("grade") String grade,
                     @Param("status") String status,
                     @Param("price") Integer price,
-                    @Param("title") String title,
-                    @Param("content") String content);
+                    @Param("post_title") String post_title,
+                    @Param("post_content") String post_content);
 
     // 게시글 삭제
     @Modifying

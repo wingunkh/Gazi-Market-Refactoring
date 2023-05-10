@@ -2,6 +2,7 @@ package capstone.capstone.controller;
 
 import capstone.capstone.domain.PostWithPicture;
 import capstone.capstone.domain.Post;
+import capstone.capstone.service.ListService;
 import capstone.capstone.service.PostService;;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,9 @@ import java.util.List;
 public class PostController {
     @Autowired // 객체 생성 시점에 스프링 컨테이너에서 해당 스프링 빈을 찾아서 주입
     private PostService postService;
+
+    @Autowired
+    private ListService listService;
 
     //글 목록의 데이터를 리턴
     @GetMapping("/post") // GET 방식: 정보를 단순히 조회하기 위해 사용하는 방식
@@ -85,8 +89,9 @@ public class PostController {
     }
 
     //특정 게시글과 게시글의 사진 리턴
-    @GetMapping("/post/{no}")
-    public PostWithPicture getPostByNo(@PathVariable Integer no) throws IOException {
+    @GetMapping("/post/{user_num}/{no}")
+    public PostWithPicture getPostByNo(@PathVariable Integer user_num, @PathVariable Integer no) throws IOException {
+        listService.addvisit(user_num, no);
         return postService.getPost(no);
     }
 

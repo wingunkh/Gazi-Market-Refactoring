@@ -51,6 +51,7 @@ public class ListService {
         visit.setPost_num(post_num);
 
         visitListRepository.save(visit);
+        System.out.println(visit.getUser_num() + "가 " + visit.getPost_num() + "방문");
     }
 
     public void deletevisit(int user_num, int post_num){
@@ -81,7 +82,7 @@ public class ListService {
             PostWithPicture postWithPicture = postService.getPost(n);
             postWithPictureslist.add(postWithPicture);
         }
-
+        System.out.println("방문 내역 반환");
         return postWithPictureslist;
     }
 }

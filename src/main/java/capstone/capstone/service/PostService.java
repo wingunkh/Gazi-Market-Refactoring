@@ -57,19 +57,8 @@ public class PostService {
         }
     }
 
-    public void modifyPost(Post post, List<MultipartFile> files) throws Exception {
-        // Amazon S3에 저장된 기존 사진을 삭제하고 새로운 사진을 업로드
-        List<String> list1 = pictureRepository.getPictureLocationByPostNo(post.getPost_num());
-        for(String picture_location : list1) {
-            fileHandler.deleteFromS3(picture_location);
-        }
-
-        List<Picture> list2 = fileHandler.saveToS3(post.getPost_num(), files);
-        for(Picture picture : list2) {
-            pictureRepository.save(picture);
-        }
-
-        postRepository.modifyPost(post.getPost_num(), post.getModel_name(), post.getGrade(), post.getStatus(), post.getPrice(), post.getPost_title(), post.getPost_content());
+    public void updatePost(Post post) throws Exception {
+        postRepository.updatePost(post.getPost_num(), post.getModel_name(), post.getGrade(), post.getStatus(), post.getPrice(), post.getPost_title(), post.getPost_content());
     }
 
     public void deletePost(Integer num) {

@@ -75,7 +75,7 @@ public class ListService {
     }
 
     public List<PostWithPicture> visitlist(int user_num) throws IOException {
-        List<Integer> postlist = likelistRepository.findbyuser(user_num);
+        List<Integer> postlist = visitListRepository.findbyuser(user_num);
         List<PostWithPicture> postWithPictureslist = new ArrayList<PostWithPicture>();
 
         for (int n : postlist){

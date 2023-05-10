@@ -36,7 +36,7 @@ public class PostController {
         return postList;
     }
 
-    //글을 저장
+    //글을 저장 (리액트)
     @PostMapping("/post") // POST 방식: 특정 데이터를 서버로 제출하여 해당 데이터를 추가, 수정 또는 삭제하기 위해 데이터를 전송하는 방식
     public void createPost(
             @RequestPart(value = "post", required = false) // multipart/form-data에 특화되어 여러 복잡한 값을 처리할 때 사용할 수 있는 어노테이션이다.
@@ -48,6 +48,7 @@ public class PostController {
         postService.createPost(post, files);
     }
 
+    //글을 저장 (리액트 네이티브)
     @PostMapping("/post/native")
     public void createPost(
             @RequestPart(value = "model_name")
@@ -91,15 +92,11 @@ public class PostController {
 
     //특정 게시글 수정
     @PostMapping("/post/{no}/modify")
-    public void modifyPost(
-            @RequestPart(value = "post", required = false) // multipart/form-data에 특화되어 여러 복잡한 값을 처리할 때 사용할 수 있는 어노테이션이다.
-            Post post,
-            @RequestPart(value = "files") // 쿼리 파라미터, 폼 데이터, Multipart 등 많은 요청 파라미터를 처리할 수 있는 어노테이션이다.
-            List<MultipartFile> files
-    ) throws Exception {
+    public void modifyPost( @PathVariable Post post) throws Exception {
         post.setWritten_date(LocalDateTime.now());
-        postService.modifyPost(post, files);
+        postService.updatePost(post);
     }
+
 
     //특정 게시글 삭제
     @GetMapping("/post/{num}/delete")

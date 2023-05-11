@@ -127,16 +127,6 @@ public class PostController {
         postService.rejectPost(no);
     }
 
-    //최신 순으로 정렬된 게시글 목록 리턴
-    @GetMapping("/post/date")
-    public List<PostWithPicture> getDatePost() {
-        List<PostWithPicture> postList = new ArrayList<>();
-        for (Post post : postService.getDatePost()){
-            postList.add(new PostWithPicture(post));
-        }
-        return postList;
-    }
-
     //해당 카테고리 내의 게시글을 리턴
     @GetMapping("post/category/{category}")
     public List<PostWithPicture> getPostByCategory(@PathVariable String category){

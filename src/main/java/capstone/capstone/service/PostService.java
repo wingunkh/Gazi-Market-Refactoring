@@ -98,10 +98,6 @@ public class PostService {
         return postWithPicture;
     }
 
-    public List<Post> getDatePost() {
-        return postRepository.findDate();
-    }
-
     public List<Post> getCategoryPosts(String category){
         return postRepository.findCategory(category);
     }

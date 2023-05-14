@@ -71,6 +71,8 @@ public class ListService {
             PostWithPicture postWithPicture = postService.getPost(n);
             postWithPictureslist.add(postWithPicture);
         }
+
+        System.out.println("관심 내역 반환");
         return postWithPictureslist;
     }
 
@@ -82,6 +84,7 @@ public class ListService {
             PostWithPicture postWithPicture = postService.getPost(n);
             postWithPictureslist.add(postWithPicture);
         }
+
         System.out.println("방문 내역 반환");
         return postWithPictureslist;
     }

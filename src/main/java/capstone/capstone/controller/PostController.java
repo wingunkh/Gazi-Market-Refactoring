@@ -35,7 +35,7 @@ public class PostController {
     public List<PostWithPicture> getAllWaitingApprovalPosts() throws IOException {
         List<PostWithPicture> postList = new ArrayList<>();
         for (Post post : postService.getAllWaitingApprovalPosts()){
-            postList.add(new PostWithPicture(post));
+            postList.add(postService.PosttoWithpicture(post));
         }
         return postList;
     }
@@ -132,7 +132,7 @@ public class PostController {
     public List<PostWithPicture> getPostByCategory(@PathVariable String category){
         List<PostWithPicture> postList = new ArrayList<>();
         for (Post post : postService.getCategoryPosts(category)){
-            postList.add(new PostWithPicture(post));
+            postList.add(postService.PosttoWithpicture(post));
         }
         return postList;
     }
@@ -142,7 +142,7 @@ public class PostController {
     public List<PostWithPicture> getPostByModel(@PathVariable String model) {
         List<PostWithPicture> postList = new ArrayList<>();
         for (Post post : postService.getModelPosts(model)){
-            postList.add(new PostWithPicture(post));
+            postList.add(postService.PosttoWithpicture(post));
         }
         return postList;
     }
@@ -151,7 +151,7 @@ public class PostController {
     public List<PostWithPicture> getPostByName(@PathVariable String type, @PathVariable String name) {
         List<PostWithPicture> postList = new ArrayList<>();
         for (Post post : postService.getNamePosts(type, name)){
-            postList.add(new PostWithPicture(post));
+            postList.add(postService.PosttoWithpicture(post));
         }
         return postList;
     }

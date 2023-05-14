@@ -47,6 +47,16 @@ public class PostService {
         return allPosts;
     }
 
+    public PostWithPicture PosttoWithpicture(Post post){
+        PostWithPicture postWithPicture = new PostWithPicture(post);
+
+        postWithPicture.setNickname(userMemberRepository.getNicknameByUserNum(post.getUser_num()));
+        postWithPicture.setCategory_name(modelService.getCategoryName(post.getModel_name()));
+        postWithPicture.setPictureURL(pictureRepository.getPictureLocationByPostNo(post.getPost_num()));
+
+        return postWithPicture;
+    }
+
     public void createPost(Post post, List<MultipartFile> files) throws Exception {
         postRepository.save(post);
 

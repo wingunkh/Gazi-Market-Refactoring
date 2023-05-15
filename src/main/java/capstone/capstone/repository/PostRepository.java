@@ -69,7 +69,10 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     String findHostInfo(@Param("post_num") int post_num);
 
     // 해당 문자열이 들어가는 게시글 목록 반환
-    @Query(value="select * from Post p where p.post_title like %:name% and p.status != '숨김' order by p.written_date :type", nativeQuery = true)
-    List<Post> findIncludeName(@Param("type") String type, @Param("name") String name);
+    @Query(value="select * from Post p where p.post_title like :name and p.status != '숨김' order by p.written_date desc", nativeQuery = true)
+    List<Post> findIncludeNamed(@Param("name") String name);
+
+    @Query(value="select * from Post p where p.post_title like :name and p.status != '숨김' order by p.written_date", nativeQuery = true)
+    List<Post> findIncludeNamea(@Param("name") String name);
 
 }

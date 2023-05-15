@@ -117,7 +117,12 @@ public class PostService {
     }
 
     public List<Post> getNamePosts(String type, String name) {
-        return postRepository.findIncludeName(type, name);
+        String text = "%" + name + "%";
+        if(type.equals("desc"))
+            return postRepository.findIncludeNamed(text);
+        else{
+            return postRepository.findIncludeNamea(text);
+        }
     }
 
     public String getPost_Name(int post_num) { return postRepository.findName(post_num); }

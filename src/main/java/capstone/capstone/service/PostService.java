@@ -35,19 +35,14 @@ public class PostService {
 
         List<Post> list = postRepository.findAllPosts();
         for(Post post : list) {
-            PostWithPicture postWithPicture = new PostWithPicture(post);
-
-            postWithPicture.setNickname(userMemberRepository.getNicknameByUserNum(post.getUser_num()));
-            postWithPicture.setCategory_name(modelService.getCategoryName(post.getModel_name()));
-            postWithPicture.setPictureURL(pictureRepository.getPictureLocationByPostNo(post.getPost_num()));
-
+            PostWithPicture postWithPicture = PostToPostWithPicture(post);
             allPosts.add(postWithPicture);
         }
 
         return allPosts;
     }
 
-    public PostWithPicture PosttoWithpicture(Post post){
+    public PostWithPicture PostToPostWithPicture(Post post){
         PostWithPicture postWithPicture = new PostWithPicture(post);
 
         postWithPicture.setNickname(userMemberRepository.getNicknameByUserNum(post.getUser_num()));

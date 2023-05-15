@@ -148,7 +148,7 @@ public class PostController {
     }
 
     @GetMapping("post/name/{type}/{name}")  //type에는 무조건 asc OR desc로, asc:오름차순, desc:내림차순
-    public List<PostWithPicture> getPostByName(@PathVariable String type, @PathVariable String name) {
+    public List<PostWithPicture> getPostByName(@PathVariable String type, @PathVariable String name) throws IOException {
         List<PostWithPicture> postList = new ArrayList<>();
         for (Post post : postService.getNamePosts(type, name)){
             postList.add(postService.PosttoWithpicture(post));

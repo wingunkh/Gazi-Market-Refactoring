@@ -80,7 +80,7 @@ public class PostController {
         post.setPrice(Integer.parseInt(price));
         post.setPost_title(post_title);
         post.setPost_content(post_content);
-        post.setWritten_date(LocalDateTime.now());
+        post.setWritten_date(LocalDateTime.now().plusHours(9));
 
         System.out.println(post);
         System.out.println("--------------------");
@@ -98,7 +98,7 @@ public class PostController {
     //특정 게시글 수정
     @PostMapping("/post/{no}/modify")
     public void updatePost( @PathVariable Post post) throws Exception {
-        post.setWritten_date(LocalDateTime.now());
+        post.setWritten_date(LocalDateTime.now().plusHours(9));
         postService.updatePost(post);
     }
 
@@ -146,6 +146,7 @@ public class PostController {
         return postList;
     }
 
+    //게시글 제목으로 검색(name이 포함되는 제목 검색해서 목록 반환)
     @GetMapping("post/name/{type}/{name}")  //type에는 무조건 asc OR desc로, asc:오름차순, desc:내림차순
     public List<PostWithPicture> getPostByName(@PathVariable String type, @PathVariable String name) throws IOException {
         List<PostWithPicture> postList = new ArrayList<>();

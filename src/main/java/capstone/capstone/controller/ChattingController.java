@@ -64,7 +64,7 @@ public class ChattingController {
 
     @PostMapping("/chatting")   //채팅
     public Chatting createChatting(@RequestBody Chatting chatting) {
-        chatting.setCht_time(LocalDateTime.now());
+        chatting.setCht_time(LocalDateTime.now().plusHours(9));
         return chattingService.createChatting(chatting);
     }
 

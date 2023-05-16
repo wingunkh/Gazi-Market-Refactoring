@@ -20,7 +20,7 @@ public class ReportService {
     private FileHandler fileHandler;
 
     public void createReportList(Integer post_num, Integer reporter_num) {
-        Report_list reportList = new Report_list(post_num, reporter_num, LocalDateTime.now(), "미처리");
+        Report_list reportList = new Report_list(post_num, reporter_num, LocalDateTime.now().plusHours(9), "미처리");
         reportRepository.save(reportList);
     }
 

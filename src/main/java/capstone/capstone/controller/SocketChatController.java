@@ -35,7 +35,7 @@ public class SocketChatController {
     @MessageMapping("/chat/sendMessage")
     public void sendMessage(@Payload Chatting chat) {   //@payload, 전송되는 데이터
         System.out.println(chat.getCht_text());
-        chat.setCht_time(LocalDateTime.now());
+        chat.setCht_time(LocalDateTime.now().plusHours(9));
         chat.setCht_text(chat.getCht_text());
         Chatting ch = chattingService.createChatting(chat);
         System.out.println(ch.getCht_num());

@@ -75,6 +75,6 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query(value="select * from Post p where p.post_title like :name and p.status != '숨김' order by p.written_date", nativeQuery = true)
     List<Post> findIncludeNamea(@Param("name") String name);
 
-    @Query(value = "select avg(p.price) FROM Post p where GROUP BY p.model, p.grade Having p.model=:model, p.grade = grade", nativeQuery = true)
+    @Query(value = "select avg(p.price) FROM Post p GROUP BY p.model_name, p.grade HAVING p.model_name = :model AND p.grade = :grade", nativeQuery = true)
     double findFairPrice(@Param("model") String model, @Param("grade") String grade);
 }

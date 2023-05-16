@@ -96,13 +96,13 @@ public class PostController {
     }
 
     //특정 게시글 수정
-    @PostMapping("/post/modify")
-    public void updatePost( @RequestBody Post post) throws Exception {
-        System.out.println("컨트롤러");
+    @PostMapping("/post/{num}/modify")
+    public void updatePost(@PathVariable Integer post_num, @RequestBody Post post) throws Exception {
+        System.out.println(post_num);
         System.out.println(post.getPost_title());
         post.setWritten_date(LocalDateTime.now().plusHours(9));
         System.out.println(post.getWritten_date());
-        postService.updatePost(post);
+        postService.updatePost(post_num, post);
     }
 
     //특정 게시글 삭제

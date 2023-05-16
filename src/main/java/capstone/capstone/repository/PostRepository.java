@@ -19,7 +19,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Transactional
     @Query(value="update Post p set p.model_name = :model_name, p.grade = :grade, p.status = :status, p.price = :price, " +
             "p.post_title = :post_title, p.post_content = :post_content " + "where p.post_num = :post_num", nativeQuery = true)
-    void updatePost(@Param("post_num") Integer post_num,
+    void updatePost(@Param("post_num") int post_num,
                     @Param("model_name") String model_name,
                     @Param("grade") String grade,
                     @Param("status") String status,

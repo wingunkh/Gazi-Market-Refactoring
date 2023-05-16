@@ -98,7 +98,9 @@ public class PostController {
     //특정 게시글 수정
     @PostMapping("/post/modify")
     public void updatePost( @RequestBody Post post) throws Exception {
+        System.out.println("컨트롤러");
         post.setWritten_date(LocalDateTime.now().plusHours(9));
+        System.out.println(post.getWritten_date());
         postService.updatePost(post);
     }
 

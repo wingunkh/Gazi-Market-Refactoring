@@ -71,7 +71,9 @@ public class PostService {
     }
 
     public void updatePost(Post post) throws Exception {
+        System.out.println("Before Repository");
         postRepository.updatePost(post.getPost_num(), post.getModel_name(), post.getGrade(), post.getStatus(), post.getPrice(), post.getPost_title(), post.getPost_content());
+        System.out.println("After Repository");
     }
 
     public void deletePost(Integer num) {

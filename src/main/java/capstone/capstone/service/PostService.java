@@ -48,6 +48,7 @@ public class PostService {
         postWithPicture.setNickname(userMemberRepository.getNicknameByUserNum(post.getUser_num()));
         postWithPicture.setCategory_name(modelService.getCategoryName(post.getModel_name()));
         postWithPicture.setPictureURL(pictureRepository.getPictureLocationByPostNo(post.getPost_num()));
+        postWithPicture.setFairPrice(postRepository.findFairPrice(post.getModel_name(), post.getGrade()));
 
         return postWithPicture;
     }
@@ -99,6 +100,7 @@ public class PostService {
         postWithPicture.setNickname(userMemberRepository.getNicknameByUserNum(postWithPicture.getUser_num()));
         postWithPicture.setCategory_name(modelService.getCategoryName(postWithPicture.getModel_name()));
         postWithPicture.setPictureURL(pictureRepository.getPictureLocationByPostNo(num));
+        postWithPicture.setFairPrice(postRepository.findFairPrice(postWithPicture.getModel_name(), postWithPicture.getGrade()));
 
         return postWithPicture;
     }

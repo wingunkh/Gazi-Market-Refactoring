@@ -8,6 +8,8 @@ public class PostWithPicture extends Post {
     String category_name;
     List<String> pictureURL;
 
+    double fairPrice;
+
     public PostWithPicture(Post post) {
         this.post_num = post.getPost_num();
         this.model_name = post.getModel_name();
@@ -35,6 +37,16 @@ public class PostWithPicture extends Post {
             this.pictureURL.add(pl);
         }
     }
+
+    public void setFairPrice(double fairPrice) {
+        this.fairPrice = fairPrice;
+    }
+
+
+    public double getFairPrice() {
+        return fairPrice;
+    }
+
 
     public String getNickname() {
         return nickname;

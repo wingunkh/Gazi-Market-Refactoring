@@ -96,7 +96,7 @@ public class PostController {
     }
 
     //특정 게시글 수정
-    @PostMapping("/post/{num}/modify")
+    @PostMapping("/post/{post_num}/modify")
     public void updatePost(@PathVariable Integer post_num, @RequestBody Post post) throws Exception {
         System.out.println(post_num);
         System.out.println(post.getPost_title());

@@ -13,7 +13,7 @@ import javax.persistence.*;
 @DynamicUpdate  //UPDATE 시 NULL인 부분을 제외하기 위해 사용, 동적 업데이트
 @Getter
 @Setter
-public class User_member {
+public class User_Member {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY, generator = "user_SEQUENCE_GENERATOR")
     @SequenceGenerator(name="user_SEQUENCE_GENERATOR", sequenceName = "user_SQ", initialValue = 1, allocationSize = 1)

@@ -48,7 +48,7 @@ public class PostController {
             @RequestPart(value = "files") // 쿼리 파라미터, 폼 데이터, Multipart 등 많은 요청 파라미터를 처리할 수 있는 어노테이션이다.
             List<MultipartFile> files
     ) throws Exception {
-        post.setWritten_date(LocalDateTime.now());
+        post.setWritten_date(LocalDateTime.now().plusHours(9));
         postService.createPost(post, files);
     }
 

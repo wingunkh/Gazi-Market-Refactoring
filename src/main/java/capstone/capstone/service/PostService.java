@@ -18,6 +18,7 @@ import java.util.List;
 public class PostService {
     @Autowired
     private ModelService modelService;
+
     @Autowired
     private PostRepository postRepository;
 
@@ -56,9 +57,15 @@ public class PostService {
     public void createPost(Post post, List<MultipartFile> files) throws Exception {
         postRepository.save(post);
 
-        // Amazon S3에 전달받은 사진을 업로드하고 해당 사진의 정보가 담긴 Picture 리스트를 반환받아 변수 list에 저장
-        List<Picture> list = fileHandler.saveToS3(post.getPost_num(), files);
-        for(Picture picture : list) {
+        // Amazon S3에 전달받은 사진들을 업로드하고 해당 사진들의 Url이 담긴 Url 리스트를 반환받아 변수 list에 저장
+        List<String> list = fileHandler.saveToS3(post.getPost_num(), files, "/images" );
+
+        for(String imageUrl : list) {
+            // Picture 객체 생성 후 Picture 리스트에 추가
+            Picture picture = Picture.builder()
+                    .post_num(post.getPost_num())
+                    .picture_location(imageUrl).build();
+
             pictureRepository.save(picture);
         }
     }

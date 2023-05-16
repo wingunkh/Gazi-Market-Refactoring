@@ -22,16 +22,17 @@ public class FileHandler {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
     private final AmazonS3Client amazonS3Client;
-    public List<Picture> saveToS3(
+    public List<String> saveToS3(
             Integer post_num,
-            List<MultipartFile> multipartFiles
+            List<MultipartFile> multipartFiles,
+            String key
     ) throws Exception {
-        // 반환할 Picture 리스트
-        List<Picture> PictureList = new ArrayList<>();
+        // 반환할 imageUrl 리스트
+        List<String> imageUrl = new ArrayList<String>();
 
-        // 빈 파일이 들어오면 빈 Picture 리스트 반환
+        // 빈 파일이 들어오면 빈 imageUrl 리스트 반환
         if (multipartFiles.isEmpty()) {
-            return PictureList;
+            return imageUrl;
         }
 
         // 업로드한 날짜를 파일명으로 지정
@@ -82,7 +83,7 @@ public class FileHandler {
                     multipartFile.transferTo(file);
                     // Amazon S3 Bucket에 전달받은 파일 업로드
 
-                    amazonS3Client.putObject(new PutObjectRequest(bucket, "images/" + current_date + new_file_name, file)
+                    amazonS3Client.putObject(new PutObjectRequest(bucket, key + current_date + new_file_name, file)
                             .withCannedAcl(CannedAccessControlList.PublicRead));
                 } catch (Exception e) {
                     throw new RuntimeException();
@@ -92,16 +93,12 @@ public class FileHandler {
                         file.delete();
                     }
                 }
-                // Picture 객체 생성 후 Picture 리스트에 추가
-                Picture picture = Picture.builder()
-                        .post_num(post_num)
-                        .picture_location(amazonS3Client.getUrl(bucket, "images/"+ current_date + new_file_name).toString())
-                        .build();
-                PictureList.add(picture);
+
+                imageUrl.add(amazonS3Client.getUrl(bucket, "images/"+ current_date + new_file_name).toString());
             }
         }
-        // Picture 리스트 반환
-        return PictureList;
+        // imageUrl 반환
+        return imageUrl;
     }
 
     public void deleteFromS3(String picture_location) {

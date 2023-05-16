@@ -23,7 +23,6 @@ public class FileHandler {
     private String bucket;
     private final AmazonS3Client amazonS3Client;
     public List<String> saveToS3(
-            Integer post_num,
             List<MultipartFile> multipartFiles,
             String key
     ) throws Exception {

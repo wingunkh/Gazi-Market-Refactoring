@@ -18,8 +18,7 @@ public class UserMemberController {
 
     @GetMapping("/user/{user_num}")
     public String showProfileImage(@PathVariable Integer user_num) {
-        userMemberService.showProfileImage(user_num);
-        return null;
+        return userMemberService.showProfileImage(user_num);
     }
 
     @PostMapping("/user/update")

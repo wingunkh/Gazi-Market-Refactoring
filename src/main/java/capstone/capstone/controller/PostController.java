@@ -96,8 +96,8 @@ public class PostController {
     }
 
     //특정 게시글 수정
-    @PostMapping("/post/{no}/modify")
-    public void updatePost( @PathVariable Post post) throws Exception {
+    @PostMapping("/post/modify")
+    public void updatePost( @RequestBody Post post) throws Exception {
         post.setWritten_date(LocalDateTime.now().plusHours(9));
         postService.updatePost(post);
     }

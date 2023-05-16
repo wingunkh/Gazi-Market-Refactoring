@@ -82,7 +82,6 @@ public class FileHandler {
                 try {
                     multipartFile.transferTo(file);
                     // Amazon S3 Bucket에 전달받은 파일 업로드
-
                     amazonS3Client.putObject(new PutObjectRequest(bucket, key + current_date + new_file_name, file)
                             .withCannedAcl(CannedAccessControlList.PublicRead));
                 } catch (Exception e) {
@@ -94,7 +93,7 @@ public class FileHandler {
                     }
                 }
 
-                imageUrl.add(amazonS3Client.getUrl(bucket, "images/"+ current_date + new_file_name).toString());
+                imageUrl.add(amazonS3Client.getUrl(bucket, key + current_date + new_file_name).toString());
             }
         }
         // imageUrl 반환

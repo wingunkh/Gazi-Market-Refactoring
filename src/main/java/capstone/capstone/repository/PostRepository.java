@@ -17,7 +17,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     // UPDATE : 게시물 수정
     @Modifying // 이 쿼리문이 데이터를 변경한다는 것을 알려주기 위해 추가
     @Transactional
-    @Query(value="update Post p set p.model_name = :model_name, p.grade = :grade, p.status = :status, p.price = :pr스ice, " +
+    @Query(value="update Post p set p.model_name = :model_name, p.grade = :grade, p.status = :status, p.price = :price, " +
             "p.post_title = :post_title, p.post_content = :post_content " + "where p.post_num = :post_num", nativeQuery = true)
     void updatePost(@Param("post_num") Integer post_num,
                     @Param("model_name") String model_name,

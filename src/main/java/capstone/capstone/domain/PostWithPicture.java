@@ -7,8 +7,7 @@ public class PostWithPicture extends Post {
     String nickname;
     String category_name;
     List<String> pictureURL;
-
-    double fairPrice;
+    Double fairPrice;
 
     public PostWithPicture(Post post) {
         this.post_num = post.getPost_num();
@@ -20,6 +19,7 @@ public class PostWithPicture extends Post {
         this.post_title = post.getPost_title();
         this.post_content = post.getPost_content();
         this.written_date = post.getWritten_date();
+        this.isCaptured = post.getIsCaptured();
     }
 
     public void setNickname(String nickname) {
@@ -38,15 +38,9 @@ public class PostWithPicture extends Post {
         }
     }
 
-    public void setFairPrice(double fairPrice) {
+    public void setFairPrice(Double fairPrice) {
         this.fairPrice = fairPrice;
     }
-
-
-    public double getFairPrice() {
-        return fairPrice;
-    }
-
 
     public String getNickname() {
         return nickname;
@@ -59,4 +53,6 @@ public class PostWithPicture extends Post {
     public List<String> getPictureURL() {
         return pictureURL;
     }
+
+    public Double getFairPrice() { return fairPrice; }
 }

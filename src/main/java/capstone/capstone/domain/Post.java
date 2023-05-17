@@ -42,4 +42,7 @@ public class Post {
 
     @Column(name = "written_date")
     protected LocalDateTime written_date;
+
+    @Column(name = "isCaptured")
+    protected Boolean isCaptured;
 }

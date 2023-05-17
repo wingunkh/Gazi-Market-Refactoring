@@ -10,6 +10,7 @@ import capstone.capstone.repository.UserMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,17 +32,8 @@ public class PostService {
     @Autowired
     private FileHandler fileHandler;
 
-    public List<PostWithPicture> getAllPosts() throws IOException {
-        List<PostWithPicture> allPosts = new ArrayList<PostWithPicture>();
-
-        List<Post> list = postRepository.findAllPosts();
-        for(Post post : list) {
-            PostWithPicture postWithPicture = PostToPostWithPicture(post);
-            allPosts.add(postWithPicture);
-        }
-
-        return allPosts;
-    }
+    @Autowired
+    private ImageSourceHandler imageSourceHandler;
 
     public PostWithPicture PostToPostWithPicture(Post post){
         PostWithPicture postWithPicture = new PostWithPicture(post);
@@ -54,7 +46,31 @@ public class PostService {
         return postWithPicture;
     }
 
+    public List<PostWithPicture> getAllPosts() throws IOException {
+        List<PostWithPicture> allPosts = new ArrayList<PostWithPicture>();
+
+        List<Post> list = postRepository.findAllPosts();
+        for(Post post : list) {
+            PostWithPicture postWithPicture = PostToPostWithPicture(post);
+            allPosts.add(postWithPicture);
+        }
+
+        return allPosts;
+    }
+
     public void createPost(Post post, List<MultipartFile> files) throws Exception {
+        // 해당 이미지가 직접 촬영한 이미지인지 도용한 이미지인지 확인
+        File convertedFile = imageSourceHandler.convertMultipartFileToFile(files.get(0));
+        String imageSource = imageSourceHandler.detectImageSource(convertedFile);
+
+        if(imageSource == "CAPTURED") {
+            System.out.println("CAPTURED");
+            post.setIsCaptured(true);
+        } else if(imageSource == "DOWNLOADED") {
+            System.out.println("DOWNLOADED");
+            post.setIsCaptured(false);
+        }
+
         postRepository.save(post);
 
         // Amazon S3에 전달받은 사진들을 업로드하고 해당 사진들의 Url이 담긴 Url 리스트를 반환받아 변수 list에 저장
@@ -71,9 +87,7 @@ public class PostService {
     }
 
     public void updatePost(Integer post_num, Post post) throws Exception {
-        System.out.println("Before Repository");
         postRepository.updatePost(post_num, post.getModel_name(), post.getGrade(), post.getStatus(), post.getPrice(), post.getPost_title(), post.getPost_content());
-        System.out.println("After Repository");
     }
 
     public void deletePost(Integer num) {
@@ -103,13 +117,8 @@ public class PostService {
     }
 
     public PostWithPicture getPost(Integer num) throws IOException {
-        PostWithPicture postWithPicture = new PostWithPicture(postRepository.findById(num)
+        PostWithPicture postWithPicture = PostToPostWithPicture(postRepository.findById(num)
                 .orElseThrow(() -> new ResourceNotFoundException("Not exist Post Data by no : ["+num+"]")));
-
-        postWithPicture.setNickname(userMemberRepository.getNicknameByUserNum(postWithPicture.getUser_num()));
-        postWithPicture.setCategory_name(modelService.getCategoryName(postWithPicture.getModel_name()));
-        postWithPicture.setPictureURL(pictureRepository.getPictureLocationByPostNo(num));
-        postWithPicture.setFairPrice(postRepository.findFairPrice(postWithPicture.getModel_name(), postWithPicture.getGrade()));
 
         return postWithPicture;
     }

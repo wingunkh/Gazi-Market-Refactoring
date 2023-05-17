@@ -1,6 +1,5 @@
 package capstone.capstone.service;
 
-import capstone.capstone.domain.Picture;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -22,6 +21,7 @@ public class FileHandler {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
     private final AmazonS3Client amazonS3Client;
+
     public List<String> saveToS3(
             List<MultipartFile> multipartFiles,
             String key

@@ -44,7 +44,7 @@ public class ChattingRoomService {
         return chattingRoomRepository.getGuestInfo(cht_room_num);
     }
 
-    public List<Chatting> getChattingRoom(Integer post_num, Integer guest_num) {
+    public int getChattingRoom(Integer post_num, Integer guest_num) {
         List<ChattingRoom> chattingRoom = chattingRoomRepository.findByOne(post_num, guest_num);
         ChattingRoom ch;
         if(chattingRoom.size() == 0){
@@ -57,8 +57,6 @@ public class ChattingRoomService {
             ch = chattingRoom.get(0);
         }
 
-        List<Chatting> chatting = chattingRepository.findAllDate(ch.getCht_room_num());
-
-        return chatting;
+        return ch.getCht_room_num();
     }
 }

@@ -55,6 +55,7 @@ public class ChattingController {
         ChattingList chattingList = new ChattingList(chattingService.getAllChattingDate(cht_room_no));
         chattingList.setPost_title(chattingRoomService.getChattingPostTitle(cht_room_no));
         chattingList.setinfo(chattingRoomService.getHostInfo(cht_room_no), chattingRoomService.getGuestInfo(cht_room_no));
+        chattingList.setCht_room_no(cht_room_no);
         return chattingList;
     }
 
@@ -63,6 +64,7 @@ public class ChattingController {
         ChattingList chattingList = new ChattingList(chattingService.getAllChattingDate(cht_room_no));
         chattingList.setPost_title(chattingRoomService.getChattingPostTitle(cht_room_no));
         chattingList.setinfo(chattingRoomService.getHostInfo(cht_room_no), chattingRoomService.getGuestInfo(cht_room_no));
+        chattingList.setCht_room_no(cht_room_no);
         return chattingList;
     }
 
@@ -95,6 +97,8 @@ public class ChattingController {
 
     @Getter
     class ChattingList {
+
+        int cht_room_no;
         List<Chatting_addname> chattingList;
         String post_title;
         int host_no;
@@ -107,6 +111,8 @@ public class ChattingController {
                 this.chattingList.add(new Chatting_addname(chat, userService.findName(chat.getCht_member())));
             }
         }
+
+        public void setCht_room_no(int cht_room_no) {this.cht_room_no = cht_room_no; }
 
         public void setPost_title(String post_title) {
             this.post_title = post_title;

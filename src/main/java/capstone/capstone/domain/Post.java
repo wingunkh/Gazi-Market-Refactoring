@@ -43,6 +43,6 @@ public class Post {
     @Column(name = "written_date")
     protected LocalDateTime written_date;
 
-    @Column(name = "isCaptured")
+    @Column(name = "iscaptured")
     protected Integer isCaptured;
 }

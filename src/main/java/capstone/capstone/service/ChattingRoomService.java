@@ -47,7 +47,7 @@ public class ChattingRoomService {
     public List<Chatting> getChattingRoom(Integer post_num, Integer guest_num) {
         List<ChattingRoom> chattingRoom = chattingRoomRepository.findByOne(post_num, guest_num);
         ChattingRoom ch;
-        if(chattingRoom == null){
+        if(chattingRoom.size() == 0){
             ch = new ChattingRoom();
             ch.setPost_num(post_num);
             ch.setGuest_member(guest_num);

@@ -84,6 +84,7 @@ public class ChattingController {
         String post_name;
         String last_cht_msg;
 
+        String pictureURL;
         LocalDateTime last_cht_time;
 
         public ChattingRoomList(ChattingRoom chattingRoom) {
@@ -93,6 +94,7 @@ public class ChattingController {
             this.host_info = postService.getPost_Host_info(post_num);
             this.last_cht_msg = chattingService.getLastmsg(cht_room_no);
             this.last_cht_time = chattingService.getLasttime(cht_room_no);
+            this.pictureURL = chattingRoomService.getChattingPostPicture(cht_room_no);
         }
 
     }

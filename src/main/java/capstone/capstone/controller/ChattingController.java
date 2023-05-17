@@ -52,7 +52,7 @@ public class ChattingController {
     @GetMapping("/chattingroom/post/{post_no}/{guest_no}")   //테스트 완료, 포스트 채팅방 입장
     public ChattingList getChattingByNo(@PathVariable Integer post_no, @PathVariable Integer guest_no) {
         int cht_room_no = chattingRoomService.getChattingRoom(post_no, guest_no);
-        ChattingList chattingList = new ChattingList(chattingService.getAllChattingDate(cht_room_no);
+        ChattingList chattingList = new ChattingList(chattingService.getAllChattingDate(cht_room_no));
         chattingList.setPost_title(chattingRoomService.getChattingPostTitle(cht_room_no));
         chattingList.setinfo(chattingRoomService.getHostInfo(cht_room_no), chattingRoomService.getGuestInfo(cht_room_no));
         return chattingList;

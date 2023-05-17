@@ -19,7 +19,7 @@ public class PostWithPicture extends Post {
         this.post_title = post.getPost_title();
         this.post_content = post.getPost_content();
         this.written_date = post.getWritten_date();
-        // this.isCaptured = post.getIsCaptured();
+        this.isCaptured = post.getIsCaptured();
     }
 
     public void setNickname(String nickname) {

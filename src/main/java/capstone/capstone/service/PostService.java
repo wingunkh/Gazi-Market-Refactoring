@@ -65,10 +65,10 @@ public class PostService {
 
         if(imageSource == "CAPTURED") {
             System.out.println("CAPTURED");
-            post.setIsCaptured(true);
+            post.setIsCaptured(1);
         } else if(imageSource == "DOWNLOADED") {
             System.out.println("DOWNLOADED");
-            post.setIsCaptured(false);
+            post.setIsCaptured(0);
         }
 
         postRepository.save(post);

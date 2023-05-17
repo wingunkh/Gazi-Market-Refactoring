@@ -44,5 +44,5 @@ public class Post {
     protected LocalDateTime written_date;
 
     @Column(name = "isCaptured")
-    protected Boolean isCaptured;
+    protected Integer isCaptured;
 }

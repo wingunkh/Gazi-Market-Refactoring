@@ -36,6 +36,7 @@ public class ChattingRoomService {
         return chattingRoomRepository.getPostTitle(cht_room_num);
     }
 
+    public String getChattingPostPicture(int cht_room_num) {return chattingRoomRepository.getPostPicture(cht_room_num);}
     public int getHostInfo(int cht_room_num){
         return chattingRoomRepository.getHostInfo(cht_room_num);
     }

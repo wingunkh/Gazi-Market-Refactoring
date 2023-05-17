@@ -22,5 +22,8 @@ public interface ChattingRoomRepository extends JpaRepository<ChattingRoom, Inte
     Integer getHostInfo(@Param("cht_room_num")Integer cht_room_num);
 
     @Query(value = "select chr.guest_member from CHATTINGROOM chr where chr.cht_room_num = :cht_room_num", nativeQuery = true)
-    Integer getGuestInfo(@Param("cht_room_num")Integer cht_room_no);
+    Integer getGuestInfo(@Param("cht_room_num")Integer cht_room_num);
+
+    @Query(value = "select p.picture_location from picture p where p.post_num = (select cr.post_num from chattingroom cr where cr.cht_room_num = :cht_room_num)", nativeQuery = true)
+    String getPostPicture(@Param("cht_room_num")Integer cht_room_num);
 }

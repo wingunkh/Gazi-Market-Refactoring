@@ -56,6 +56,7 @@ public class ChattingController {
         chattingList.setPost_title(chattingRoomService.getChattingPostTitle(cht_room_no));
         chattingList.setinfo(chattingRoomService.getHostInfo(cht_room_no), chattingRoomService.getGuestInfo(cht_room_no));
         chattingList.setCht_room_no(cht_room_no);
+        chattingList.setPictureURL(chattingRoomService.getChattingPostPicture(cht_room_no));
         return chattingList;
     }
 
@@ -65,6 +66,7 @@ public class ChattingController {
         chattingList.setPost_title(chattingRoomService.getChattingPostTitle(cht_room_no));
         chattingList.setinfo(chattingRoomService.getHostInfo(cht_room_no), chattingRoomService.getGuestInfo(cht_room_no));
         chattingList.setCht_room_no(cht_room_no);
+        chattingList.setPictureURL(chattingRoomService.getChattingPostPicture(cht_room_no));
         return chattingList;
     }
 
@@ -103,7 +105,7 @@ public class ChattingController {
         String post_title;
         int host_no;
         int guest_no;
-
+        String pictureURL;
         public ChattingList(List<Chatting> chattingList) {
             this.chattingList = new ArrayList<>();
 
@@ -118,6 +120,7 @@ public class ChattingController {
             this.post_title = post_title;
         }
 
+        public void setPictureURL(String pictureURL) { this.pictureURL = pictureURL; }
         public void setinfo(int host_no, int guest_no) {
             this.host_no = host_no;
             this.guest_no = guest_no;

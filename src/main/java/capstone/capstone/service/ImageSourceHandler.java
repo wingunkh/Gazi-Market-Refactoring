@@ -22,8 +22,7 @@ public class ImageSourceHandler {
 
     public String detectImageSource(File imageFile) {
         try {
-            FileInputStream inputStream = new FileInputStream(imageFile);
-            BufferedImage bufferedImage = ImageIO.read(inputStream);
+            BufferedImage bufferedImage = ImageIO.read(imageFile);
             String cameraMaker = (String) bufferedImage.getProperty("Make");
             String cameraModel = (String) bufferedImage.getProperty("Model");
 

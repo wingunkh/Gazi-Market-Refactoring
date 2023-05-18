@@ -25,10 +25,12 @@ public class ImageSourceHandler {
 
             // EXIF 메타데이터를 읽어옴
             Metadata metadata = ImageMetadataReader.readMetadata(imageFile.getInputStream());
+            System.out.println("metadata ===> " + metadata);
             ExifSubIFDDirectory directory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
 
             if (directory != null && directory.containsTag(ExifSubIFDDirectory.TAG_MAKE)) {
                 String make = directory.getString(ExifSubIFDDirectory.TAG_MAKE);
+                System.out.println("make ===>" + make);
 
                 // "Make" 필드가 존재하지 않는 경우 다운로드 받은 이미지로 판별
                 if (StringUtils.isEmpty(make)) {

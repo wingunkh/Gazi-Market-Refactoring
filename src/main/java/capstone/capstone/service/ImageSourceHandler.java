@@ -16,24 +16,27 @@ import java.util.Iterator;
 public class ImageSourceHandler {
     public String detectImageSource(MultipartFile imageFile) {
         try {
-            BufferedImage bufferedImage = ImageIO.read(imageFile.getInputStream());
-            String cameraMaker = bufferedImage.getProperty("Make").toString();
-            System.out.println(cameraMaker);
-            String cameraModel = bufferedImage.getProperty("Model").toString();
-            System.out.println(cameraMaker);
+            ImageInputStream imageInputStream = ImageIO.createImageInputStream(imageFile);
+            System.out.println(imageInputStream);
+            Iterator<ImageReader> imageReaders = ImageIO.getImageReaders(imageInputStream);
+            System.out.println(imageReaders);
 
-            // 메타데이터에 카메라 제조사와 모델 정보가 있으면 직접 촬영한 이미지로 간주
-            if(!StringUtils.isEmpty(cameraMaker) && !StringUtils.isEmpty(cameraModel)) {
-                return "CAPTURED";
-            } else { // 메타데이터에 카메라 제조사와 모델 정보가 없으면 다운로드 이미지로 간주
-                return "DOWNLOADED";
+            if (imageReaders.hasNext()) {
+                ImageReader reader = imageReaders.next();
+                String formatName = reader.getFormatName();
+
+                // EXIF 데이터가 없는 경우 다운로드 받은 이미지로 판별
+                if (formatName == null) {
+                    return "DOWNLOADED";
+                }
             }
-
         } catch (IOException e) {
-            // 이미지 파일을 읽는 중에 예외 발생
+            // 이미지 파일을 읽을 수 없는 경우 예외 처리
             e.printStackTrace();
         }
-        return "???";
+
+        // EXIF 데이터가 있는 경우 직접 촬영한 이미지로 판별
+        return "CAPTURED";
     }
 }
 

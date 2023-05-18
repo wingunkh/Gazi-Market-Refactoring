@@ -14,12 +14,6 @@ import java.util.Iterator;
 
 @Component
 public class ImageSourceHandler {
-    public File convertMultipartFileToFile(MultipartFile multipartFile) throws IOException {
-        File convertedFile = new File(multipartFile.getOriginalFilename());
-        multipartFile.transferTo(convertedFile);
-        return convertedFile;
-    }
-
     public String detectImageSource(MultipartFile imageFile) {
         try {
             BufferedImage bufferedImage = ImageIO.read(imageFile.getInputStream());
@@ -27,7 +21,7 @@ public class ImageSourceHandler {
             String cameraModel = bufferedImage.getProperty("Model").toString();
 
             // 메타데이터에 카메라 제조사와 모델 정보가 있으면 직접 촬영한 이미지로 간주
-            if(!StringUtils.isEmpty(cameraMaker) || !StringUtils.isEmpty(cameraModel)) {
+            if(!StringUtils.isEmpty(cameraMaker) && !StringUtils.isEmpty(cameraModel)) {
                 return "CAPTURED";
             } else { // 메타데이터에 카메라 제조사와 모델 정보가 없으면 다운로드 이미지로 간주
                 return "DOWNLOADED";

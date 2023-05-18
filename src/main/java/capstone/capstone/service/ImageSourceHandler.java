@@ -18,7 +18,7 @@ public class ImageSourceHandler {
         try {
             ImageInputStream imageInputStream = ImageIO.createImageInputStream(imageFile.getInputStream());
             System.out.println(imageInputStream);
-            Iterator<ImageReader> imageReaders = ImageIO.getImageReaders(imageFile);
+            Iterator<ImageReader> imageReaders = ImageIO.getImageReaders(imageInputStream);
             System.out.println(imageReaders);
 
             if (imageReaders.hasNext()) {

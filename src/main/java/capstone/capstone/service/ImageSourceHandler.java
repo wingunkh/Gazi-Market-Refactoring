@@ -26,17 +26,16 @@ public class ImageSourceHandler {
             // EXIF 메타데이터를 읽어옴
             Metadata metadata = ImageMetadataReader.readMetadata(imageFile.getInputStream());
             System.out.println("metadata ===> " + metadata);
+
             ExifSubIFDDirectory directory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
             System.out.println("directory ===> " + directory);
-            System.out.println(directory.containsTag(ExifSubIFDDirectory.TAG_MAKE));
-            if (directory != null && directory.containsTag(ExifSubIFDDirectory.TAG_MAKE)) {
-                String make = directory.getString(ExifSubIFDDirectory.TAG_MAKE);
-                System.out.println("make ===>" + make);
 
-                // "Make" 필드가 존재하지 않는 경우 다운로드 받은 이미지로 판별
-                if (StringUtils.isEmpty(make)) {
-                    return "DOWNLOADED";
-                }
+            String make = directory.getString(ExifSubIFDDirectory.TAG_MAKE);
+            System.out.println("make ===>" + make);
+
+            // "Make" 필드가 존재하지 않는 경우 다운로드 받은 이미지로 판별
+            if (StringUtils.isEmpty(make)) {
+                return "DOWNLOADED";
             }
         } catch (Exception e) {
             // 이미지 파일을 읽을 수 없거나 예외가 발생한 경우 예외 처리

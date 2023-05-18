@@ -16,9 +16,9 @@ import java.util.Iterator;
 public class ImageSourceHandler {
     public String detectImageSource(MultipartFile imageFile) {
         try {
-            ImageInputStream imageInputStream = ImageIO.createImageInputStream(imageFile);
+            ImageInputStream imageInputStream = ImageIO.createImageInputStream(imageFile.getInputStream());
             System.out.println(imageInputStream);
-            Iterator<ImageReader> imageReaders = ImageIO.getImageReaders(imageInputStream);
+            Iterator<ImageReader> imageReaders = ImageIO.getImageReaders(imageFile);
             System.out.println(imageReaders);
 
             if (imageReaders.hasNext()) {

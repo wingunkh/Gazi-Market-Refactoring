@@ -17,16 +17,15 @@ public class ImageSourceHandler {
     public String detectImageSource(MultipartFile imageFile) {
         try {
             ImageInputStream imageInputStream = ImageIO.createImageInputStream(imageFile.getInputStream());
-            System.out.println(imageInputStream);
             Iterator<ImageReader> imageReaders = ImageIO.getImageReaders(imageInputStream);
-            System.out.println(imageReaders);
 
             if (imageReaders.hasNext()) {
                 ImageReader reader = imageReaders.next();
                 String formatName = reader.getFormatName();
+                System.out.println(formatName);
 
                 // EXIF 데이터가 없는 경우 다운로드 받은 이미지로 판별
-                if (formatName == null) {
+                if (formatName.equals(null)) {
                     return "DOWNLOADED";
                 }
             }

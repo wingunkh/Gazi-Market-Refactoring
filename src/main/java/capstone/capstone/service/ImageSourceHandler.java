@@ -1,41 +1,46 @@
 package capstone.capstone.service;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.exif.ExifSubIFDDirectory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Iterator;
 
 @Component
 public class ImageSourceHandler {
     public String detectImageSource(MultipartFile imageFile) {
         try {
             ImageInputStream imageInputStream = ImageIO.createImageInputStream(imageFile.getInputStream());
-            Iterator<ImageReader> imageReaders = ImageIO.getImageReaders(imageInputStream);
+            ImageReader imageReader = ImageIO.getImageReaders(imageInputStream).next();
+            String formatName = imageReader.getFormatName();
 
-            if (imageReaders.hasNext()) {
-                ImageReader reader = imageReaders.next();
-                String formatName = reader.getFormatName();
-                System.out.println(formatName);
+            // 이미지 포맷 이름이 null이거나 빈 문자열인 경우 다운로드 받은 이미지로 판별
+            if (StringUtils.isEmpty(formatName)) {
+                return "DOWNLOADED";
+            }
 
-                // EXIF 데이터가 없는 경우 다운로드 받은 이미지로 판별
-                if (formatName.equals(null)) {
+            // EXIF 메타데이터를 읽어옴
+            Metadata metadata = ImageMetadataReader.readMetadata(imageFile.getInputStream());
+            ExifSubIFDDirectory directory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
+
+            if (directory != null && directory.containsTag(ExifSubIFDDirectory.TAG_MAKE)) {
+                String make = directory.getString(ExifSubIFDDirectory.TAG_MAKE);
+
+                // "Make" 필드가 존재하지 않는 경우 다운로드 받은 이미지로 판별
+                if (StringUtils.isEmpty(make)) {
                     return "DOWNLOADED";
                 }
             }
-        } catch (IOException e) {
-            // 이미지 파일을 읽을 수 없는 경우 예외 처리
+        } catch (Exception e) {
+            // 이미지 파일을 읽을 수 없거나 예외가 발생한 경우 예외 처리
             e.printStackTrace();
         }
 
-        // EXIF 데이터가 있는 경우 직접 촬영한 이미지로 판별
+        // "Make" 필드가 존재하고 해당 값이 특정 값과 일치하는 경우 직접 촬영한 이미지로 판별
         return "CAPTURED";
     }
 }
-

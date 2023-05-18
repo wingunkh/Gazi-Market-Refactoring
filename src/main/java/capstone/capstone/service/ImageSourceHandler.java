@@ -27,7 +27,8 @@ public class ImageSourceHandler {
             Metadata metadata = ImageMetadataReader.readMetadata(imageFile.getInputStream());
             System.out.println("metadata ===> " + metadata);
             ExifSubIFDDirectory directory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
-
+            System.out.println("directory ===> " + directory);
+            System.out.println(directory.containsTag(ExifSubIFDDirectory.TAG_MAKE));
             if (directory != null && directory.containsTag(ExifSubIFDDirectory.TAG_MAKE)) {
                 String make = directory.getString(ExifSubIFDDirectory.TAG_MAKE);
                 System.out.println("make ===>" + make);

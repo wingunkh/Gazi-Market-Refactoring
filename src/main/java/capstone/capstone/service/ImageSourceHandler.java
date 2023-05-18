@@ -20,9 +20,9 @@ public class ImageSourceHandler {
         return convertedFile;
     }
 
-    public String detectImageSource(File imageFile) {
+    public String detectImageSource(MultipartFile imageFile) {
         try {
-            BufferedImage bufferedImage = ImageIO.read(imageFile);
+            BufferedImage bufferedImage = ImageIO.read(imageFile.getInputStream());
             String cameraMaker = (String) bufferedImage.getProperty("Make");
             String cameraModel = (String) bufferedImage.getProperty("Model");
 

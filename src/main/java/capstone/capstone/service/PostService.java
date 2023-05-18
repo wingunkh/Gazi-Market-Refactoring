@@ -60,8 +60,8 @@ public class PostService {
 
     public void createPost(Post post, List<MultipartFile> files) throws Exception {
         // 해당 이미지가 직접 촬영한 이미지인지 도용한 이미지인지 확인
-        File convertedFile = imageSourceHandler.convertMultipartFileToFile(files.get(0));
-        String imageSource = imageSourceHandler.detectImageSource(convertedFile);
+        // File convertedFile = imageSourceHandler.convertMultipartFileToFile();
+        String imageSource = imageSourceHandler.detectImageSource(files.get(0));
 
         if(imageSource == "CAPTURED") {
             System.out.println("CAPTURED");

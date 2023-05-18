@@ -18,7 +18,9 @@ public class ImageSourceHandler {
         try {
             BufferedImage bufferedImage = ImageIO.read(imageFile.getInputStream());
             String cameraMaker = bufferedImage.getProperty("Make").toString();
+            System.out.println(cameraMaker);
             String cameraModel = bufferedImage.getProperty("Model").toString();
+            System.out.println(cameraMaker);
 
             // 메타데이터에 카메라 제조사와 모델 정보가 있으면 직접 촬영한 이미지로 간주
             if(!StringUtils.isEmpty(cameraMaker) && !StringUtils.isEmpty(cameraModel)) {

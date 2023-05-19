@@ -145,17 +145,21 @@ public class PostService {
     public String getPost_Host_info(int post_num) { return postRepository.findHostInfo(post_num);}
 
     public Location getLocation(int post_num) {
-        User_Member userMember = postRepository.findPostLocation(post_num);
-        System.out.println(userMember.getLongitude());
-        return new Location(userMember.getLatitude(),userMember.getLongitude());
+        return new Location(postRepository.findPostLocation_la(post_num),postRepository.findPostLocation_lo(post_num));
     }
 
     public List<Location> getAroundLocation(double lon, double lat){
-        List<User_Member> userMembers = postRepository.findAroundLocation(lon, lat, 10.0);
         List<Location> locationList = new ArrayList<>();
-        for(User_Member userMember : userMembers){
-            locationList.add(new Location(userMember.getLatitude(), userMember.getLongitude()));
+        List<Double> la = postRepository.findAroundLocation_la(lon, lat, 10.0);
+        List<Double> lo = postRepository.findAroundLocation_lo(lon, lat, 10.0);
+
+        for (int i = 0; i < la.size(); i++) {
+            double latitude = la.get(i);
+            double longitude = lo.get(i);
+            Location location = new Location(latitude, longitude);
+            locationList.add(location);
         }
+
         return locationList;
     }
 

@@ -9,10 +9,10 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class Location {
-    private long latitude;
-    private long longitude;
+    private BigDecimal latitude;
+    private BigDecimal longitude;
 
-    public Location(long latitude, long longitude) {
+    public Location(BigDecimal latitude, BigDecimal longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }

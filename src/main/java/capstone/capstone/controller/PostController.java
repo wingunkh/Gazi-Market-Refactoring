@@ -162,12 +162,12 @@ public class PostController {
     }
     //게시들 위치 반환
     @GetMapping("post/location/{post_num}")
-    public Location getPostLocation(@PathVariable int post_num){
+    public Location getPostLocation(@PathVariable int post_num) throws IOException{
         return postService.getLocation(post_num);
     }
 
     @GetMapping("post/lonlat/{lon}/{lat}")
-    public List<Location> getAroundLocation(@PathVariable double lon, @PathVariable double lat){
+    public List<Location> getAroundLocation(@PathVariable double lon, @PathVariable double lat) throws IOException{
         return postService.getAroundLocation(lon, lat);
     }
 }

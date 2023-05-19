@@ -1,6 +1,5 @@
 package capstone.capstone.repository;
 
-import capstone.capstone.domain.Location;
 import capstone.capstone.domain.Post;
 import capstone.capstone.domain.User_Member;
 import org.springframework.data.jpa.repository.JpaRepository;

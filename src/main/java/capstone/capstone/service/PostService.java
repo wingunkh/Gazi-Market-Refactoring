@@ -146,6 +146,7 @@ public class PostService {
 
     public Location getLocation(int post_num) {
         User_Member userMember = postRepository.findPostLocation(post_num);
+        
         return new Location(userMember.getLatitude(), userMember.getLongitude());
     }
 

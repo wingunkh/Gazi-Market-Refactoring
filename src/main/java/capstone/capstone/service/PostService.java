@@ -1,9 +1,6 @@
 package capstone.capstone.service;
 
-import capstone.capstone.domain.Location;
-import capstone.capstone.domain.Picture;
-import capstone.capstone.domain.Post;
-import capstone.capstone.domain.PostWithPicture;
+import capstone.capstone.domain.*;
 import capstone.capstone.exception.ResourceNotFoundException;
 import capstone.capstone.repository.PictureRepository;
 import capstone.capstone.repository.PostRepository;
@@ -148,11 +145,19 @@ public class PostService {
     public String getPost_Host_info(int post_num) { return postRepository.findHostInfo(post_num);}
 
     public Location getLocation(int post_num) {
-        return postRepository.findPostLocation(post_num);
+        User_Member userMember = postRepository.findPostLocation(post_num);
+        Location location = new Location(userMember.getLatitude(), userMember.getLongitude());
+        return location;
     }
 
     public List<Location> getAroundLocation(double lon, double lat){
-        return postRepository.findAroundLocation(lon, lat, 10.0);
+
+        List<User_Member> userMembers = postRepository.findAroundLocation(lon, lat, 10.0);
+        List<Location> locationList = new ArrayList<>();
+        for(User_Member userMember : userMembers){
+            locationList.add(new Location(userMember.getLatitude(), userMember.getLongitude()));
+        }
+        return locationList;
     }
 
 }

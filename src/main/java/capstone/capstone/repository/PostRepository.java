@@ -80,9 +80,10 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query(value = "select avg(p.price) FROM Post p GROUP BY p.model_name, p.grade HAVING p.model_name = :model AND p.grade = :grade", nativeQuery = true)
     double findFairPrice(@Param("model") String model, @Param("grade") String grade);
 
-    @Query(value = "select u.latitude, u.longitude FROM User_member u where u.user_num = (select distinct p.user_num FROM Post p where p.post_num = :post_num)", nativeQuery = true)
-    Location findPostLocation(@Param("post_num")int post_num);
+    @Query(value = "select * FROM User_member u where u.user_num = (select distinct p.user_num FROM Post p where p.post_num = :post_num)", nativeQuery = true)
+    User_Member findPostLocation(@Param("post_num")int post_num);
+
 
     @Query(value = "SELECT u.latitude, u.longitude FROM User_member u WHERE ACOS(SIN(RADIANS(:latitude)) * SIN(RADIANS(u.latitude)) + COS(RADIANS(:latitude)) * COS(RADIANS(u.latitude)) * COS(RADIANS(:longitude - u.longitude))) * 6371 <= :distance", nativeQuery = true)
-    List<Location> findAroundLocation(@Param("longitude")double longitude, @Param("latitude")double latitude, @Param("distance")double distance);
+    List<User_Member> findAroundLocation(@Param("longitude")double longitude, @Param("latitude")double latitude, @Param("distance")double distance);
 }

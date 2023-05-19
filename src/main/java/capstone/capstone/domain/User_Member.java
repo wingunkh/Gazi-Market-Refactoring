@@ -36,8 +36,8 @@ public class User_Member {
     protected String Administrator;
 
     @Column(name = "latitude")
-    protected BigDecimal latitude;
+    protected double latitude;
 
     @Column(name = "longitude")
-    protected BigDecimal longitude;
+    protected double longitude;
 }

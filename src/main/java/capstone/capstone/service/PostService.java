@@ -146,15 +146,14 @@ public class PostService {
 
     public Location getLocation(int post_num) {
         User_Member userMember = postRepository.findPostLocation(post_num);
-        
-        return new Location(userMember.getLatitude(), userMember.getLongitude());
+        return new Location((Double)userMember.getLatitude(), (Double)userMember.getLongitude());
     }
 
     public List<Location> getAroundLocation(double lon, double lat){
         List<User_Member> userMembers = postRepository.findAroundLocation(lon, lat, 10.0);
         List<Location> locationList = new ArrayList<>();
         for(User_Member userMember : userMembers){
-            locationList.add(new Location(userMember.getLatitude(), userMember.getLongitude()));
+            locationList.add(new Location((Double)(userMember.getLatitude(), (Double)userMember.getLongitude()));
         }
         return locationList;
     }

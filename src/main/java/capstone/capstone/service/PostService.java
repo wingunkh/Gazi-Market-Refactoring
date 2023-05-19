@@ -153,7 +153,7 @@ public class PostService {
         List<User_Member> userMembers = postRepository.findAroundLocation(lon, lat, 10.0);
         List<Location> locationList = new ArrayList<>();
         for(User_Member userMember : userMembers){
-            locationList.add(new Location((Double)(userMember.getLatitude(), (Double)userMember.getLongitude()));
+            locationList.add(new Location((Double)userMember.getLatitude(), (Double)userMember.getLongitude()));
         }
         return locationList;
     }

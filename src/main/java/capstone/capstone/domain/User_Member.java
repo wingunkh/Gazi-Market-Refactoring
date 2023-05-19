@@ -33,4 +33,10 @@ public class User_Member {
 
     @Column(name = "Administrator")
     protected String Administrator;
+
+    @Column(name = "latitude")
+    protected Double latitude;
+
+    @Column(name = "longitude")
+    protected Double longitude;
 }

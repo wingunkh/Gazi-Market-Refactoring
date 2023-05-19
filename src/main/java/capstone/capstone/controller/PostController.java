@@ -1,10 +1,12 @@
 package capstone.capstone.controller;
 
+import capstone.capstone.domain.Location;
 import capstone.capstone.domain.PostWithPicture;
 import capstone.capstone.domain.Post;
 import capstone.capstone.service.ListService;
 import capstone.capstone.service.PostService;;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -158,4 +160,15 @@ public class PostController {
         }
         return postList;
     }
+    //게시들 위치 반환
+    @GetMapping("post/location/{post_num}")
+    public Location getPostLocation(@PathVariable int post_num){
+        return postService.getLocation(post_num);
+    }
+
+    @GetMapping("post/lonlat/{lon}/{lat}")
+    public List<Location> getAroundLocation(@PathVariable double lon, @PathVariable double lat){
+        return postService.getAroundLocation(lon, lat);
+    }
 }
+

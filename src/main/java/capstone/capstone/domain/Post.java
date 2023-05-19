@@ -45,4 +45,6 @@ public class Post {
 
     @Column(name = "iscaptured")
     protected Integer isCaptured;
+
+
 }

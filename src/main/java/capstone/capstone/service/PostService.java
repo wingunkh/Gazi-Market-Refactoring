@@ -1,5 +1,6 @@
 package capstone.capstone.service;
 
+import capstone.capstone.domain.Location;
 import capstone.capstone.domain.Picture;
 import capstone.capstone.domain.Post;
 import capstone.capstone.domain.PostWithPicture;
@@ -119,7 +120,6 @@ public class PostService {
     public PostWithPicture getPost(Integer num) throws IOException {
         PostWithPicture postWithPicture = PostToPostWithPicture(postRepository.findById(num)
                 .orElseThrow(() -> new ResourceNotFoundException("Not exist Post Data by no : ["+num+"]")));
-
         return postWithPicture;
     }
 
@@ -143,4 +143,13 @@ public class PostService {
     public String getPost_Name(int post_num) { return postRepository.findName(post_num); }
 
     public String getPost_Host_info(int post_num) { return postRepository.findHostInfo(post_num);}
+
+    public Location getLocation(int post_num) {
+        return postRepository.findPostLocation(post_num);
+    }
+
+    public List<Location> getAroundLocation(double lon, double lat){
+        return postRepository.findAroundLocation(lon, lat, 10.0);
+    }
+
 }

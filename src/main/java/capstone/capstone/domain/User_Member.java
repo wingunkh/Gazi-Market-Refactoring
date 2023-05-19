@@ -6,6 +6,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "user_member")
@@ -35,8 +36,8 @@ public class User_Member {
     protected String Administrator;
 
     @Column(name = "latitude")
-    protected Double latitude;
+    protected BigDecimal latitude;
 
     @Column(name = "longitude")
-    protected Double longitude;
+    protected BigDecimal longitude;
 }

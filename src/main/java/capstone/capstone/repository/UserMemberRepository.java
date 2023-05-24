@@ -13,5 +13,5 @@ public interface UserMemberRepository extends JpaRepository<User_Member, Integer
     String showProfileImage(@Param("user_num") int user_num);
 
     @Query(value="UPDATE u.profile_image SET :profile_image FROM User_Member u WHERE u.user_num = :user_num", nativeQuery = true)
-    Void updateProfileImage(@Param("user_num") int user_num, String profile_image);
+    void updateProfileImage(@Param("user_num") int user_num, String profile_image);
 }

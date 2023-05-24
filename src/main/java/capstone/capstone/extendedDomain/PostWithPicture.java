@@ -49,9 +49,7 @@ public class PostWithPicture extends Post {
     }
 
     public void setLocation(double latitude, double longitude) {
-        this.location = new Location();
-        this.location.setLatitude(latitude);
-        this.location.setLongitude(longitude);
+        this.location = new Location(latitude, longitude);
     }
 
     public void setProfile_image(String profile_image) {

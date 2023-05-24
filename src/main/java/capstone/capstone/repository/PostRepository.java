@@ -90,10 +90,10 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     List<Integer> findAroundLocation(@Param("longitude")double longitude, @Param("latitude")double latitude, @Param("distance")double distance);
 
     @Query(value = "SELECT u.latitude FROM User_member u WHERE  u.user_num = :user_num", nativeQuery = true)
-    Double findLa(@Param("user_num")int user_num);
+    double findLa(@Param("user_num")int user_num);
 
     @Query(value = "SELECT u.longitude FROM User_member u WHERE  u.user_num = :user_num", nativeQuery = true)
-    Double findLo(@Param("user_num")int user_num);
+    double findLo(@Param("user_num")int user_num);
 
     @Query(value = "SELECT * from Post p where p.user_num = :user_num", nativeQuery = true)
     List<Post> findAllUser(@Param("user_num")int user_num);

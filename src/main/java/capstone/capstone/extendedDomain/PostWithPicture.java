@@ -74,5 +74,13 @@ public class PostWithPicture extends Post {
 
     public Double getFairPrice() { return fairPrice; }
 
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
     public String getProfile_image() { return profile_image; }
 }

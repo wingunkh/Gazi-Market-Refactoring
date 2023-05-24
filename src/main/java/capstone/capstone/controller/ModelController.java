@@ -34,7 +34,7 @@ public class ModelController {
     }
 
     @GetMapping("/{model}/{grade}")
-    public double getFairPrice(@PathVariable String model_name, @PathVariable String grade){
-        return modelService.getFairPrice(model_name, grade);
+    public double getFairPrice(@PathVariable String model, @PathVariable String grade){
+        return modelService.getFairPrice(model, grade);
     }
 }

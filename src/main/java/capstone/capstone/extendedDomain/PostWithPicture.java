@@ -7,13 +7,17 @@ import java.util.List;
 
 public class PostWithPicture extends Post {
     String nickname;
+
     String category_name;
+
     List<String> pictureURL;
+
     Double fairPrice;
 
     Location location;
 
     String profile_image;
+
 
     public PostWithPicture(Post post) {
         this.post_num = post.getPost_num();

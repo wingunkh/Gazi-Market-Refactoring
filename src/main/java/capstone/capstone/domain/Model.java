@@ -24,5 +24,4 @@ public class Model {
 
     @Column(name = "market_price")
     private int market_price;
-
 }

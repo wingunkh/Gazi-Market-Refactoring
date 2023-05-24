@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "chatting")
-@IdClass(Chatting_ChattingRoom.class) //복합키 매핑을 위한 어노테이션
-@DynamicInsert  //INSERT 시 NULL인 부분을 제외하기 위해 사용, 동적 인서트
-@DynamicUpdate  //UPDATE 시 NULL인 부분을 제외하기 위해 사용, 동적 업데이트
+@IdClass(Chatting_ChattingRoom.class) // 복합키 매핑을 위한 어노테이션
+@DynamicInsert // INSERT 시 NULL인 부분을 제외하기 위해 사용, 동적 인서트
+@DynamicUpdate // UPDATE 시 NULL인 부분을 제외하기 위해 사용, 동적 업데이트
 @Getter
 @Setter
 public class Chatting {
@@ -32,5 +32,4 @@ public class Chatting {
 
     @Column(name = "cht_time")
     private LocalDateTime cht_time;
-
 }

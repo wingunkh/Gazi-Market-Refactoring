@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Table(name = "picture")
 @DynamicInsert
 @DynamicUpdate
-@IdClass(Posts_Picture.class) //복합키 매핑을 위한 어노테이션
+@IdClass(Posts_Picture.class) // 복합키 매핑을 위한 어노테이션
 @Builder
 @NoArgsConstructor
 @Getter
@@ -30,5 +30,4 @@ public class Picture implements Serializable {
         this.post_num = post_num;
         this.picture_location = picture_location;
     }
-
 }

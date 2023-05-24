@@ -3,7 +3,6 @@ package capstone.capstone.extendedDomain;
 import capstone.capstone.domain.Chatting;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,6 +16,7 @@ class ChattingWithName {
     private String cht_text;
 
     private LocalDateTime cht_time;
+
     String cht_member_name;
 
     public ChattingWithName(Chatting chatting, String cht_member_name) {

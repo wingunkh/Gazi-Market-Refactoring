@@ -15,11 +15,11 @@ public class UserMemberService {
     @Autowired
     private FileHandler fileHandler;
 
-    public String showProfileImage(Integer user_num) {
+    public String showProfileImage(int user_num) {
         return userMemberRepository.showProfileImage(user_num);
     }
 
-    public void updateProfileImage(Integer user_num, List<MultipartFile> file) throws Exception {
+    public void updateProfileImage(int user_num, List<MultipartFile> file) throws Exception {
         // Amazon S3에 전달받은 사진을 업로드하고 해당 사진의 Url이 담긴 Url 리스트를 반환받아 변수 list에 저장
         List<String> list = fileHandler.saveToS3(file, "profile/");
         userMemberRepository.updateProfileImage(user_num, list.get(0));

@@ -153,7 +153,7 @@ public class PostService {
 
     public List<PostWithPicture> getAroundLocation(double lon, double lat, double distance){
         List<Integer> user_id = postRepository.findAroundLocation(lon, lat, distance);
-
+        System.out.println(user_id.get(0));
         List<Post> postList = new ArrayList<>();
         List<PostWithPicture> postWithPictures = new ArrayList<>();
         for(int id : user_id){

@@ -1,9 +1,8 @@
 package capstone.capstone.service;
 
 import capstone.capstone.domain.Like_list;
-import capstone.capstone.domain.PostWithPicture;
+import capstone.capstone.extendedDomain.PostWithPicture;
 import capstone.capstone.domain.Visit_list;
-import capstone.capstone.exception.ResourceNotFoundException;
 import capstone.capstone.repository.LikeListRepository;
 import capstone.capstone.repository.VisitListRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,12 +2,12 @@ package capstone.capstone.controller;
 
 import capstone.capstone.domain.Chatting;
 import capstone.capstone.domain.ChattingRoom;
+import capstone.capstone.extendedDomain.ChattingWithName;
 import capstone.capstone.service.ChattingRoomService;
 import capstone.capstone.service.ChattingService;
 import capstone.capstone.service.PostService;
 import capstone.capstone.service.UserService;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -103,7 +103,7 @@ public class ChattingController {
     class ChattingList {
 
         int cht_room_no;
-        List<Chatting_addname> chattingList;
+        List<ChattingWithName> chattingList;
         String post_title;
         int host_no;
         int guest_no;
@@ -112,7 +112,7 @@ public class ChattingController {
             this.chattingList = new ArrayList<>();
 
             for(Chatting chat : chattingList){
-                this.chattingList.add(new Chatting_addname(chat, userService.findName(chat.getCht_member())));
+                this.chattingList.add(new ChattingWithName(chat, userService.findName(chat.getCht_member())));
             }
         }
 
@@ -127,26 +127,5 @@ public class ChattingController {
             this.host_no = host_no;
             this.guest_no = guest_no;
         }
-    }
-
-}
-@Getter
-@Setter
-class Chatting_addname{
-    private int cht_room_num;
-
-    private int cht_member;
-
-    private String cht_text;
-
-    private LocalDateTime cht_time;
-    String cht_member_name;
-
-    public Chatting_addname(Chatting chatting, String cht_member_name){
-        this.cht_room_num = chatting.getCht_room_num();
-        this.cht_member = chatting.getCht_member();
-        this.cht_text = chatting.getCht_text();
-        this.cht_time = chatting.getCht_time();
-        this.cht_member_name = cht_member_name;
     }
 }

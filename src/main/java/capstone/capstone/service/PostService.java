@@ -2,13 +2,14 @@ package capstone.capstone.service;
 
 import capstone.capstone.domain.*;
 import capstone.capstone.exception.ResourceNotFoundException;
+import capstone.capstone.extendedDomain.PostWithPicture;
 import capstone.capstone.repository.PictureRepository;
 import capstone.capstone.repository.PostRepository;
 import capstone.capstone.repository.UserMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.File;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

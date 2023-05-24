@@ -1,7 +1,7 @@
 package capstone.capstone.controller;
 
 
-import capstone.capstone.domain.PostWithPicture;
+import capstone.capstone.extendedDomain.PostWithPicture;
 import capstone.capstone.service.ListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

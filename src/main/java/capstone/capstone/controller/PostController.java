@@ -1,12 +1,11 @@
 package capstone.capstone.controller;
 
 import capstone.capstone.domain.Location;
-import capstone.capstone.domain.PostWithPicture;
+import capstone.capstone.extendedDomain.PostWithPicture;
 import capstone.capstone.domain.Post;
 import capstone.capstone.service.ListService;
 import capstone.capstone.service.PostService;;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;

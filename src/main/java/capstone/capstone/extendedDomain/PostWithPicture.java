@@ -1,5 +1,6 @@
-package capstone.capstone.domain;
+package capstone.capstone.extendedDomain;
 
+import capstone.capstone.domain.Post;
 import java.util.ArrayList;
 import java.util.List;
 

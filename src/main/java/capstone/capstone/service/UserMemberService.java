@@ -16,7 +16,11 @@ public class UserMemberService {
     private FileHandler fileHandler;
 
     public String showProfileImage(int user_num) {
-        return userMemberRepository.showProfileImage(user_num);
+        if(userMemberRepository.showProfileImage(user_num).isEmpty()){
+            return "https://capstone-eggplant-bucket.s3.ap-northeast-2.amazonaws.com/profile/default.png";
+        }else {
+            return userMemberRepository.showProfileImage(user_num);
+        }
     }
 
     public void updateProfileImage(int user_num, List<MultipartFile> file) throws Exception {

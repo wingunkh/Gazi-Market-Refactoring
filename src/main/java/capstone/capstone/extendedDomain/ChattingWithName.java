@@ -19,6 +19,8 @@ class ChattingWithName {
 
     String cht_member_name;
 
+    String cht_member_profile;
+
     public ChattingWithName(Chatting chatting, String cht_member_name) {
         this.cht_room_num = chatting.getCht_room_num();
         this.cht_member = chatting.getCht_member();
@@ -26,4 +28,5 @@ class ChattingWithName {
         this.cht_time = chatting.getCht_time();
         this.cht_member_name = cht_member_name;
     }
+
 }

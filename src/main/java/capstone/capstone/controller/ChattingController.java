@@ -3,10 +3,7 @@ package capstone.capstone.controller;
 import capstone.capstone.domain.Chatting;
 import capstone.capstone.domain.ChattingRoom;
 import capstone.capstone.extendedDomain.ChattingWithName;
-import capstone.capstone.service.ChattingRoomService;
-import capstone.capstone.service.ChattingService;
-import capstone.capstone.service.PostService;
-import capstone.capstone.service.UserService;
+import capstone.capstone.service.*;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +23,8 @@ public class ChattingController {
     @Autowired
     private ChattingRoomService chattingRoomService;
 
+    @Autowired
+    UserMemberService userMemberService = new UserMemberService();
     @Autowired
     private UserService userService;
     @Autowired
@@ -85,6 +84,7 @@ public class ChattingController {
         String last_cht_msg;
 
         String pictureURL;
+
         LocalDateTime last_cht_time;
 
         public ChattingRoomList(ChattingRoom chattingRoom) {
@@ -101,9 +101,9 @@ public class ChattingController {
 
     @Getter
     class ChattingList {
-
         int cht_room_no;
         List<ChattingWithName> chattingList;
+
         String post_title;
         int host_no;
         int guest_no;
@@ -112,7 +112,9 @@ public class ChattingController {
             this.chattingList = new ArrayList<>();
 
             for(Chatting chat : chattingList){
-                this.chattingList.add(new ChattingWithName(chat, userService.findName(chat.getCht_member())));
+                ChattingWithName chattingWithName = new ChattingWithName(chat, userService.findName(chat.getCht_member()));
+                chattingWithName.setCht_member_profile(userMemberService.showProfileImage(chattingWithName.getCht_member()));
+                this.chattingList.add(chattingWithName);
             }
         }
 

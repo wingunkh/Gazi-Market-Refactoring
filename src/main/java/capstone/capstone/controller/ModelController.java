@@ -32,4 +32,9 @@ public class ModelController {
     public List<Model> getCategoryModel(@PathVariable String category){
         return modelService.getCategoryModel(category);
     }
+
+    @GetMapping("/{model}/{grade}")
+    public double getFairPrice(@PathVariable String model_name, @PathVariable String grade){
+        return modelService.getFairPrice(model_name, grade);
+    }
 }

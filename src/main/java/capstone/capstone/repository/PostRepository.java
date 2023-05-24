@@ -71,10 +71,10 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     String findHostInfo(@Param("post_num") int post_num);
 
     // 해당 문자열이 들어가는 게시글 목록 반환
-    @Query(value="select * from Post p where p.post_content like :name OR p.post_title like :name and p.status != '숨김' order by p.written_date desc", nativeQuery = true)
+    @Query(value="select * from Post p where p.grade like '%:name%' OR p.post_content like '%:name%' OR p.post_title like '%:name%' and p.status != '숨김' order by p.written_date desc", nativeQuery = true)
     List<Post> findIncludeNamed(@Param("name") String name);
 
-    @Query(value="select * from Post p where p.grade like :name OR p.post_title like :name and p.status != '숨김' order by p.written_date", nativeQuery = true)
+    @Query(value="select * from Post p where p.grade like '%:name%' OR p.post_content like '%:name%' OR p.post_title like '%:name%' and p.status != '숨김' order by p.written_date", nativeQuery = true)
     List<Post> findIncludeNamea(@Param("name") String name);
 
     @Query(value = "select avg(p.price) FROM Post p GROUP BY p.model_name, p.grade HAVING p.model_name = :model AND p.grade = :grade", nativeQuery = true)
@@ -89,10 +89,10 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query(value = "SELECT u.user_num FROM User_member u WHERE ACOS(SIN(RADIANS(:latitude)) * SIN(RADIANS(u.latitude)) + COS(RADIANS(:latitude)) * COS(RADIANS(u.latitude)) * COS(RADIANS(:longitude - u.longitude))) * 6371 <= :distance", nativeQuery = true)
     List<Integer> findAroundLocation(@Param("longitude")double longitude, @Param("latitude")double latitude, @Param("distance")double distance);
 
-    @Query(value = "SELECT u.latitude FROM User_member u WHERE  u.user_num = :user_num", nativeQuery = true)
+    @Query(value = "select u.latitude FROM User_member u WHERE u.user_num = :user_num", nativeQuery = true)
     double findLa(@Param("user_num")int user_num);
 
-    @Query(value = "SELECT u.longitude FROM User_member u WHERE  u.user_num = :user_num", nativeQuery = true)
+    @Query(value = "select u.longitude FROM User_member u WHERE u.user_num = :user_num", nativeQuery = true)
     double findLo(@Param("user_num")int user_num);
 
     @Query(value = "SELECT * from Post p where p.user_num = :user_num", nativeQuery = true)

@@ -41,6 +41,7 @@ public class PostService {
         postWithPicture.setCategory_name(modelService.getCategoryName(post.getModel_name()));
         postWithPicture.setPictureURL(pictureRepository.getPictureLocationByPostNo(post.getPost_num()));
         postWithPicture.setFairPrice(postRepository.findFairPrice(post.getModel_name(), post.getGrade()));
+        postWithPicture.setLocation(postRepository.findLa(post.getUser_num()), postRepository.findLo(post.getUser_num()));
 
         return postWithPicture;
     }
@@ -149,19 +150,20 @@ public class PostService {
         return new Location(postRepository.findPostLocation_la(post_num),postRepository.findPostLocation_lo(post_num));
     }
 
-    public List<Location> getAroundLocation(double lon, double lat){
-        List<Location> locationList = new ArrayList<>();
-        List<Double> la = postRepository.findAroundLocation_la(lon, lat, 10.0);
-        List<Double> lo = postRepository.findAroundLocation_lo(lon, lat, 10.0);
+    public List<PostWithPicture> getAroundLocation(double lon, double lat, double distance){
+        List<Integer> user_id = postRepository.findAroundLocation(lon, lat, distance);
 
-        for (int i = 0; i < la.size(); i++) {
-            double latitude = la.get(i);
-            double longitude = lo.get(i);
-            Location location = new Location(latitude, longitude);
-            locationList.add(location);
+        List<Post> postList = new ArrayList<>();
+        List<PostWithPicture> postWithPictures = new ArrayList<>();
+        for(int id : user_id){
+            postList.addAll(postRepository.findAllUser(id));
         }
 
-        return locationList;
+        for(Post p: postList){
+            postWithPictures.add(PostToPostWithPicture(p));
+        }
+
+        return postWithPictures;
     }
 
 }

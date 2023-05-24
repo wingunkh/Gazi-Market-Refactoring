@@ -86,10 +86,15 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query(value = "select u.latitude FROM User_member u where u.user_num = (select distinct p.user_num FROM Post p where p.post_num = :post_num)", nativeQuery = true)
     double findPostLocation_la(@Param("post_num")int post_num);
 
-    @Query(value = "SELECT u.longitude FROM User_member u WHERE ACOS(SIN(RADIANS(:latitude)) * SIN(RADIANS(u.latitude)) + COS(RADIANS(:latitude)) * COS(RADIANS(u.latitude)) * COS(RADIANS(:longitude - u.longitude))) * 6371 <= :distance", nativeQuery = true)
-    List<Double> findAroundLocation_lo(@Param("longitude")double longitude, @Param("latitude")double latitude, @Param("distance")double distance);
+    @Query(value = "SELECT u.user_num FROM User_member u WHERE ACOS(SIN(RADIANS(:latitude)) * SIN(RADIANS(u.latitude)) + COS(RADIANS(:latitude)) * COS(RADIANS(u.latitude)) * COS(RADIANS(:longitude - u.longitude))) * 6371 <= :distance", nativeQuery = true)
+    List<Integer> findAroundLocation(@Param("longitude")double longitude, @Param("latitude")double latitude, @Param("distance")double distance);
 
-    @Query(value = "SELECT u.latitude FROM User_member u WHERE ACOS(SIN(RADIANS(:latitude)) * SIN(RADIANS(u.latitude)) + COS(RADIANS(:latitude)) * COS(RADIANS(u.latitude)) * COS(RADIANS(:longitude - u.longitude))) * 6371 <= :distance", nativeQuery = true)
-    List<Double> findAroundLocation_la(@Param("longitude")double longitude, @Param("latitude")double latitude, @Param("distance")double distance);
+    @Query(value = "SELECT u.latitude FROM User_member u WHERE  u.user_num = :user_num", nativeQuery = true)
+    double findLa(@Param("user_num")int user_num);
 
+    @Query(value = "SELECT u.longitude FROM User_member u WHERE  u.user_num = :user_num", nativeQuery = true)
+    double findLo(@Param("user_num")int user_num);
+
+    @Query(value = "SELECT * from Post p where p.user_num = :user_num", nativeQuery = true)
+    List<Post> findAllUser(@Param("user_num")int user_num);
 }

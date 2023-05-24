@@ -165,9 +165,9 @@ public class PostController {
         return postService.getLocation(post_num);
     }
 
-    @GetMapping("post/lonlat/{lon}/{lat}")
-    public List<Location> getAroundLocation(@PathVariable double lon, @PathVariable double lat){
-        return postService.getAroundLocation(lon, lat);
+    @GetMapping("post/lonlat/{lon}/{lat}/{distance}")
+    public List<PostWithPicture> getAroundLocation(@PathVariable double lon, @PathVariable double lat, @PathVariable double distance){
+        return postService.getAroundLocation(lon, lat, distance);
     }
 }
 

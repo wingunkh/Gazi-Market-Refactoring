@@ -1,5 +1,6 @@
 package capstone.capstone.extendedDomain;
 
+import capstone.capstone.domain.Location;
 import capstone.capstone.domain.Post;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,8 @@ public class PostWithPicture extends Post {
     String category_name;
     List<String> pictureURL;
     Double fairPrice;
+
+    Location location;
 
     public PostWithPicture(Post post) {
         this.post_num = post.getPost_num();
@@ -43,6 +46,10 @@ public class PostWithPicture extends Post {
         this.fairPrice = fairPrice;
     }
 
+    public void setLocation(double latitude, double longitude) {
+        this.location.setLatitude(latitude);
+        this.location.setLongitude(longitude);
+    }
     public String getNickname() {
         return nickname;
     }

@@ -4,6 +4,7 @@ import capstone.capstone.domain.Chatting;
 import capstone.capstone.extendedDomain.ChattingWithName;
 import capstone.capstone.service.ChattingRoomService;
 import capstone.capstone.service.ChattingService;
+import capstone.capstone.service.UserMemberService;
 import capstone.capstone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -32,6 +33,9 @@ public class SocketChatController {
     @Autowired
     private ChattingRoomService chattingRoomService;
 
+    @Autowired
+    private UserMemberService userMemberService;
+
 
     @MessageMapping("/chat/sendMessage")
     public void sendMessage(@Payload Chatting chat) {   //@payload, 전송되는 데이터
@@ -41,6 +45,7 @@ public class SocketChatController {
         Chatting ch = chattingService.createChatting(chat);
         System.out.println(ch.getCht_num());
         ChattingWithName chatting_withName = new ChattingWithName(chat, userService.findName(chat.getCht_member()));
+        chatting_withName.setCht_member_profile(userMemberService.showProfileImage(chatting_withName.getCht_member()));
         template.convertAndSend("/sub/chat/room/" + chat.getCht_room_num(), chatting_withName);
     }
 

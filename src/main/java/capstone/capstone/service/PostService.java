@@ -41,9 +41,8 @@ public class PostService {
         postWithPicture.setCategory_name(modelService.getCategoryName(post.getModel_name()));
         postWithPicture.setPictureURL(pictureRepository.getPictureLocationByPostNo(post.getPost_num()));
         postWithPicture.setFairPrice(postRepository.findFairPrice(post.getModel_name(), post.getGrade()));
-        double la = postRepository.findLa(post.getUser_num());
-        double lo = postRepository.findLo(post.getUser_num());
-        postWithPicture.setLocation(la, lo);
+        postWithPicture.setLocation(post.getUser_num(), post.getUser_num());
+
         postWithPicture.setProfile_image(userMemberRepository.showProfileImage(post.getUser_num()));
 
         return postWithPicture;

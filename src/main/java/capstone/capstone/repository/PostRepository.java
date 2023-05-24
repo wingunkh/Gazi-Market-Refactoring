@@ -78,7 +78,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     List<Post> findIncludeNamea(@Param("name") String name);
 
     @Query(value = "select avg(p.price) FROM Post p GROUP BY p.model_name, p.grade HAVING p.model_name = :model AND p.grade = :grade", nativeQuery = true)
-    double findFairPrice(@Param("model") String model, @Param("grade") String grade);
+    Double findFairPrice(@Param("model") String model, @Param("grade") String grade);
 
     @Query(value = "select u.longitude FROM User_member u where u.user_num = (select distinct p.user_num FROM Post p where p.post_num = :post_num)", nativeQuery = true)
     double findPostLocation_lo(@Param("post_num")int post_num);

@@ -13,6 +13,8 @@ public class PostWithPicture extends Post {
 
     Location location;
 
+    String profile_image;
+
     public PostWithPicture(Post post) {
         this.post_num = post.getPost_num();
         this.model_name = post.getModel_name();
@@ -50,6 +52,11 @@ public class PostWithPicture extends Post {
         this.location.setLatitude(latitude);
         this.location.setLongitude(longitude);
     }
+
+    public void setProfile_image(String profile_image) {
+        this.profile_image = profile_image;
+    }
+
     public String getNickname() {
         return nickname;
     }
@@ -63,4 +70,6 @@ public class PostWithPicture extends Post {
     }
 
     public Double getFairPrice() { return fairPrice; }
+
+    public String getProfile_image() { return profile_image; }
 }

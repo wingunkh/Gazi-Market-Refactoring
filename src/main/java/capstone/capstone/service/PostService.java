@@ -42,8 +42,6 @@ public class PostService {
         postWithPicture.setPictureURL(pictureRepository.getPictureLocationByPostNo(post.getPost_num()));
         postWithPicture.setFairPrice(postRepository.findFairPrice(post.getModel_name(), post.getGrade()));
         postWithPicture.setLocation(postRepository.findLa(post.getUser_num()), postRepository.findLo(post.getUser_num()));
-        System.out.println(postWithPicture.getLocation().getLatitude());
-        System.out.println(postWithPicture.getLocation().getLongitude());
         postWithPicture.setProfile_image(userMemberRepository.showProfileImage(post.getUser_num()));
 
         return postWithPicture;

@@ -49,6 +49,8 @@ public class PostController {
             @RequestPart(value = "files") // 쿼리 파라미터, 폼 데이터, Multipart 등 많은 요청 파라미터를 처리할 수 있는 어노테이션이다.
             List<MultipartFile> files
     ) throws Exception {
+        //더미 넣기 위해서 written_date를 랜덤하게, 월, 일, 시, 분, 초 모두 변경하게함
+//        post.setWritten_date(LocalDateTime.now().withMonth((int) (Math.random() * 12) + 1).withDayOfMonth((int) (Math.random() * 31) + 1).withHour((int) (Math.random() * 24)).withMinute((int) (Math.random() * 60)).withSecond((int) (Math.random() * 60)));
         post.setWritten_date(LocalDateTime.now().plusHours(9));
         postService.createPost(post, files);
     }

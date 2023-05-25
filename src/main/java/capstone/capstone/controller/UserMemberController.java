@@ -40,7 +40,7 @@ public class UserMemberController {
     }
 
     @GetMapping("/user/info")
-    public List<User_Member> allUser() throws IOException {
+    public List<User_Member> allUser(){
         return userMemberService.findAll();
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class UserMemberController {
     }
 
     @GetMapping("/user/info")
-    public List<User_Member> allUser(){
+    public List<User_Member> allUser() throws IOException {
         return userMemberService.findAll();
     }
 }

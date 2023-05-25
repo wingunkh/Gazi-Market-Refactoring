@@ -35,4 +35,6 @@ public class UserMemberService {
     }
 
     public User_Member findNum(int user_num) {return userMemberRepository.getInfo(user_num);}
+
+    public List<User_Member> findAll() {return userMemberRepository.getAll();}
 }

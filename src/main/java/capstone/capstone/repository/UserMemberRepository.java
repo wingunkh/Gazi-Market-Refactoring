@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface UserMemberRepository extends JpaRepository<User_Member, Integer> {
     @Query(value="select u.nickname from User_Member u where u.user_num = :user_num", nativeQuery = true)
     String getNicknameByUserNum(@Param("user_num") int user_num);
@@ -17,4 +19,7 @@ public interface UserMemberRepository extends JpaRepository<User_Member, Integer
 
     @Query(value = "SELECT * FROM User_Member u WHERE u.user_num = :user_num", nativeQuery = true)
     User_Member getInfo(@Param("user_num") int user_num);
+
+    @Query(value = "SELECT * FROM User_Member", nativeQuery = true)
+    List<User_Member> getAll();
 }

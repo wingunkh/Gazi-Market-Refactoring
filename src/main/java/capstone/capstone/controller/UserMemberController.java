@@ -37,4 +37,9 @@ public class UserMemberController {
     public User_Member userInfo(@PathVariable Integer user_num){
         return userMemberService.findNum(user_num);
     }
+
+    @GetMapping("user/info")
+    public List<User_Member> allUser(){
+        return userMemberService.findAll();
+    }
 }

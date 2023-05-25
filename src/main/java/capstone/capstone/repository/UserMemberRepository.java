@@ -20,6 +20,6 @@ public interface UserMemberRepository extends JpaRepository<User_Member, Integer
     @Query(value = "SELECT * FROM User_Member u WHERE u.user_num = :user_num", nativeQuery = true)
     User_Member getInfo(@Param("user_num") int user_num);
 
-    @Query(value = "SELECT * FROM User_Member", nativeQuery = true)
+    @Query(value = "SELECT * FROM User_Member order by user_num", nativeQuery = true)
     List<User_Member> getAll();
 }

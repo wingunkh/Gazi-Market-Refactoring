@@ -38,7 +38,7 @@ public class UserMemberController {
         return userMemberService.findNum(user_num);
     }
 
-    @GetMapping("user/info")
+    @GetMapping("/user/info")
     public List<User_Member> allUser(){
         return userMemberService.findAll();
     }

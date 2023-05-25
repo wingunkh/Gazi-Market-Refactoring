@@ -17,7 +17,7 @@ public class UserMemberService {
 
     public String showProfileImage(int user_num) {
         if(userMemberRepository.showProfileImage(user_num) == null){
-            return "https://capstone-eggplant-bucket.s3.ap-northeast-2.amazonaws.com/profile/default.png";
+            return "https://capstone-eggplant-bucket.s3.ap-northeast-2.amazonaws.com/profile/default.jpg";
         }else {
             return userMemberRepository.showProfileImage(user_num);
         }

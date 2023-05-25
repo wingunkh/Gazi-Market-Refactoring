@@ -165,4 +165,7 @@ public class PostService {
         return postWithPictures;
     }
 
+    public void setStatusSoldout(int post_num){
+        postRepository.setStatusSoldout(post_num);
+    }
 }

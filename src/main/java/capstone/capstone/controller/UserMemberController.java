@@ -1,6 +1,7 @@
 package capstone.capstone.controller;
 
 import capstone.capstone.domain.Post;
+import capstone.capstone.domain.User_Member;
 import capstone.capstone.service.UserMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,5 +30,11 @@ public class UserMemberController {
             List<MultipartFile> file
     ) throws Exception {
         userMemberService.updateProfileImage(user_num, file);
+    }
+
+    //유저정보 반환
+    @GetMapping("/user/info/{user_num}")
+    public User_Member userInfo(@PathVariable Integer user_num){
+        return userMemberService.findNum(user_num);
     }
 }

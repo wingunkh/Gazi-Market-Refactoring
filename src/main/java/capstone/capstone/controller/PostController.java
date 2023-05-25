@@ -171,5 +171,11 @@ public class PostController {
     public List<PostWithPicture> getAroundLocation(@PathVariable double lon, @PathVariable double lat, @PathVariable double distance){
         return postService.getAroundLocation(lon, lat, distance);
     }
+
+    //판매완료 처리
+    @GetMapping("/post/{post_num}/soldout")
+    public void setStatusSoldout(@PathVariable int post_num){
+        postService.setStatusSoldout(post_num);
+    }
 }
 

@@ -97,4 +97,8 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     @Query(value = "SELECT * from Post p where p.user_num = :user_num", nativeQuery = true)
     List<Post> findAllUser(@Param("user_num")int user_num);
+
+    @Modifying
+    @Query(value="UPDATE Post p SET p.status = '판매완료' WHERE p.post_num = :post_num", nativeQuery = true)
+    void setStatusSoldout(@Param("post_num") int post_num);
 }

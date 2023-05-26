@@ -1,6 +1,7 @@
 package capstone.capstone.service;
 
 
+import capstone.capstone.domain.User_Member;
 import capstone.capstone.repository.UserMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,4 +33,8 @@ public class UserMemberService {
     public String findName(int cht_member){
         return  userMemberRepository.getNicknameByUserNum(cht_member);
     }
+
+    public User_Member findNum(int user_num) {return userMemberRepository.getInfo(user_num);}
+
+    public List<User_Member> findAll() {return userMemberRepository.getAll();}
 }

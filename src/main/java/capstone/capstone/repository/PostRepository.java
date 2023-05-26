@@ -75,10 +75,10 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     String findHostInfo(@Param("post_num") int post_num);
 
     // 해당 문자열이 들어가는 게시글 목록 반환
-    @Query(value="select * from Post p where p.grade like '%:name%' OR p.post_content like '%:name%' OR p.post_title like '%:name%' and p.status != '숨김' order by p.written_date desc", nativeQuery = true)
+    @Query(value="select * from Post p where p.grade like %:name% OR p.post_content like %:name% OR p.post_title like %:name% and p.status != '숨김' order by p.written_date desc", nativeQuery = true)
     List<Post> findIncludeNamed(@Param("name") String name);
 
-    @Query(value="select * from Post p where p.grade like '%:name%' OR p.post_content like '%:name%' OR p.post_title like '%:name%' and p.status != '숨김' order by p.written_date", nativeQuery = true)
+    @Query(value="select * from Post p where p.grade like %:name% OR p.post_content like %:name% OR p.post_title like %:name% and p.status != '숨김' order by p.written_date", nativeQuery = true)
     List<Post> findIncludeNamea(@Param("name") String name);
 
     @Query(value = "select avg(p.price) FROM Post p GROUP BY p.model_name, p.grade HAVING p.model_name = :model AND p.grade = :grade", nativeQuery = true)
@@ -101,4 +101,8 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     @Query(value = "SELECT * from Post p where p.user_num = :user_num", nativeQuery = true)
     List<Post> findAllUser(@Param("user_num")int user_num);
+
+    @Modifying
+    @Query(value="UPDATE Post p SET p.status = '판매완료' WHERE p.post_num = :post_num", nativeQuery = true)
+    void setStatusSoldout(@Param("post_num") int post_num);
 }

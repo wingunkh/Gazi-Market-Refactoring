@@ -17,16 +17,16 @@ public class Report_list {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY, generator = "report_SEQUENCE_GENERATOR")
     @SequenceGenerator(name="report_SEQUENCE_GENERATOR", sequenceName = "report_SQ", initialValue = 1, allocationSize = 1)
-    private Integer report_num;
+    protected Integer report_num;
 
     @Column(name = "reporter_num")
-    private Integer reporter_num;
+    protected Integer reporter_num;
 
     @Column(name = "post_num")
-    private Integer post_num;
+    protected Integer post_num;
 
     @Column(name = "report_date")
-    private LocalDateTime report_date;
+    protected LocalDateTime report_date;
 
     public Report_list() {
 

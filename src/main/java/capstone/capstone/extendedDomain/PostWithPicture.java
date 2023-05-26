@@ -18,7 +18,6 @@ public class PostWithPicture extends Post {
 
     String profile_image;
 
-
     public PostWithPicture(Post post) {
         this.post_num = post.getPost_num();
         this.model_name = post.getModel_name();

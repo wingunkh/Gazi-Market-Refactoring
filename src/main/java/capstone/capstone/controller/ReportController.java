@@ -1,6 +1,7 @@
 package capstone.capstone.controller;
 
 import capstone.capstone.domain.Report_list;
+import capstone.capstone.extendedDomain.ReportListWithName;
 import capstone.capstone.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,12 @@ import java.util.List;
 public class ReportController {
     @Autowired
     private ReportService reportService;
+
+    // 신고 목록 데이터 리턴
+    @GetMapping("/report")
+    public List<ReportListWithName> getAllReportList() {
+        return reportService.getAllReportList();
+    }
 
     // 신고 목록 저장
     @GetMapping("/post/report/{reporter_num}/{post_num}")
@@ -37,11 +44,5 @@ public class ReportController {
     @GetMapping("/report/{report_num}/delete")
     public void deleteReportedPost(@PathVariable Integer report_num) {
         reportService.deleteReportedPost(report_num);
-    }
-
-    // 신고 목록 데이터 리턴
-    @GetMapping("/report")
-    public List<Report_list> getAllReportList() {
-        return reportService.getAllReportList();
     }
 }

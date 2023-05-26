@@ -1,11 +1,14 @@
 package capstone.capstone.service;
 
 import capstone.capstone.domain.Report_list;
+import capstone.capstone.extendedDomain.ReportListWithName;
 import capstone.capstone.repository.PictureRepository;
 import capstone.capstone.repository.ReportRepository;
+import capstone.capstone.repository.UserMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,7 +20,24 @@ public class ReportService {
     private PictureRepository pictureRepository;
 
     @Autowired
+    private UserMemberRepository userMemberRepository;
+
+    @Autowired
     private FileHandler fileHandler;
+
+    public List<ReportListWithName> getAllReportList() {
+        List<ReportListWithName> allReports = new ArrayList<ReportListWithName>();
+
+        List<Report_list> list = reportRepository.getAllReportList();
+        for(Report_list reportList : list) {
+            ReportListWithName reportListWithName = new ReportListWithName(reportList);
+            reportListWithName.setNickname(userMemberRepository.getNicknameByUserNum(reportList.getReporter_num()));
+
+            allReports.add(reportListWithName);
+        }
+
+        return allReports;
+    }
 
     public void createReportList(Integer reporter_num, Integer post_num) {
         Report_list reportList = new Report_list(reporter_num, post_num, LocalDateTime.now().plusHours(9));
@@ -44,9 +64,5 @@ public class ReportService {
 
         reportRepository.deleteReportedPost(report_num);
         reportRepository.deleteReportList(report_num);
-    }
-
-    public List<Report_list> getAllReportList() {
-        return reportRepository.getAllReportList();
     }
 }

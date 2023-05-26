@@ -76,6 +76,10 @@ public class PostService {
         return allPosts;
     }
 
+    public void exposureHiddenPost(Integer post_num) {
+        postRepository.exposureHiddenPost(post_num);
+    }
+
     public void createPost(Post post, List<MultipartFile> files) throws Exception {
         // 해당 이미지가 직접 촬영한 이미지인지 도용한 이미지인지 확인
         String imageSource = imageSourceHandler.detectImageSource(files.get(0));

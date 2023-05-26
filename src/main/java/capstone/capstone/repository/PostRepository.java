@@ -39,6 +39,12 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query(value="select * from Post p where p.status = '숨김' order by p.written_date desc", nativeQuery = true)
     List<Post> findHiddenPosts();
 
+    // 해당 숨김 처리된 게시글 공개 처리
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Post SET status = '판매중' WHERE post_num = :post_num", nativeQuery = true)
+    void exposureHiddenPost(@Param("post_num") Integer post_num);
+
     // 승인 대기 상태인 즉, 모델명이 기타인 포스트 목록 반환
     @Query(value="select * from Post p where p.model_name = '기타'", nativeQuery = true)
     List<Post> findAllWaitingApprovalPosts();

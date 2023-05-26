@@ -37,6 +37,12 @@ public class PostController {
         return postService.getHiddenPosts();
     }
 
+    // 해당 숨김 처리된 게시글 공개 처리
+    @GetMapping("/report/{post_num}/exposure")
+    public void exposureHiddenPost(@PathVariable Integer post_num) {
+        postService.exposureHiddenPost(post_num);
+    }
+
     //승인 대기글 목록의 데이터를 리턴
     @GetMapping("/approval")
     public List<PostWithPicture> getAllWaitingApprovalPosts() throws IOException {

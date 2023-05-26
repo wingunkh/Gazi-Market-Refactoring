@@ -28,7 +28,7 @@ public class ReportController {
     }
 
     // 해당 숨김 처리된 게시글 공개 처리
-    @PostMapping("/report/{report_num}/exposure")
+    @GetMapping("/report/{report_num}/exposure")
     public void exposureReportedPost(@PathVariable Integer report_num) {
         reportService.exposureReportedPost(report_num);
     }

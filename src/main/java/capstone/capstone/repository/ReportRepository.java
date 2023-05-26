@@ -12,9 +12,7 @@ public interface ReportRepository extends JpaRepository<Report_list, Integer> {
     // 해당 신고 게시글 숨김 처리
     @Modifying
     @Transactional
-    @Query(value = "UPDATE Post SET status = '숨김' WHERE post_num = (SELECT post_num FROM report_list WHERE report_num = :report_num);"
-            + "UPDATE report_list SET status = '처리' WHERE report_num = :report_num",
-            nativeQuery = true)
+    @Query(value = "UPDATE Post SET status = '숨김' WHERE post_num = (SELECT post_num FROM report_list WHERE report_num = :report_num)", nativeQuery = true)
     void hideReportedPost(@Param("report_num") Integer report_num);
 
     // 해당 숨김 처리된 게시글 공개 처리
@@ -26,9 +24,7 @@ public interface ReportRepository extends JpaRepository<Report_list, Integer> {
     // 해당 신고 게시글 삭제 처리
     @Modifying
     @Transactional
-    @Query(value = "Delete from Post WHERE post_num = (SELECT post_num FROM report_list WHERE report_num = :report_num);"
-            + "UPDATE report_list SET status = '처리' WHERE report_num = :report_num",
-            nativeQuery = true)
+    @Query(value = "Delete from Post WHERE post_num = (SELECT post_num FROM report_list WHERE report_num = :report_num)", nativeQuery = true)
     void deleteReportedPost(@Param("report_num") Integer report_num);
 
     // 해당 신고 게시글 번호 리턴

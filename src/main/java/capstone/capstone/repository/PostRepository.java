@@ -36,7 +36,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     void deletePost(@Param("post_num") int post_num);
 
     // 숨김 처리된 포스트 목록 반환
-    @Query(value="select * from Post p where p.status == '숨김' order by p.written_date desc", nativeQuery = true)
+    @Query(value="select * from Post p where p.status = '숨김' order by p.written_date desc", nativeQuery = true)
     List<Post> findHiddenPosts();
 
     // 승인 대기 상태인 즉, 모델명이 기타인 포스트 목록 반환

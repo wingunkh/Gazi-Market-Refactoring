@@ -42,7 +42,12 @@ public class PostService {
         postWithPicture.setPictureURL(pictureRepository.getPictureLocationByPostNo(post.getPost_num()));
         postWithPicture.setFairPrice(postRepository.findFairPrice(post.getModel_name(), post.getGrade()));
         postWithPicture.setLocation(postRepository.findLa(post.getUser_num()), postRepository.findLo(post.getUser_num()));
-        postWithPicture.setProfile_image(userMemberRepository.showProfileImage(post.getUser_num()));
+        if(userMemberRepository.showProfileImage(post.getUser_num()) == null){
+            postWithPicture.setProfile_image("https://capstone-eggplant-bucket.s3.ap-northeast-2.amazonaws.com/profile/default.jpg");
+        }else {
+            postWithPicture.setProfile_image(userMemberRepository.showProfileImage(post.getUser_num()));
+        }
+
 
         return postWithPicture;
     }

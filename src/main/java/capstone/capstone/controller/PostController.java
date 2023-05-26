@@ -40,7 +40,7 @@ public class PostController {
     // 해당 게시글 숨김 처리
     @GetMapping("/post/{post_num}/hide")
     public void hidePost(@PathVariable Integer post_num) {
-        postService.exposureHiddenPost(post_num);
+        postService.hidePost(post_num);
     }
 
     // 해당 숨김 처리된 게시글 공개 처리

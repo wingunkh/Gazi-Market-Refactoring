@@ -31,6 +31,12 @@ public class PostController {
         return postService.getAllPosts();
     }
 
+    //숨김 처리된 글 목록의 데이터를 리턴
+    @GetMapping("/post/hidden")
+    public List<PostWithPicture> getHiddenPosts() throws IOException {
+        return postService.getHiddenPosts();
+    }
+
     //승인 대기글 목록의 데이터를 리턴
     @GetMapping("/approval")
     public List<PostWithPicture> getAllWaitingApprovalPosts() throws IOException {

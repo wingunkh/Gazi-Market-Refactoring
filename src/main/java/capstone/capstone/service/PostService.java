@@ -59,6 +59,18 @@ public class PostService {
         return allPosts;
     }
 
+    public List<PostWithPicture> getHiddenPosts() throws IOException {
+        List<PostWithPicture> allPosts = new ArrayList<PostWithPicture>();
+
+        List<Post> list = postRepository.findHiddenPosts();
+        for(Post post : list) {
+            PostWithPicture postWithPicture = PostToPostWithPicture(post);
+            allPosts.add(postWithPicture);
+        }
+
+        return allPosts;
+    }
+
     public void createPost(Post post, List<MultipartFile> files) throws Exception {
         // 해당 이미지가 직접 촬영한 이미지인지 도용한 이미지인지 확인
         String imageSource = imageSourceHandler.detectImageSource(files.get(0));

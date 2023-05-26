@@ -26,10 +26,12 @@ public class ReportService {
 
     public void hideReportedPost(Integer report_num) {
         reportRepository.hideReportedPost(report_num);
+        reportRepository.deleteReportList(report_num);
     }
 
     public void exposureReportedPost(Integer report_num) {
         reportRepository.exposureReportedPost(report_num);
+        reportRepository.deleteReportList(report_num);
     }
 
     public void deleteReportedPost(Integer report_num) {
@@ -41,6 +43,7 @@ public class ReportService {
         }
 
         reportRepository.deleteReportedPost(report_num);
+        reportRepository.deleteReportList(report_num);
     }
 
     public List<Report_list> getAllReportList() {

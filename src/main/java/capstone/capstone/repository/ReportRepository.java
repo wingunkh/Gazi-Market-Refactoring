@@ -34,4 +34,10 @@ public interface ReportRepository extends JpaRepository<Report_list, Integer> {
     // 신고 목록 데이터 리턴
     @Query(value="select * from Report_list", nativeQuery = true)
     List<Report_list> getAllReportList();
+
+    // 신고 기록 삭제 처리
+    @Modifying
+    @Transactional
+    @Query(value = "Delete from Report_list WHERE report_num = :report_num)", nativeQuery = true)
+    void deleteReportList(@Param("report_num") Integer report_num);
 }

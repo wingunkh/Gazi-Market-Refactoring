@@ -16,9 +16,9 @@ public class ReportController {
     private ReportService reportService;
 
     // 신고 목록 저장
-    @GetMapping("/post/report/{post_num}/{reporter_num}")
-    public void createReportList(@PathVariable Integer post_num, @PathVariable Integer reporter_num) {
-        reportService.createReportList(post_num, reporter_num);
+    @GetMapping("/post/report/{reporter_num}/{post_num}")
+    public void createReportList(@PathVariable Integer reporter_num, @PathVariable Integer post_num) {
+        reportService.createReportList(reporter_num, post_num);
     }
 
     // 해당 신고 게시글 숨김 처리

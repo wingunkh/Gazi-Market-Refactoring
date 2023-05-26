@@ -19,8 +19,8 @@ public class ReportService {
     @Autowired
     private FileHandler fileHandler;
 
-    public void createReportList(Integer post_num, Integer reporter_num) {
-        Report_list reportList = new Report_list(post_num, reporter_num, LocalDateTime.now().plusHours(9));
+    public void createReportList(Integer reporter_num, Integer post_num) {
+        Report_list reportList = new Report_list(reporter_num, post_num, LocalDateTime.now().plusHours(9));
         reportRepository.save(reportList);
     }
 

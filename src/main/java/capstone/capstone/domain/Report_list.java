@@ -28,6 +28,10 @@ public class Report_list {
     @Column(name = "report_date")
     private LocalDateTime report_date;
 
+    public Report_list() {
+
+    }
+
     public Report_list(Integer reporter_num, Integer post_num, LocalDateTime report_date) {
         this.reporter_num = reporter_num;
         this.post_num = post_num;

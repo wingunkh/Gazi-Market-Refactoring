@@ -76,6 +76,10 @@ public class PostService {
         return allPosts;
     }
 
+    public void hidePost(Integer post_num) {
+        postRepository.hidePost(post_num);
+    }
+
     public void exposureHiddenPost(Integer post_num) {
         postRepository.exposureHiddenPost(post_num);
     }

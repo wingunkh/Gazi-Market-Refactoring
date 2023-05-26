@@ -39,6 +39,11 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query(value="select * from Post p where p.status = '숨김' order by p.written_date desc", nativeQuery = true)
     List<Post> findHiddenPosts();
 
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Post SET status = '숨김' WHERE post_num = :post_num", nativeQuery = true)
+    void hidePost(@Param("post_num") Integer post_num);
+
     // 해당 숨김 처리된 게시글 공개 처리
     @Modifying
     @Transactional

@@ -99,6 +99,9 @@ public class ChattingController {
 
     }
 
+
+    
+
     @Getter
     class ChattingList {
         int cht_room_no;

@@ -41,7 +41,7 @@ public class ListController {
         listService.deletevisit(user_num, post_num);
     }
 
-    @GetMapping("/visit/{user_num}")
+    @GetMapping("/list/visit/{user_num}")
     public List<PostWithPicture> Visitlist(@PathVariable int user_num) throws IOException {
         return listService.visitlist(user_num);
     }

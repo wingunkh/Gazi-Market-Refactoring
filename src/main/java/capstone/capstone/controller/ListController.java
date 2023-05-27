@@ -42,7 +42,7 @@ public class ListController {
     }
 
     @GetMapping("/visit/{user_num}")
-    public List<PostWithPicture> Visitlist(@PathVariable int user_num){
+    public List<PostWithPicture> Visitlist(@PathVariable int user_num) throws IOException {
         return listService.visitlist(user_num);
     }
 

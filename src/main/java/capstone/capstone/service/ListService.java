@@ -25,7 +25,7 @@ public class ListService {
     @Autowired
     private VisitListRepository visitListRepository;
 
-    public void addlike(int user_num, int post_num){
+    public void addlike(int user_num, int post_num) {
         Like_list like = new Like_list();
 
         like.setUser_num(user_num);
@@ -34,7 +34,7 @@ public class ListService {
         likelistRepository.save(like);
     }
 
-    public void deletelike(int user_num, int post_num){
+    public void deletelike(int user_num, int post_num) {
         Like_list like = new Like_list();
 
         like.setUser_num(user_num);
@@ -43,7 +43,7 @@ public class ListService {
         likelistRepository.delete(like);
     }
 
-    public void addvisit(int user_num, int post_num){
+    public void addvisit(int user_num, int post_num) {
         Visit_list visit = new Visit_list();
 
         visit.setUser_num(user_num);
@@ -53,7 +53,7 @@ public class ListService {
         System.out.println(visit.getUser_num() + "가 " + visit.getPost_num() + "방문");
     }
 
-    public void deletevisit(int user_num, int post_num){
+    public void deletevisit(int user_num, int post_num) {
         Visit_list visit = new Visit_list();
 
         visit.setUser_num(user_num);
@@ -66,7 +66,7 @@ public class ListService {
         List<Integer> postlist = likelistRepository.findbyuser(user_num);
         List<PostWithPicture> postWithPictureslist = new ArrayList<PostWithPicture>();
 
-        for (int n : postlist){
+        for (int n : postlist) {
             PostWithPicture postWithPicture = postService.getPost(n);
             if (postWithPicture != null) {
                 postWithPictureslist.add(postWithPicture);
@@ -80,14 +80,19 @@ public class ListService {
     public List<Integer> likelistnum(int user_num) throws IOException {
         return likelistRepository.findbyuser(user_num);
     }
+
     public List<PostWithPicture> visitlist(int user_num) throws IOException {
         List<Integer> postlist = visitListRepository.findbyuser(user_num);
         List<PostWithPicture> postWithPictureslist = new ArrayList<>();
 
-        for (int n : postlist){
+        for (int n : postlist) {
             PostWithPicture postWithPicture = postService.getPost(n);
             if (postWithPicture != null) {
                 postWithPictureslist.add(postWithPicture);
+            } else {
+                // 삭제된 게시글의 경우 처리
+                // 예를 들어, 삭제된 게시글에 대한 메시지를 출력하거나 다른 처리를 수행할 수 있습니다.
+                System.out.println("게시글 " + n + "는 삭제되었습니다.");
             }
         }
 

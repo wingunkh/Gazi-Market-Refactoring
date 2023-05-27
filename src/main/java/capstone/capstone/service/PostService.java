@@ -3,9 +3,7 @@ package capstone.capstone.service;
 import capstone.capstone.domain.*;
 import capstone.capstone.exception.ResourceNotFoundException;
 import capstone.capstone.extendedDomain.PostWithPicture;
-import capstone.capstone.repository.PictureRepository;
-import capstone.capstone.repository.PostRepository;
-import capstone.capstone.repository.UserMemberRepository;
+import capstone.capstone.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,6 +31,12 @@ public class PostService {
 
     @Autowired
     private ImageSourceHandler imageSourceHandler;
+
+    @Autowired
+    private VisitListRepository visitListRepository;
+
+    @Autowired
+    private LikeListRepository likeListRepository;
 
     public PostWithPicture PostToPostWithPicture(Post post){
         PostWithPicture postWithPicture = new PostWithPicture(post);
@@ -126,6 +130,8 @@ public class PostService {
             fileHandler.deleteFromS3(picture_location);
         }
 
+        likeListRepository.deletePost(num);
+        visitListRepository.deletePost(num);
         postRepository.deletePost(num);
     }
 

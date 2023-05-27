@@ -100,7 +100,7 @@ public class ChattingController {
     }
 
 
-    
+
 
     @Getter
     class ChattingList {

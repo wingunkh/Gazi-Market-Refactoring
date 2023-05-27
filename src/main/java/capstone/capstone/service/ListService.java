@@ -67,8 +67,10 @@ public class ListService {
         List<PostWithPicture> postWithPictureslist = new ArrayList<PostWithPicture>();
 
         for (int n : postlist){
-            PostWithPicture postWithPicture = postService.getPost(n);
-            postWithPictureslist.add(postWithPicture);
+            if(postService.getPost(n) != null) {
+                PostWithPicture postWithPicture = postService.getPost(n);
+                postWithPictureslist.add(postWithPicture);
+            }
         }
 
         System.out.println("관심 내역 반환");
@@ -80,11 +82,13 @@ public class ListService {
     }
     public List<PostWithPicture> visitlist(int user_num) throws IOException {
         List<Integer> postlist = visitListRepository.findbyuser(user_num);
-        List<PostWithPicture> postWithPictureslist = new ArrayList<PostWithPicture>();
+        List<PostWithPicture> postWithPictureslist = new ArrayList<>();
 
         for (int n : postlist){
-            PostWithPicture postWithPicture = postService.getPost(n);
-            postWithPictureslist.add(postWithPicture);
+            if(postService.getPost(n) != null) {
+                PostWithPicture postWithPicture = postService.getPost(n);
+                postWithPictureslist.add(postWithPicture);
+            }
         }
 
         System.out.println("방문 내역 반환");

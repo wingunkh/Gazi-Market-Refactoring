@@ -6,8 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Location {
-    private double latitude;
-    private double longitude;
+    private Double latitude;
+    private Double longitude;
 
     public Location(double latitude, double longitude) {
         this.latitude = latitude;

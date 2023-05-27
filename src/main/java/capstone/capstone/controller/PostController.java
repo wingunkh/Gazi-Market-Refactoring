@@ -102,7 +102,7 @@ public class PostController {
         post.setPost_title(post_title);
         post.setPost_content(post_content);
         post.setWritten_date(LocalDateTime.now().plusHours(9));
-
+//        post.setWritten_date(LocalDateTime.now().withMonth((int) (Math.random() * 12) + 1).withDayOfMonth((int) (Math.random() * 31) + 1).withHour((int) (Math.random() * 24)).withMinute((int) (Math.random() * 60)).withSecond((int) (Math.random() * 60)));
         System.out.println(post);
         System.out.println("--------------------");
         System.out.println(files);

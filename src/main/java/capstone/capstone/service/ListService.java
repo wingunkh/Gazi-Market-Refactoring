@@ -67,8 +67,8 @@ public class ListService {
         List<PostWithPicture> postWithPictureslist = new ArrayList<PostWithPicture>();
 
         for (int n : postlist){
-            if(postService.getPost(n) != null) {
-                PostWithPicture postWithPicture = postService.getPost(n);
+            PostWithPicture postWithPicture = postService.getPost(n);
+            if (postWithPicture != null) {
                 postWithPictureslist.add(postWithPicture);
             }
         }
@@ -85,8 +85,8 @@ public class ListService {
         List<PostWithPicture> postWithPictureslist = new ArrayList<>();
 
         for (int n : postlist){
-            if(postService.getPost(n) != null) {
-                PostWithPicture postWithPicture = postService.getPost(n);
+            PostWithPicture postWithPicture = postService.getPost(n);
+            if (postWithPicture != null) {
                 postWithPictureslist.add(postWithPicture);
             }
         }

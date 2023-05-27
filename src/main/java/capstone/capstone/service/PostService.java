@@ -99,6 +99,8 @@ public class PostService {
             post.setIsCaptured(1);
         }
 
+        //post.setIsCaptured((int) (Math.random() % 2));
+
         postRepository.save(post);
 
         // Amazon S3에 전달받은 사진들을 업로드하고 해당 사진들의 Url이 담긴 Url 리스트를 반환받아 변수 list에 저장

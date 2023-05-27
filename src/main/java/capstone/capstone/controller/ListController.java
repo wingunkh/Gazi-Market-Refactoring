@@ -35,8 +35,8 @@ public class ListController {
     public List<Integer> LikeListNum(@PathVariable int user_num) throws IOException {
         return listService.likelistnum(user_num);
     }
-    
-    @GetMapping("/visit/{user_num}")
+
+    @GetMapping("/visits/{user_num}")
     public List<PostWithPicture> Visitlist(@PathVariable int user_num) throws IOException {
         return listService.visitlist(user_num);
     }

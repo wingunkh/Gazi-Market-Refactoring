@@ -117,4 +117,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Modifying
     @Query(value="UPDATE Post p SET p.status = '판매완료' WHERE p.post_num = :post_num", nativeQuery = true)
     void setStatusSoldout(@Param("post_num") int post_num);
+
+    @Query(value = "SELECT * FROM Post WHERE TRUNC(written_date) = TRUNC(SYSDATE)", nativeQuery = true)
+    List<Post> getPostToday();
 }

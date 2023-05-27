@@ -194,4 +194,13 @@ public class PostService {
     public void setStatusSoldout(int post_num){
         postRepository.setStatusSoldout(post_num);
     }
+
+    public List<PostWithPicture> getPost_Today(){
+        List<Post> list = postRepository.getPostToday();
+        List<PostWithPicture> postWithPictures = new ArrayList<>();
+        for(Post p: list){
+            postWithPictures.add(PostToPostWithPicture(p));
+        }
+        return postWithPictures;
+    }
 }

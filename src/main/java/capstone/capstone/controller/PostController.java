@@ -195,5 +195,10 @@ public class PostController {
     public void setStatusSoldout(@PathVariable int post_num){
         postService.setStatusSoldout(post_num);
     }
+
+    @GetMapping("/post/today")
+    public List<PostWithPicture> getTodayPost(){
+        return postService.getPost_Today();
+    }
 }
 

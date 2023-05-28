@@ -68,20 +68,8 @@ public class PostController {
             List<MultipartFile> files
     ) throws Exception {
         //더미 넣기 위해서 written_date를 랜덤하게, 월, 일, 시, 분, 초 모두 변경하게함
-//        post.setWritten_date(LocalDateTime.now().plusHours(9));
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime writtenDate = now.withMonth((int) (Math.random() * 12) + 1)
-                .withDayOfMonth((int) (Math.random() * 31) + 1)
-                .withHour((int) (Math.random() * 24))
-                .withMinute((int) (Math.random() * 60))
-                .withSecond((int) (Math.random() * 60));
+        post.setWritten_date(LocalDateTime.now().plusHours(9));
 
-        if (writtenDate.isAfter(now.withMonth(5).withDayOfMonth(31))) {
-            writtenDate = writtenDate.minusYears(1);
-        }
-
-        post.setWritten_date(writtenDate);
-        
         postService.createPost(post, files);
     }
 
@@ -113,19 +101,7 @@ public class PostController {
         post.setPrice(Integer.parseInt(price));
         post.setPost_title(post_title);
         post.setPost_content(post_content);
-//        post.setWritten_date(LocalDateTime.now().plusHours(9));
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime writtenDate = now.withMonth((int) (Math.random() * 12) + 1)
-                .withDayOfMonth((int) (Math.random() * 31) + 1)
-                .withHour((int) (Math.random() * 24))
-                .withMinute((int) (Math.random() * 60))
-                .withSecond((int) (Math.random() * 60));
-
-        if (writtenDate.isAfter(now.withMonth(5).withDayOfMonth(31))) {
-            writtenDate = writtenDate.minusYears(1);
-        }
-
-        post.setWritten_date(writtenDate);
+        post.setWritten_date(LocalDateTime.now().plusHours(9));
 
         System.out.println(post);
         System.out.println("--------------------");

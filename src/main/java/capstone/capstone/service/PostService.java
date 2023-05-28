@@ -102,8 +102,7 @@ public class PostService {
             System.out.println("???");
             post.setIsCaptured(1);
         }
-
-        post.setIsCaptured((int) (Math.random() % 2));
+        
 
         postRepository.save(post);
 

@@ -102,7 +102,7 @@ public class PostService {
             System.out.println("???");
             post.setIsCaptured(1);
         }
-        
+
 
         postRepository.save(post);
 

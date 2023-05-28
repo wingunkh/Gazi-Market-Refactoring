@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ReportRepository extends JpaRepository<Report_list, Integer> {
     // 신고 목록 데이터 리턴
-    @Query(value="select * from report_list", nativeQuery = true)
+    @Query(value="select * from report_list order by report_date desc", nativeQuery = true)
     List<Report_list> getAllReportList();
 
     // 해당 신고 게시글 숨김 처리

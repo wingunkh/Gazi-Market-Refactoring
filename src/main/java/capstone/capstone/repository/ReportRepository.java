@@ -38,6 +38,6 @@ public interface ReportRepository extends JpaRepository<Report_list, Integer> {
     // 신고 기록 삭제 처리
     @Modifying
     @Transactional
-    @Query(value = "delete from report_list WHERE report_num = :report_num", nativeQuery = true)
+    @Query(value = "delete from report_list WHERE post_num = (SELECT post_num FROM report_list WHERE report_num = :report_num)", nativeQuery = true)
     void deleteReportList(@Param("report_num") Integer report_num);
 }

@@ -18,12 +18,14 @@ public class CategoryController {
     //카테고리 목록의 데이터를 리턴
     @GetMapping("/category")
     public List<Category> getAllCategory() {
+        System.out.println("전체 카테고리 목록 반환");
         return categoryService.getAllCategory();
     }
 
     //카테고리를 저장
     @PostMapping("/category")
     public Category createCategory(@RequestBody Category category) {
+        System.out.println(category.getCategory_name() + "카테고리 추가");
         return categoryService.createCategory(category);
     }
 }

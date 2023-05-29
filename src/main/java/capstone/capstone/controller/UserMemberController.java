@@ -16,6 +16,7 @@ public class UserMemberController {
 
     @GetMapping("/user/{user_num}")
     public String showProfileImage(@PathVariable Integer user_num) {
+        System.out.println(user_num + "번 고객 프로필 이미지 반환");
         return userMemberService.showProfileImage(user_num);
     }
 
@@ -26,17 +27,20 @@ public class UserMemberController {
             @RequestPart(value = "file")
             List<MultipartFile> file
     ) throws Exception {
+        System.out.println(user_num + "번 고객 프로필 이미지 수정");
         userMemberService.updateProfileImage(user_num, file);
     }
 
     //유저정보 반환
     @GetMapping("/user/info/{user_num}")
     public User_Member userInfo(@PathVariable Integer user_num){
+        System.out.println(user_num + "번 고객 정보 반환");
         return userMemberService.findNum(user_num);
     }
 
     @GetMapping("/user/info")
     public List<User_Member> allUser(){
+        System.out.println("전체 고객 정보 반환");
         return userMemberService.findAll();
     }
 }

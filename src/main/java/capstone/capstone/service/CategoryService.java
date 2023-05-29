@@ -11,10 +11,12 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
     public List<Category> getAllCategory() {
+        System.out.println("전체 카테고리 반환");
         return categoryRepository.findAll();
     }
 
     public Category createCategory(Category category) {
+        System.out.println(category.getCategory_name() + " 카테고리 추가");
         return categoryRepository.save(category);
     }
 }

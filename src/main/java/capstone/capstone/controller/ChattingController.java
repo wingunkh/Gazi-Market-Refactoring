@@ -36,6 +36,7 @@ public class ChattingController {
         for (ChattingRoom chattingRoom : chattingRoomService.getguestAllChattingRoom(guest_no)) {
             chattingRoomList.add(new ChattingRoomList(chattingRoom));
         }
+        System.out.println(guest_no + "고객의 채팅방 목록 반환");
         return chattingRoomList;
     }
 
@@ -45,6 +46,7 @@ public class ChattingController {
         for (ChattingRoom chattingRoom : chattingRoomService.getAllChattingRoom()) {
             chattingRoomList.add(new ChattingRoomList(chattingRoom));
         }
+        System.out.println("모든 활성 채팅방 목록 반환");
         return chattingRoomList;
     }
 
@@ -56,6 +58,7 @@ public class ChattingController {
         chattingList.setinfo(chattingRoomService.getHostInfo(cht_room_no), chattingRoomService.getGuestInfo(cht_room_no));
         chattingList.setCht_room_no(cht_room_no);
         chattingList.setPictureURL(chattingRoomService.getChattingPostPicture(cht_room_no));
+        System.out.println(guest_no + "고객이 " + post_no + "번 게시글 " + cht_room_no + "번 채팅방 입장");
         return chattingList;
     }
 
@@ -66,12 +69,14 @@ public class ChattingController {
         chattingList.setinfo(chattingRoomService.getHostInfo(cht_room_no), chattingRoomService.getGuestInfo(cht_room_no));
         chattingList.setCht_room_no(cht_room_no);
         chattingList.setPictureURL(chattingRoomService.getChattingPostPicture(cht_room_no));
+        System.out.println(cht_room_no + "번 채팅방 입장");
         return chattingList;
     }
 
     @PostMapping("/chatting")   //채팅
     public Chatting createChatting(@RequestBody Chatting chatting) {
         chatting.setCht_time(LocalDateTime.now().plusHours(9));
+        System.out.println(chatting.getCht_room_num() + "번 채팅방 -> " + chatting.getCht_member() + "번 고객: " + chatting.getCht_text());
         return chattingService.createChatting(chatting);
     }
 

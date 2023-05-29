@@ -213,4 +213,10 @@ public class PostController {
         System.out.println("오늘 작성된 게시글 목록 반환");
         return postService.getPost_Today();
     }
+
+    @GetMapping("/post/sell/{user_num}")
+    public List<PostWithPicture> getSellPost(@PathVariable int user_num){
+        System.out.println(user_num + "번 고객 판매 목록 반환");
+        return postService.getSellPost(user_num);
+    }
 }

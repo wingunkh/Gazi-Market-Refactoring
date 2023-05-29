@@ -120,4 +120,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
     @Query(value = "SELECT * FROM Post WHERE TRUNC(written_date) = TRUNC(SYSDATE)", nativeQuery = true)
     List<Post> getPostToday();
+
+    @Query(value = "SELECT * FROM Post WHERE user_num = :user_num order by written_date", nativeQuery = true)
+    List<Post> getSellPost(@Param("user_num") int user_num);
 }

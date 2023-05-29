@@ -208,4 +208,13 @@ public class PostService {
         }
         return postWithPictures;
     }
+
+    public List<PostWithPicture> getSellPost(int user_num){
+        List<Post> list = postRepository.getSellPost(user_num);
+        List<PostWithPicture> postWithPictures = new ArrayList<>();
+        for(Post p: list){
+            postWithPictures.add(PostToPostWithPicture(p));
+        }
+        return postWithPictures;
+    }
 }

@@ -45,8 +45,4 @@ public class ListController {
     public void deletevisitlist(@PathVariable int user_num, @PathVariable int post_num){
         listService.deletevisit(user_num, post_num);
     }
-
-
-
-
 }

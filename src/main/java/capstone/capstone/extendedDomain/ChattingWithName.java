@@ -28,5 +28,4 @@ class ChattingWithName {
         this.cht_time = chatting.getCht_time();
         this.cht_member_name = cht_member_name;
     }
-
 }

@@ -32,8 +32,4 @@ public class ChattingService {
     public Chatting createChatting(Chatting chatting) {
         return chattingRepository.save(chatting);
     }
-
-
-
-
 }

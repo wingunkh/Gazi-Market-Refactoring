@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 
-
 @RestController
 public class SocketChatController {
-
     @Autowired
     private SimpMessagingTemplate template;
 
@@ -36,18 +34,13 @@ public class SocketChatController {
     @Autowired
     private UserMemberService userMemberService;
 
-
     @MessageMapping("/chat/sendMessage")
     public void sendMessage(@Payload Chatting chat) {   //@payload, 전송되는 데이터
-        System.out.println(chat.getCht_text());
         chat.setCht_time(LocalDateTime.now().plusHours(9));
         chat.setCht_text(chat.getCht_text());
         Chatting ch = chattingService.createChatting(chat);
-        System.out.println(ch.getCht_num());
         ChattingWithName chatting_withName = new ChattingWithName(chat, userService.findName(chat.getCht_member()));
         chatting_withName.setCht_member_profile(userMemberService.showProfileImage(chatting_withName.getCht_member()));
         template.convertAndSend("/sub/chat/room/" + chat.getCht_room_num(), chatting_withName);
     }
-
 }
-

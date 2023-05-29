@@ -14,4 +14,3 @@ public class Location {
         this.longitude = longitude;
     }
 }
-

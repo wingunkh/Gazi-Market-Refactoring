@@ -24,7 +24,6 @@ public class ModelController {
     //모델을 저장
     @PostMapping("/model")
     public Model createModel(@RequestBody Model model) {
-        System.out.println(model);
         return modelService.createModel(model);
     }
 

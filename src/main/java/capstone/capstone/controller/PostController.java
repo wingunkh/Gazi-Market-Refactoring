@@ -103,9 +103,6 @@ public class PostController {
         post.setPost_content(post_content);
         post.setWritten_date(LocalDateTime.now().plusHours(9));
 
-        System.out.println(post);
-        System.out.println("--------------------");
-        System.out.println(files);
         postService.createPost(post, files);
     }
 
@@ -119,10 +116,7 @@ public class PostController {
     //특정 게시글 수정
     @PostMapping("/post/{post_num}/modify")
     public void updatePost(@PathVariable Integer post_num, @RequestBody Post post) throws Exception {
-        System.out.println(post_num);
-        System.out.println(post.getPost_title());
         post.setWritten_date(LocalDateTime.now().plusHours(9));
-        System.out.println(post.getWritten_date());
         postService.updatePost(post_num, post);
     }
 
@@ -201,4 +195,3 @@ public class PostController {
         return postService.getPost_Today();
     }
 }
-

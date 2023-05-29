@@ -1,6 +1,5 @@
 package capstone.capstone.service;
 
-import capstone.capstone.domain.Chatting;
 import capstone.capstone.domain.ChattingRoom;
 import capstone.capstone.repository.ChattingRepository;
 import capstone.capstone.repository.ChattingRoomRepository;

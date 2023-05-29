@@ -14,10 +14,8 @@ import java.util.List;
 
 @Service
 public class ListService {
-
     @Autowired
     private PostService postService;
-
 
     @Autowired
     private LikeListRepository likelistRepository;
@@ -50,7 +48,6 @@ public class ListService {
         visit.setPost_num(post_num);
 
         visitListRepository.save(visit);
-        System.out.println(visit.getUser_num() + "가 " + visit.getPost_num() + "방문");
     }
 
     public void deletevisit(int user_num, int post_num) {
@@ -73,7 +70,6 @@ public class ListService {
             }
         }
 
-        System.out.println("관심 내역 반환");
         return postWithPictureslist;
     }
 
@@ -89,14 +85,9 @@ public class ListService {
             PostWithPicture postWithPicture = postService.getPost(n);
             if (postWithPicture != null) {
                 postWithPictureslist.add(postWithPicture);
-            } else {
-                // 삭제된 게시글의 경우 처리
-                // 예를 들어, 삭제된 게시글에 대한 메시지를 출력하거나 다른 처리를 수행할 수 있습니다.
-                System.out.println("게시글 " + n + "는 삭제되었습니다.");
             }
         }
 
-        System.out.println("방문 내역 반환");
         return postWithPictureslist;
     }
 }

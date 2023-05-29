@@ -1,6 +1,5 @@
 package capstone.capstone.service;
 
-
 import capstone.capstone.domain.User_Member;
 import capstone.capstone.repository.UserMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ public class UserMemberService {
     public String showProfileImage(int user_num) {
         if(userMemberRepository.showProfileImage(user_num) == null){
             return "https://capstone-eggplant-bucket.s3.ap-northeast-2.amazonaws.com/profile/default.jpg";
-        }else {
+        } else {
             return userMemberRepository.showProfileImage(user_num);
         }
     }

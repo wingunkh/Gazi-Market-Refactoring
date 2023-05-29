@@ -36,7 +36,7 @@ public class ChattingController {
         for (ChattingRoom chattingRoom : chattingRoomService.getguestAllChattingRoom(guest_no)) {
             chattingRoomList.add(new ChattingRoomList(chattingRoom));
         }
-        System.out.println(guest_no + "고객의 채팅방 목록 반환");
+//        System.out.println(guest_no + "고객의 채팅방 목록 반환");
         return chattingRoomList;
     }
 

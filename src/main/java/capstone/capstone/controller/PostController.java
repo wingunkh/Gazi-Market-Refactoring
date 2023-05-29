@@ -173,7 +173,7 @@ public class PostController {
         }
         return postList;
     }
-    //게시들 위치 반환
+    //게시글 위치 반환
     @GetMapping("post/location/{post_num}")
     public Location getPostLocation(@PathVariable int post_num){
         return postService.getLocation(post_num);

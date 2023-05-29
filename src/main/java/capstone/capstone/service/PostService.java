@@ -7,6 +7,7 @@ import capstone.capstone.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,13 +92,17 @@ public class PostService {
         String imageSource = imageSourceHandler.detectImageSource(files.get(0));
 
         if(imageSource == "CAPTURED") {
+            System.out.println("CAPTURED");
             post.setIsCaptured(1);
         } else if(imageSource == "DOWNLOADED") {
+            System.out.println("DOWNLOADED");
             post.setIsCaptured(0);
         }
         else {
+            System.out.println("???");
             post.setIsCaptured(1);
         }
+        
 
         postRepository.save(post);
 

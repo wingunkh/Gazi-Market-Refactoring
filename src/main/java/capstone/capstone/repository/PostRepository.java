@@ -13,7 +13,7 @@ import java.util.List;
 //Spring Data JPA 사용
 public interface PostRepository extends JpaRepository<Post, Integer> {
     // READ : 승인 대기 상태가 아니며 신고로 인해 숨김 처리 되지 않은 즉, 모델명이 기타가 아니면서 판매 상태가 숨김이 아닌 포스트 목록 반환
-    @Query(value="select * from Post p where p.model_name != '기타' and p.status != '숨김' order by p.written_date desc", nativeQuery = true)
+    @Query(value="select * from Post p where p.model_name != '기타' and p.status = '판매중' order by p.written_date desc", nativeQuery = true)
     List<Post> findAllPosts();
 
     // UPDATE : 게시물 수정
@@ -67,30 +67,30 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     void rejectPost(@Param("post_num") int post_num);
 
     // 카테고리 별 게시글 목록 반환
-    @Query(value="select * from Post p where p.MODEL_NAME in (select m.MODEL_NAME from MODEL m where m.CATEGORY_NAME = :category) and p.status != '숨김' order by p.written_date desc", nativeQuery = true)
+    @Query(value="select * from Post p where p.MODEL_NAME in (select m.MODEL_NAME from MODEL m where m.CATEGORY_NAME = :category) and p.status = '판매중' order by p.written_date desc", nativeQuery = true)
     List<Post> findCategory(@Param("category")String category);
 
     // 모델 별 게시글 목록 반환
-    @Query(value="select * from Post p where p.MODEL_NAME = :model and p.status != '숨김' order by p.written_date desc", nativeQuery = true)
+    @Query(value="select * from Post p where p.MODEL_NAME = :model and p.status = '판매중' order by p.written_date desc", nativeQuery = true)
     List<Post> findModel(@Param("model")String model);
 
     // 게시글 번호로 해당 게시글 작성자 번호 반환
-    @Query(value="select p.user_num from Post p where p.post_num = :post_num and p.status != '숨김'", nativeQuery = true)
+    @Query(value="select p.user_num from Post p where p.post_num = :post_num and p.status = '판매중'", nativeQuery = true)
     int findHost(@Param("post_num")int post_num);
 
     // 게시글 번호로 해당 게시글 제목 반환
-    @Query(value="select p.post_title from Post p where p.post_num = :post_num and p.status != '숨김'", nativeQuery = true)
+    @Query(value="select p.post_title from Post p where p.post_num = :post_num and p.status = '판매중'", nativeQuery = true)
     String findName(@Param("post_num")int post_num);
 
     // 게시글 번호로 해당 게시글 작성자의 작성자 정보 반환
-    @Query(value="select u.nickname from User_member u where u.user_num = (select p.user_num from Post p where p.post_num = :post_num and p.status != '숨김')", nativeQuery = true)
+    @Query(value="select u.nickname from User_member u where u.user_num = (select p.user_num from Post p where p.post_num = :post_num and p.status = '판매중')", nativeQuery = true)
     String findHostInfo(@Param("post_num") int post_num);
 
     // 해당 문자열이 들어가는 게시글 목록 반환
-    @Query(value="select * from Post p where p.grade like %:name% OR p.post_content like %:name% OR p.post_title like %:name% and p.status != '숨김' order by p.written_date desc", nativeQuery = true)
+    @Query(value="select * from Post p where p.grade like %:name% OR p.post_content like %:name% OR p.post_title like %:name% and p.status = 판매중' order by p.written_date desc", nativeQuery = true)
     List<Post> findIncludeNamed(@Param("name") String name);
 
-    @Query(value="select * from Post p where p.grade like %:name% OR p.post_content like %:name% OR p.post_title like %:name% and p.status != '숨김' order by p.written_date", nativeQuery = true)
+    @Query(value="select * from Post p where p.grade like %:name% OR p.post_content like %:name% OR p.post_title like %:name% and p.status = '판매중' order by p.written_date", nativeQuery = true)
     List<Post> findIncludeNamea(@Param("name") String name);
 
     @Query(value = "select avg(p.price) FROM Post p GROUP BY p.model_name, p.grade HAVING p.model_name = :model AND p.grade = :grade", nativeQuery = true)

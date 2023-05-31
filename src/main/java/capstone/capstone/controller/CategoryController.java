@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-//@CrossOrigin(origins = "http://localhost:3000")
-//@CrossOrigin(origins = "http://52.78.130.186:80")
 @CrossOrigin(origins = "http://52.78.130.186")
 @RestController
 @RequestMapping("/api")
@@ -15,14 +13,14 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    //카테고리 목록의 데이터를 리턴
+    // 모든 카테고리 목록 리턴
     @GetMapping("/category")
     public List<Category> getAllCategory() {
         System.out.println("전체 카테고리 목록 반환");
         return categoryService.getAllCategory();
     }
 
-    //카테고리를 저장
+    // 카테고리 저장
     @PostMapping("/category")
     public Category createCategory(@RequestBody Category category) {
         System.out.println(category.getCategory_name() + "카테고리 추가");

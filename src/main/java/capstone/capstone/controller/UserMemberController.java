@@ -14,12 +14,14 @@ public class UserMemberController {
     @Autowired
     private UserMemberService userMemberService;
 
+    // 해당 사용자 프로필 이미지 리턴
     @GetMapping("/user/{user_num}")
     public String showProfileImage(@PathVariable Integer user_num) {
         System.out.println(user_num + "번 고객 프로필 이미지 반환");
         return userMemberService.showProfileImage(user_num);
     }
 
+    // 해당 사용자 프로필 이미지 수정
     @PostMapping("/user/update")
     public void updateProfileImage(
             @RequestPart(value = "user_num")
@@ -31,13 +33,14 @@ public class UserMemberController {
         userMemberService.updateProfileImage(user_num, file);
     }
 
-    //유저정보 반환
+    // 해당 사용자 정보 리턴
     @GetMapping("/user/info/{user_num}")
     public User_Member userInfo(@PathVariable Integer user_num){
         System.out.println(user_num + "번 고객 정보 반환");
         return userMemberService.findNum(user_num);
     }
 
+    // 모든 사용자 정보 리턴
     @GetMapping("/user/info")
     public List<User_Member> allUser(){
         System.out.println("전체 고객 정보 반환");

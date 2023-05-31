@@ -92,17 +92,16 @@ public class PostService {
         String imageSource = imageSourceHandler.detectImageSource(files.get(0));
 
         if(imageSource == "CAPTURED") {
-            System.out.println("CAPTURED");
+            System.out.println("해당 이미지는 직접 촬영한 이미지로 추정됩니다.");
             post.setIsCaptured(1);
         } else if(imageSource == "DOWNLOADED") {
-            System.out.println("DOWNLOADED");
+            System.out.println("해당 이미지는 인터넷을 통해 다운로드된 이미지로 추정됩니다.");
             post.setIsCaptured(0);
         }
         else {
-            System.out.println("???");
+            System.out.println("해당 이미지는 직접 촬영한 이미지로 추정됩니다.");
             post.setIsCaptured(1);
         }
-        
 
         postRepository.save(post);
 

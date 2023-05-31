@@ -13,8 +13,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-//@CrossOrigin(origins = "http://localhost:3000") // CORS 문제를 해결하기 위한 어노테이션
-//@CrossOrigin(origins = "http://52.78.130.186:80")
 @CrossOrigin(origins = "http://52.78.130.186")
 @RestController // @Controller에 @ResponseBody가 결합한 어노테이션, 문자열과 JSON 등을 전송 가능
 @RequestMapping("/api") // 요청에 대해 어떤 Controller, 어떤 메소드가 처리할지를 맵핑하기 위한 어노테이션
@@ -25,14 +23,14 @@ public class PostController {
     @Autowired
     private ListService listService;
 
-    //글 목록의 데이터를 리턴
+    // 모든 공개 게시글 목록 리턴
     @GetMapping("/post") // GET 방식: 정보를 단순히 조회하기 위해 사용하는 방식
     public List<PostWithPicture> getAllPosts() throws IOException {
         System.out.println("공개 게시글 목록 반환");
         return postService.getAllPosts();
     }
 
-    //숨김 처리된 글 목록의 데이터를 리턴
+    // 모든 숨김 게시글 목록 리턴
     @GetMapping("/post/hidden")
     public List<PostWithPicture> getHiddenPosts() throws IOException {
         System.out.println("비공개 게시글 목록 반환");
@@ -53,7 +51,7 @@ public class PostController {
         postService.exposureHiddenPost(post_num);
     }
 
-    //승인 대기글 목록의 데이터를 리턴
+    // 승인 대기글 목록의 데이터를 리턴
     @GetMapping("/approval")
     public List<PostWithPicture> getAllWaitingApprovalPosts() throws IOException {
         List<PostWithPicture> postList = new ArrayList<>();
@@ -64,21 +62,20 @@ public class PostController {
         return postList;
     }
 
-    //글을 저장 (리액트)
+    // 게시글 저장 (리액트)
     @PostMapping("/post") // POST 방식: 특정 데이터를 서버로 제출하여 해당 데이터를 추가, 수정 또는 삭제하기 위해 데이터를 전송하는 방식
     public void createPost(
-            @RequestPart(value = "post", required = false) // multipart/form-data에 특화되어 여러 복잡한 값을 처리할 때 사용할 수 있는 어노테이션이다.
+            @RequestPart(value = "post", required = false) // multipart/form-data에 특화되어 여러 복잡한 값을 처리할 때 사용할 수 있는 어노테이션
             Post post,
-            @RequestPart(value = "files") // 쿼리 파라미터, 폼 데이터, Multipart 등 많은 요청 파라미터를 처리할 수 있는 어노테이션이다.
+            @RequestPart(value = "files") // 쿼리 파라미터, 폼 데이터, Multipart 등 많은 요청 파라미터를 처리할 수 있는 어노테이션
             List<MultipartFile> files
     ) throws Exception {
-        //더미 넣기 위해서 written_date를 랜덤하게, 월, 일, 시, 분, 초 모두 변경하게함
         post.setWritten_date(LocalDateTime.now().plusHours(9));
         System.out.println(post.getUser_num() + "번 고객 -> " + post.getModel_name() + " 판매 게시글 작성");
         postService.createPost(post, files);
     }
 
-    //글을 저장 (리액트 네이티브)
+    // 게시글 저장 (리액트 네이티브)
     @PostMapping("/post/native")
     public void createPost(
             @RequestPart(value = "model_name")
@@ -107,12 +104,11 @@ public class PostController {
         post.setPost_title(post_title);
         post.setPost_content(post_content);
         post.setWritten_date(LocalDateTime.now().plusHours(9));
-
-        System.out.println(post.getUser_num() + "번 고객 -> " + post.getModel_name() + " 판매 게시글 작성");
         postService.createPost(post, files);
+        System.out.println(post.getUser_num() + "번 고객 -> " + post.getModel_name() + " 판매 게시글 작성");
     }
 
-    //특정 게시글과 게시글의 사진 리턴
+    // 해당 게시글 리턴
     @GetMapping("/post/{user_num}/{no}")
     public PostWithPicture getPostByNo(@PathVariable Integer user_num, @PathVariable Integer no) throws IOException {
         listService.addvisit(user_num, no);
@@ -120,7 +116,7 @@ public class PostController {
         return postService.getPost(no);
     }
 
-    //특정 게시글 수정
+    // 해당 게시글 수정
     @PostMapping("/post/{post_num}/modify")
     public void updatePost(@PathVariable Integer post_num, @RequestBody Post post) throws Exception {
         post.setWritten_date(LocalDateTime.now().plusHours(9));
@@ -128,35 +124,35 @@ public class PostController {
         postService.updatePost(post_num, post);
     }
 
-    //특정 게시글 삭제
+    // 해당 게시글 삭제
     @GetMapping("/post/{num}/delete")
     public void deletePost(@PathVariable Integer num){
         System.out.println(num + "번 게시글 삭제");
         postService.deletePost(num);
     }
 
-    //특정 승인 대기 게시글과 게시글의 사진 리턴
+    // 해당 승인 대기 게시글 리턴
     @GetMapping("/approval/{no}")
     public PostWithPicture getWaitingApprovalPostByNo(@PathVariable Integer no) throws IOException {
         System.out.println("승인 대기 게시글 방문");
         return postService.getPost(no);
     }
 
-    //승인 대기 게시글 승인
+    // 해당 승인 대기 게시글 승인
     @GetMapping("/approval/{no}/{model_name}")
     public void approvePost(@PathVariable Integer no, @PathVariable String model_name) {
         System.out.println(no + "번 게시글 승인 완료");
         postService.approvePost(no, model_name);
     }
 
-    //승인 대기 게시글 거절
+    // 해당 승인 대기 게시글 거절
     @GetMapping("/approval/{no}/reject")
     public void rejectPost(@PathVariable Integer no) {
         System.out.println(no + "번 게시글 승인 거절");
         postService.rejectPost(no);
     }
 
-    //해당 카테고리 내의 게시글을 리턴
+    // 해당 카테고리 내 게시글 목록 리턴
     @GetMapping("post/category/{category}")
     public List<PostWithPicture> getPostByCategory(@PathVariable String category){
         List<PostWithPicture> postList = new ArrayList<>();
@@ -167,7 +163,7 @@ public class PostController {
         return postList;
     }
 
-    //해당 모델의 게시글을 리턴
+    // 해당 모델 내 게시글 목록 리턴
     @GetMapping("post/model/{model}")
     public List<PostWithPicture> getPostByModel(@PathVariable String model) {
         List<PostWithPicture> postList = new ArrayList<>();
@@ -178,7 +174,7 @@ public class PostController {
         return postList;
     }
 
-    //게시글 제목으로 검색(name이 포함되는 제목 검색해서 목록 반환)
+    // 게시글 제목으로 검색
     @GetMapping("post/name/{type}/{name}")  //type에는 무조건 asc OR desc로, asc:오름차순, desc:내림차순
     public List<PostWithPicture> getPostByName(@PathVariable String type, @PathVariable String name) throws IOException {
         List<PostWithPicture> postList = new ArrayList<>();
@@ -188,32 +184,36 @@ public class PostController {
         System.out.println(name + " 포함한 게시글 목록 반환");
         return postList;
     }
-    //게시글 위치 반환
+
+    // 해당 게시글 위치 반환
     @GetMapping("post/location/{post_num}")
     public Location getPostLocation(@PathVariable int post_num){
         System.out.println(post_num + "번 게시글 판매 위치 반환");
         return postService.getLocation(post_num);
     }
 
+    // 해당 위치에서 해당 반경 내 게시글 목록 리턴
     @GetMapping("post/lonlat/{lon}/{lat}/{distance}")
     public List<PostWithPicture> getAroundLocation(@PathVariable double lon, @PathVariable double lat, @PathVariable double distance){
         System.out.println("(" + lon + ", " + lat + ")" + "에서 " + distance + "km 반경 내 게시글 목록 반환");
         return postService.getAroundLocation(lon, lat, distance);
     }
 
-    //판매완료 처리
+    // 해당 게시글 판매완료 처리
     @GetMapping("/post/{post_num}/soldout")
-    public void setStatusSoldout(@PathVariable int post_num){
+    public void setStatusSoldOut(@PathVariable int post_num){
         System.out.println(post_num + "번 게시글 거래 완료");
         postService.setStatusSoldout(post_num);
     }
 
+    // 오늘 작성된 게시글 목록 리턴
     @GetMapping("/post/today")
     public List<PostWithPicture> getTodayPost(){
         System.out.println("오늘 작성된 게시글 목록 반환");
         return postService.getPost_Today();
     }
 
+    // 해당 사용자의 게시글 판매완료 목록 리턴
     @GetMapping("/post/sell/{user_num}")
     public List<PostWithPicture> getSellPost(@PathVariable int user_num){
         System.out.println(user_num + "번 고객 판매 목록 반환");

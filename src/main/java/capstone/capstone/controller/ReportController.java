@@ -1,14 +1,11 @@
 package capstone.capstone.controller;
 
-import capstone.capstone.domain.Report_list;
 import capstone.capstone.extendedDomain.ReportListWithName;
 import capstone.capstone.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-//@CrossOrigin(origins = "http://localhost:3000")
-//@CrossOrigin(origins = "http://52.78.130.186:80")
 @CrossOrigin(origins = "http://52.78.130.186")
 @RestController
 @RequestMapping("/api")
@@ -16,14 +13,14 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
 
-    // 신고 목록 데이터 리턴
+    // 모든 신고 목록 리턴
     @GetMapping("/report")
     public List<ReportListWithName> getAllReportList() {
         System.out.println("전체 신고 목록 반환");
         return reportService.getAllReportList();
     }
 
-    // 신고 목록 저장
+    // 게시글 신고
     @GetMapping("/post/report/{reporter_num}/{post_num}")
     public void createReportList(@PathVariable Integer reporter_num, @PathVariable Integer post_num) {
         System.out.println(reporter_num + "번 고객이 " + post_num + "번 게시글 신고");

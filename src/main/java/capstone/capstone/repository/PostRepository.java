@@ -75,7 +75,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     List<Post> findModel(@Param("model")String model);
 
     // 게시글 번호로 해당 게시글 작성자 번호 반환
-    @Query(value="select p.user_num from Post p where p.post_num = :post_num and p.status = '판매중'", nativeQuery = true)
+    @Query(value="select p.user_num from Post p where p.post_num = :post_num and p.status = '판매중' OR p.status = '채팅용'", nativeQuery = true)
     int findHost(@Param("post_num")int post_num);
 
     // 게시글 번호로 해당 게시글 제목 반환

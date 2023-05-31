@@ -30,7 +30,7 @@ public class ChattingController {
     @Autowired
     private PostService postService;
 
-    // 모든 채팅방 목록 리턴(관리자)
+    // 모든 채팅방 목록 리턴(사용자)
     @GetMapping("/chattingroom/guest/{guest_no}")
     public List<ChattingRoomList> getAllChattingRoom(@PathVariable Integer guest_no) {
         List<ChattingRoomList> chattingRoomList = new ArrayList<ChattingRoomList>();
@@ -40,8 +40,7 @@ public class ChattingController {
         return chattingRoomList;
     }
 
-
-    // 모든 채팅방 목록 리턴(사용자)
+    // 모든 채팅방 목록 리턴(관리자)
     @GetMapping("/chattingroom")
     public List<ChattingRoomList> getChattingRoom() {
         List<ChattingRoomList> chattingRoomList = new ArrayList<ChattingRoomList>();

@@ -40,6 +40,7 @@ public class ChattingController {
         return chattingRoomList;
     }
 
+
     // 모든 채팅방 목록 리턴(사용자)
     @GetMapping("/chattingroom")
     public List<ChattingRoomList> getChattingRoom() {

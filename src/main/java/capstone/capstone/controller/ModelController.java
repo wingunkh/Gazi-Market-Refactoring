@@ -13,18 +13,18 @@ public class ModelController {
     @Autowired
     private ModelService modelService;
 
-    // 모든 모델 목록 리턴
-    @GetMapping("/model")
-    public List<Model> getAllModel() {
-        System.out.println("전체 모델 목록 반환");
-        return modelService.getAllModel();
-    }
-
     // 모델 저장
     @PostMapping("/model")
     public Model createModel(@RequestBody Model model) {
         System.out.println(model.getModel_name() + "모델 추가");
         return modelService.createModel(model);
+    }
+
+    // 전체 모델 목록 리턴
+    @GetMapping("/model")
+    public List<Model> getAllModel() {
+        System.out.println("전체 모델 목록 반환");
+        return modelService.getAllModel();
     }
 
     // 해당 카테고리의 모델 목록 리턴
@@ -34,7 +34,7 @@ public class ModelController {
         return modelService.getCategoryModel(category);
     }
 
-    // 해당 모델의 해당 등급의 최근 거래가 반환
+    // 해당 모델의 해당 등급의 최근 거래가 리턴
     @GetMapping("/{model}/{grade}")
     public double getFairPrice(@PathVariable String model, @PathVariable String grade){
         System.out.println(model + "의 " + grade + "등급 최근 거래가 반환");

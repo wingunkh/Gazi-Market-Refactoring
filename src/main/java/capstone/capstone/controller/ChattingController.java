@@ -30,27 +30,6 @@ public class ChattingController {
     @Autowired
     private PostService postService;
 
-    // 모든 채팅방 목록 리턴(사용자)
-    @GetMapping("/chattingroom/guest/{guest_no}")
-    public List<ChattingRoomList> getAllChattingRoom(@PathVariable Integer guest_no) {
-        List<ChattingRoomList> chattingRoomList = new ArrayList<ChattingRoomList>();
-        for (ChattingRoom chattingRoom : chattingRoomService.getguestAllChattingRoom(guest_no)) {
-            chattingRoomList.add(new ChattingRoomList(chattingRoom));
-        }
-        return chattingRoomList;
-    }
-
-    // 모든 채팅방 목록 리턴(관리자)
-    @GetMapping("/chattingroom")
-    public List<ChattingRoomList> getChattingRoom() {
-        List<ChattingRoomList> chattingRoomList = new ArrayList<ChattingRoomList>();
-        for (ChattingRoom chattingRoom : chattingRoomService.getAllChattingRoom()) {
-            chattingRoomList.add(new ChattingRoomList(chattingRoom));
-        }
-        System.out.println("모든 활성 채팅방 목록 반환");
-        return chattingRoomList;
-    }
-
     // 게시글에서 채팅방 입장(생성)
     @GetMapping("/chattingroom/post/{post_no}/{guest_no}")
     public ChattingList getChattingByNo(@PathVariable Integer post_no, @PathVariable Integer guest_no) {
@@ -60,7 +39,7 @@ public class ChattingController {
         chattingList.setInfo(chattingRoomService.getHostInfo(cht_room_no), chattingRoomService.getGuestInfo(cht_room_no));
         chattingList.setCht_room_no(cht_room_no);
         chattingList.setPictureURL(chattingRoomService.getChattingPostPicture(cht_room_no));
-        System.out.println(guest_no + "고객이 " + post_no + "번 게시글 " + cht_room_no + "번 채팅방 입장");
+        System.out.println(guest_no + "사용자가 " + post_no + "번 게시글 " + cht_room_no + "번 채팅방 입장");
         return chattingList;
     }
 
@@ -80,8 +59,29 @@ public class ChattingController {
     @PostMapping("/chatting")
     public Chatting createChatting(@RequestBody Chatting chatting) {
         chatting.setCht_time(LocalDateTime.now().plusHours(9));
-        System.out.println(chatting.getCht_room_num() + "번 채팅방 -> " + chatting.getCht_member() + "번 고객: " + chatting.getCht_text());
+        System.out.println(chatting.getCht_room_num() + "번 채팅방 -> " + chatting.getCht_member() + "번 사용자: " + chatting.getCht_text());
         return chattingService.createChatting(chatting);
+    }
+
+    // 전체 채팅방 목록 리턴(사용자)
+    @GetMapping("/chattingroom/guest/{guest_no}")
+    public List<ChattingRoomList> getAllChattingRoom(@PathVariable Integer guest_no) {
+        List<ChattingRoomList> chattingRoomList = new ArrayList<ChattingRoomList>();
+        for (ChattingRoom chattingRoom : chattingRoomService.getguestAllChattingRoom(guest_no)) {
+            chattingRoomList.add(new ChattingRoomList(chattingRoom));
+        }
+        return chattingRoomList;
+    }
+
+    // 전체 채팅방 목록 리턴(관리자)
+    @GetMapping("/chattingroom")
+    public List<ChattingRoomList> getChattingRoom() {
+        List<ChattingRoomList> chattingRoomList = new ArrayList<ChattingRoomList>();
+        for (ChattingRoom chattingRoom : chattingRoomService.getAllChattingRoom()) {
+            chattingRoomList.add(new ChattingRoomList(chattingRoom));
+        }
+        System.out.println("전체 활성 채팅방 목록 반환");
+        return chattingRoomList;
     }
 
     @Getter

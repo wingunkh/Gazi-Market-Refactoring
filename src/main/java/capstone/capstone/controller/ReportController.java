@@ -13,18 +13,18 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
 
-    // 모든 신고 목록 리턴
-    @GetMapping("/report")
-    public List<ReportListWithName> getAllReportList() {
-        System.out.println("전체 신고 목록 반환");
-        return reportService.getAllReportList();
-    }
-
     // 게시글 신고
     @GetMapping("/post/report/{reporter_num}/{post_num}")
     public void createReportList(@PathVariable Integer reporter_num, @PathVariable Integer post_num) {
         System.out.println(reporter_num + "번 고객이 " + post_num + "번 게시글 신고");
         reportService.createReportList(reporter_num, post_num);
+    }
+
+    // 전체 신고 목록 리턴
+    @GetMapping("/report")
+    public List<ReportListWithName> getAllReportList() {
+        System.out.println("전체 신고 목록 반환");
+        return reportService.getAllReportList();
     }
 
     // 해당 신고 게시글 숨김 처리

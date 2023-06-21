@@ -35,10 +35,7 @@ public class ChattingController {
     public ChattingList getChattingByNo(@PathVariable Integer post_no, @PathVariable Integer guest_no) {
         int cht_room_no = chattingRoomService.getChattingRoom(post_no, guest_no);
         ChattingList chattingList = new ChattingList(chattingService.getAllChattingDate(cht_room_no));
-        chattingList.setPost_title(chattingRoomService.getChattingPostTitle(cht_room_no));
-        chattingList.setInfo(chattingRoomService.getHostInfo(cht_room_no), chattingRoomService.getGuestInfo(cht_room_no));
-        chattingList.setCht_room_no(cht_room_no);
-        chattingList.setPictureURL(chattingRoomService.getChattingPostPicture(cht_room_no));
+        chattingList.setting(cht_room_no);
         System.out.println(guest_no + "사용자가 " + post_no + "번 게시글 " + cht_room_no + "번 채팅방 입장");
         return chattingList;
     }
@@ -47,10 +44,7 @@ public class ChattingController {
     @GetMapping("/chatting/{cht_room_no}")
     public ChattingList getAllChattingDate(@PathVariable Integer cht_room_no) {
         ChattingList chattingList = new ChattingList(chattingService.getAllChattingDate(cht_room_no));
-        chattingList.setPost_title(chattingRoomService.getChattingPostTitle(cht_room_no));
-        chattingList.setInfo(chattingRoomService.getHostInfo(cht_room_no), chattingRoomService.getGuestInfo(cht_room_no));
-        chattingList.setCht_room_no(cht_room_no);
-        chattingList.setPictureURL(chattingRoomService.getChattingPostPicture(cht_room_no));
+        chattingList.setting(cht_room_no);
         System.out.println(cht_room_no + "번 채팅방 입장");
         return chattingList;
     }
@@ -124,6 +118,14 @@ public class ChattingController {
             }
         }
 
+        public void setting(Integer cht_room_no){
+            this.post_title = chattingRoomService.getChattingPostTitle(cht_room_no);
+            this.host_no = chattingRoomService.getHostInfo(cht_room_no);
+            this.guest_no = chattingRoomService.getGuestInfo(cht_room_no);
+            this.cht_room_no = cht_room_no;
+            this.pictureURL = chattingRoomService.getChattingPostPicture(cht_room_no);
+        }
+
         public void setCht_room_no(int cht_room_no) {this.cht_room_no = cht_room_no; }
 
         public void setPost_title(String post_title) {
@@ -132,9 +134,5 @@ public class ChattingController {
 
         public void setPictureURL(String pictureURL) { this.pictureURL = pictureURL; }
 
-        public void setInfo(int host_no, int guest_no) {
-            this.host_no = host_no;
-            this.guest_no = guest_no;
-        }
     }
 }

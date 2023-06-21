@@ -156,21 +156,46 @@ public class PostService {
         return postWithPicture;
     }
 
-    public List<Post> getCategoryPosts(String category){
-        return postRepository.findCategory(category);
+    public List<PostWithPicture> getCategoryPosts(String category){
+        List<PostWithPicture> Posts = new ArrayList<PostWithPicture>();
+
+        List<Post> list = postRepository.findCategory(category);
+        for(Post post : list) {
+            PostWithPicture postWithPicture = PostToPostWithPicture(post);
+            Posts.add(postWithPicture);
+        }
+
+        return Posts;
     }
 
-    public List<Post> getModelPosts(String model) {
-        return postRepository.findModel(model);
+    public List<PostWithPicture> getModelPosts(String model) {
+        List<PostWithPicture> Posts = new ArrayList<PostWithPicture>();
+
+        List<Post> list = postRepository.findModel(model);
+        for(Post post : list) {
+            PostWithPicture postWithPicture = PostToPostWithPicture(post);
+            Posts.add(postWithPicture);
+        }
+
+        return Posts;
     }
 
-    public List<Post> getNamePosts(String type, String name) {
+    public List<PostWithPicture> getNamePosts(String type, String name) {
+        List<Post> list;
         String text = "%" + name + "%";
         if(type.equals("desc"))
-            return postRepository.findIncludeNamed(text);
+            list = postRepository.findIncludeNamed(text);
         else{
-            return postRepository.findIncludeNamea(text);
+            list = postRepository.findIncludeNamed(text);
         }
+        List<PostWithPicture> Posts = new ArrayList<PostWithPicture>();
+
+        for(Post post : list) {
+            PostWithPicture postWithPicture = PostToPostWithPicture(post);
+            Posts.add(postWithPicture);
+        }
+
+        return Posts;
     }
 
     public String getPost_Name(int post_num) { return postRepository.findName(post_num); }

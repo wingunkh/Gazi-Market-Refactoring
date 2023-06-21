@@ -87,23 +87,15 @@ public class PostController {
     // 해당 카테고리 내 게시글 목록 리턴
     @GetMapping("post/category/{category}")
     public List<PostWithPicture> getPostByCategory(@PathVariable String category){
-        List<PostWithPicture> postList = new ArrayList<>();
-        for (Post post : postService.getCategoryPosts(category)){
-            postList.add(postService.PostToPostWithPicture(post));
-        }
         System.out.println(category + " 게시글 목록 반환");
-        return postList;
+        return postService.getCategoryPosts(category);
     }
 
     // 해당 모델 내 게시글 목록 리턴
     @GetMapping("post/model/{model}")
     public List<PostWithPicture> getPostByModel(@PathVariable String model) {
-        List<PostWithPicture> postList = new ArrayList<>();
-        for (Post post : postService.getModelPosts(model)){
-            postList.add(postService.PostToPostWithPicture(post));
-        }
         System.out.println(model + " 게시글 목록 반환");
-        return postList;
+        return postService.getModelPosts(model);
     }
 
     // 오늘 작성된 게시글 목록 리턴
@@ -131,12 +123,8 @@ public class PostController {
     // 게시글 제목으로 검색
     @GetMapping("post/name/{type}/{name}")
     public List<PostWithPicture> getPostByName(@PathVariable String type, @PathVariable String name) throws IOException {
-        List<PostWithPicture> postList = new ArrayList<>();
-        for (Post post : postService.getNamePosts(type, name)){
-            postList.add(postService.PostToPostWithPicture(post));
-        }
         System.out.println(name + " 포함한 게시글 목록 반환");
-        return postList;
+        return postService.getNamePosts(type, name);
     }
 
     // 해당 게시글 위치 리턴

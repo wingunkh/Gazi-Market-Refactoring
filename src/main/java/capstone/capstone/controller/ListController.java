@@ -30,9 +30,9 @@ public class ListController {
 
     // 해당 사용자의 즐겨찾기 게시글 번호 리턴
     @GetMapping("/like/num/{user_num}")
-    public List<Integer> getLikeListNum(@PathVariable int user_num) throws IOException {
+    public List<Integer> getLikeListPostNum(@PathVariable int user_num) throws IOException {
         System.out.println(user_num + "번 사용자의 즐겨찾기 게시글 번호 반환");
-        return listService.getLikeListNum(user_num);
+        return listService.getLikeListPostNum(user_num);
     }
 
     // 해당 사용자의 즐겨찾기 삭제

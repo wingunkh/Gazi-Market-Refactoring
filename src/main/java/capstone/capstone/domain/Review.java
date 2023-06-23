@@ -9,9 +9,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "review")
-@IdClass(Review_Post.class) // 복합키 매핑을 위한 어노테이션
-@DynamicInsert // INSERT 시 NULL인 부분을 제외하기 위해 사용, 동적 인서트
-@DynamicUpdate // UPDATE 시 NULL인 부분을 제외하기 위해 사용, 동적 업데이트
+@IdClass(Review_Post.class)
+@DynamicInsert
+@DynamicUpdate
 @Getter
 @Setter
 public class Review {

@@ -73,7 +73,7 @@ public class ListService {
         return postWithPictureslist;
     }
 
-    public List<Integer> getLikeListNum(int user_num) throws IOException {
+    public List<Integer> getLikeListPostNum(int user_num) throws IOException {
         return likelistRepository.findbyuser(user_num);
     }
 

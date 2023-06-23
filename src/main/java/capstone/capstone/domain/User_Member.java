@@ -8,8 +8,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "user_member")
-@DynamicInsert // INSERT 시 NULL인 부분을 제외하기 위해 사용, 동적 인서트
-@DynamicUpdate // UPDATE 시 NULL인 부분을 제외하기 위해 사용, 동적 업데이트
+@DynamicInsert
+@DynamicUpdate
 @Getter
 @Setter
 public class User_Member {
@@ -27,11 +27,11 @@ public class User_Member {
     @Column(name = "nickname")
     protected String nickname;
 
-    @Column(name = "Temperature")
-    protected Integer Temperature;
+    @Column(name = "temperature")
+    protected Integer temperature;
 
-    @Column(name = "Administrator")
-    protected String Administrator;
+    @Column(name = "administrator")
+    protected String administrator;
 
     @Column(name = "latitude")
     protected Double latitude;

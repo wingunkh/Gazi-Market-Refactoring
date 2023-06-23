@@ -55,7 +55,7 @@ public class PostService {
         return postWithPicture;
     }
 
-    public List<PostWithPicture> getAllPosts() throws IOException {
+    public List<PostWithPicture> getAllPost() throws IOException {
         List<PostWithPicture> allPosts = new ArrayList<PostWithPicture>();
 
         List<Post> list = postRepository.findAllPosts();
@@ -67,7 +67,7 @@ public class PostService {
         return allPosts;
     }
 
-    public List<PostWithPicture> getHiddenPosts() throws IOException {
+    public List<PostWithPicture> getHiddenPost() throws IOException {
         List<PostWithPicture> allPosts = new ArrayList<PostWithPicture>();
 
         List<Post> list = postRepository.findHiddenPosts();
@@ -146,11 +146,11 @@ public class PostService {
         postRepository.rejectPost(num);
     }
 
-    public List<Post> getAllWaitingApprovalPosts() throws IOException {
+    public List<Post> getAllWaitingApprovalPost() throws IOException {
         return postRepository.findAllWaitingApprovalPosts();
     }
 
-    public PostWithPicture getPost(Integer num) throws IOException {
+    public PostWithPicture getPostByNum(Integer num) throws IOException {
         PostWithPicture postWithPicture = PostToPostWithPicture(postRepository.findById(num)
                 .orElseThrow(() -> new ResourceNotFoundException("Not exist Post Data by no : ["+num+"]")));
         return postWithPicture;
@@ -206,7 +206,7 @@ public class PostService {
         return new Location(postRepository.findPostLocation_la(post_num),postRepository.findPostLocation_lo(post_num));
     }
 
-    public List<PostWithPicture> getAroundLocation(double lon, double lat, double distance){
+    public List<PostWithPicture> getAroundPost(double lon, double lat, double distance){
         List<Integer> user_id = postRepository.findAroundLocation(lon, lat, distance);
         List<Post> postList = new ArrayList<>();
         List<PostWithPicture> postWithPictures = new ArrayList<>();
@@ -220,7 +220,7 @@ public class PostService {
         return postWithPictures;
     }
 
-    public void setStatusSoldout(int post_num){
+    public void soldOut(int post_num){
         postRepository.setStatusSoldout(post_num);
     }
 
@@ -233,7 +233,7 @@ public class PostService {
         return postWithPictures;
     }
 
-    public List<PostWithPicture> getSellPost(int user_num){
+    public List<PostWithPicture> getSoldOutPost(int user_num){
         List<Post> list = postRepository.getSellPost(user_num);
         List<PostWithPicture> postWithPictures = new ArrayList<>();
         for(Post p: list){

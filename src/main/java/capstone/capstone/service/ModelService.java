@@ -27,5 +27,5 @@ public class ModelService {
 
     public String getCategoryName(String model_name) { return modelRepository.findCategoryName(model_name);}
 
-    public Double getFairPrice(String model_name, String grade) { return postRepository.findFairPrice(model_name, grade); }
+    public Double getMarketPrice(String model_name, String grade) { return postRepository.findFairPrice(model_name, grade); }
 }

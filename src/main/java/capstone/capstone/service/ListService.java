@@ -59,12 +59,12 @@ public class ListService {
         visitListRepository.delete(visit);
     }
 
-    public List<PostWithPicture> likelist(int user_num) throws IOException {
+    public List<PostWithPicture> getLikeList(int user_num) throws IOException {
         List<Integer> postlist = likelistRepository.findbyuser(user_num);
         List<PostWithPicture> postWithPictureslist = new ArrayList<PostWithPicture>();
 
         for (int n : postlist) {
-            PostWithPicture postWithPicture = postService.getPost(n);
+            PostWithPicture postWithPicture = postService.getPostByNum(n);
             if (postWithPicture != null) {
                 postWithPictureslist.add(postWithPicture);
             }
@@ -73,16 +73,16 @@ public class ListService {
         return postWithPictureslist;
     }
 
-    public List<Integer> likelistnum(int user_num) throws IOException {
+    public List<Integer> getLikeListNum(int user_num) throws IOException {
         return likelistRepository.findbyuser(user_num);
     }
 
-    public List<PostWithPicture> visitlist(int user_num) throws IOException {
+    public List<PostWithPicture> getVisitList(int user_num) throws IOException {
         List<Integer> postlist = visitListRepository.findbyuser(user_num);
         List<PostWithPicture> postWithPictureslist = new ArrayList<>();
 
         for (int n : postlist) {
-            PostWithPicture postWithPicture = postService.getPost(n);
+            PostWithPicture postWithPicture = postService.getPostByNum(n);
             if (postWithPicture != null) {
                 postWithPictureslist.add(postWithPicture);
             }

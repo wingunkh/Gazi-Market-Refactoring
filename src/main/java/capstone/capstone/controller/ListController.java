@@ -23,16 +23,16 @@ public class ListController {
 
     // 해당 사용자의 즐겨찾기 목록 리턴
     @GetMapping("/like/{user_num}")
-    public List<PostWithPicture> likeList(@PathVariable int user_num) throws IOException {
+    public List<PostWithPicture> getLikeList(@PathVariable int user_num) throws IOException {
         System.out.println(user_num + "번 사용자의 즐겨찾기 목록 반환");
-        return listService.likelist(user_num);
+        return listService.getLikeList(user_num);
     }
 
     // 해당 사용자의 즐겨찾기 게시글 번호 리턴
     @GetMapping("/like/num/{user_num}")
-    public List<Integer> likeListNum(@PathVariable int user_num) throws IOException {
+    public List<Integer> getLikeListNum(@PathVariable int user_num) throws IOException {
         System.out.println(user_num + "번 사용자의 즐겨찾기 게시글 번호 반환");
-        return listService.likelistnum(user_num);
+        return listService.getLikeListNum(user_num);
     }
 
     // 해당 사용자의 즐겨찾기 삭제
@@ -44,9 +44,9 @@ public class ListController {
 
     // 해당 사용자의 방문기록 목록 리턴
     @GetMapping("/visit/{user_num}")
-    public List<PostWithPicture> visitList(@PathVariable int user_num) throws IOException {
+    public List<PostWithPicture> getVisitList(@PathVariable int user_num) throws IOException {
         System.out.println(user_num + "번 사용자의 방문기록 목록 반환");
-        return listService.visitlist(user_num);
+        return listService.getVisitList(user_num);
     }
 
     // 해당 사용자의 방문기록 삭제

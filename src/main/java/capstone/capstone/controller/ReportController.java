@@ -15,9 +15,9 @@ public class ReportController {
 
     // 게시글 신고
     @GetMapping("/post/report/{reporter_num}/{post_num}")
-    public void createReportList(@PathVariable Integer reporter_num, @PathVariable Integer post_num) {
+    public void reportPost(@PathVariable Integer reporter_num, @PathVariable Integer post_num) {
         System.out.println(reporter_num + "번 고객이 " + post_num + "번 게시글 신고");
-        reportService.createReportList(reporter_num, post_num);
+        reportService.reportPost(reporter_num, post_num);
     }
 
     // 전체 신고 목록 리턴

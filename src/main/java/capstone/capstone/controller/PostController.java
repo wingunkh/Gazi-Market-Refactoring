@@ -71,17 +71,17 @@ public class PostController {
 
     // 전체 공개 게시글 목록 리턴
     @GetMapping("/post") // GET 방식: 정보를 단순히 조회하기 위해 사용하는 방식
-    public List<PostWithPicture> getAllPosts() throws IOException {
+    public List<PostWithPicture> getAllPost() throws IOException {
         System.out.println("공개 게시글 목록 반환");
-        return postService.getAllPosts();
+        return postService.getAllPost();
     }
 
     // 해당 게시글 리턴
     @GetMapping("/post/{user_num}/{no}")
-    public PostWithPicture getPostByNo(@PathVariable Integer user_num, @PathVariable Integer no) throws IOException {
+    public PostWithPicture getPostByNum(@PathVariable Integer user_num, @PathVariable Integer no) throws IOException {
         listService.addvisit(user_num, no);
         System.out.println(user_num + "번 사용자 " + no + "번 게시글 방문");
-        return postService.getPost(no);
+        return postService.getPostByNum(no);
     }
 
     // 해당 카테고리 내 게시글 목록 리턴
@@ -136,23 +136,23 @@ public class PostController {
 
     // 해당 위치에서 해당 반경 내 게시글 목록 리턴
     @GetMapping("post/lonlat/{lon}/{lat}/{distance}")
-    public List<PostWithPicture> getAroundLocation(@PathVariable double lon, @PathVariable double lat, @PathVariable double distance){
+    public List<PostWithPicture> getAroundPost(@PathVariable double lon, @PathVariable double lat, @PathVariable double distance){
         System.out.println("(" + lon + ", " + lat + ")" + "에서 " + distance + "km 반경 내 게시글 목록 반환");
-        return postService.getAroundLocation(lon, lat, distance);
+        return postService.getAroundPost(lon, lat, distance);
     }
 
     // 해당 게시글 판매완료 처리
     @GetMapping("/post/{post_num}/soldout")
-    public void setStatusSoldOut(@PathVariable int post_num){
+    public void soldOut(@PathVariable int post_num){
         System.out.println(post_num + "번 게시글 거래 완료");
-        postService.setStatusSoldout(post_num);
+        postService.soldOut(post_num);
     }
 
     // 해당 사용자의 판매완료 게시글 목록 리턴
     @GetMapping("/post/sell/{user_num}")
-    public List<PostWithPicture> getSellPost(@PathVariable int user_num){
+    public List<PostWithPicture> getSoldOutPost(@PathVariable int user_num){
         System.out.println(user_num + "번 고객 판매 목록 반환");
-        return postService.getSellPost(user_num);
+        return postService.getSoldOutPost(user_num);
     }
 
     // 해당 승인 대기 게시글 승인
@@ -171,9 +171,9 @@ public class PostController {
 
     // 전체 승인 대기글 목록 리턴
     @GetMapping("/approval")
-    public List<PostWithPicture> getAllWaitingApprovalPosts() throws IOException {
+    public List<PostWithPicture> getAllWaitingApprovalPost() throws IOException {
         List<PostWithPicture> postList = new ArrayList<>();
-        for (Post post : postService.getAllWaitingApprovalPosts()){
+        for (Post post : postService.getAllWaitingApprovalPost()){
             postList.add(postService.PostToPostWithPicture(post));
         }
         System.out.println("승인 대기 게시글 목록 반환");
@@ -182,9 +182,9 @@ public class PostController {
 
     // 해당 승인 대기 게시글 리턴
     @GetMapping("/approval/{no}")
-    public PostWithPicture getWaitingApprovalPostByNo(@PathVariable Integer no) throws IOException {
+    public PostWithPicture getWaitingApprovalPost(@PathVariable Integer no) throws IOException {
         System.out.println("승인 대기 게시글 방문");
-        return postService.getPost(no);
+        return postService.getPostByNum(no);
     }
 
     // 해당 게시글 숨김 처리
@@ -203,8 +203,8 @@ public class PostController {
 
     // 전체 숨김 게시글 목록 리턴
     @GetMapping("/post/hidden")
-    public List<PostWithPicture> getHiddenPosts() throws IOException {
+    public List<PostWithPicture> getHiddenPost() throws IOException {
         System.out.println("숨김 게시글 목록 반환");
-        return postService.getHiddenPosts();
+        return postService.getHiddenPost();
     }
 }

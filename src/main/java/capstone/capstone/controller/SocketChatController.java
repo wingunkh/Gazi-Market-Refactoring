@@ -39,7 +39,7 @@ public class SocketChatController {
     public void sendMessage(@Payload Chatting chat) {
         chat.setCht_time(LocalDateTime.now().plusHours(9));
         chat.setCht_text(chat.getCht_text());
-        Chatting ch = chattingService.createChatting(chat);
+        Chatting ch = chattingService.sendMessage(chat);
         ChattingWithName chatting_withName = new ChattingWithName(chat, userService.findName(chat.getCht_member()));
         chatting_withName.setCht_member_profile(userMemberService.showProfileImage(chatting_withName.getCht_member()));
         template.convertAndSend("/sub/chat/room/" + chat.getCht_room_num(), chatting_withName);

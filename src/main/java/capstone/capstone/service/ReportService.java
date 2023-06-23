@@ -39,7 +39,7 @@ public class ReportService {
         return allReports;
     }
 
-    public void createReportList(Integer reporter_num, Integer post_num) {
+    public void reportPost(Integer reporter_num, Integer post_num) {
         Report_list reportList = new Report_list(reporter_num, post_num, LocalDateTime.now().plusHours(9));
         reportRepository.save(reportList);
     }

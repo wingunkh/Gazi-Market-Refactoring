@@ -35,15 +35,15 @@ public class UserMemberController {
 
     // 모든 사용자 정보 리턴
     @GetMapping("/user/info")
-    public List<User_Member> allUser(){
+    public List<User_Member> getAllUserInfo(){
         System.out.println("전체 고객 정보 반환");
-        return userMemberService.findAll();
+        return userMemberService.getAllUserInfo();
     }
 
     // 해당 사용자 정보 리턴
     @GetMapping("/user/info/{user_num}")
-    public User_Member userInfo(@PathVariable Integer user_num){
+    public User_Member getUserInfo(@PathVariable Integer user_num){
         System.out.println(user_num + "번 고객 정보 반환");
-        return userMemberService.findNum(user_num);
+        return userMemberService.getUserInfo(user_num);
     }
 }

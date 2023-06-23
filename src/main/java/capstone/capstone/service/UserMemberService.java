@@ -33,7 +33,7 @@ public class UserMemberService {
         return  userMemberRepository.getNicknameByUserNum(cht_member);
     }
 
-    public User_Member findNum(int user_num) {return userMemberRepository.getInfo(user_num);}
+    public User_Member getUserInfo(int user_num) {return userMemberRepository.getInfo(user_num);}
 
-    public List<User_Member> findAll() {return userMemberRepository.getAll();}
+    public List<User_Member> getAllUserInfo() {return userMemberRepository.getAll();}
 }

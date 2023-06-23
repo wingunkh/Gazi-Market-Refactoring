@@ -30,7 +30,7 @@ public class UserMemberService {
     }
 
     public String findName(int cht_member){
-        return  userMemberRepository.getNicknameByUserNum(cht_member);
+        return  userMemberRepository.getNickname(cht_member);
     }
 
     public User_Member getUserInfo(int user_num) {return userMemberRepository.getInfo(user_num);}

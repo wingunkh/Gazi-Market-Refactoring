@@ -20,6 +20,7 @@ import net.coobird.thumbnailator.Thumbnails;
 public class FileHandler {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
+
     private final AmazonS3Client amazonS3Client;
 
     public List<String> saveToS3(

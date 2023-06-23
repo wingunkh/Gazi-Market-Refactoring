@@ -79,7 +79,7 @@ public class PostController {
     // 해당 게시글 리턴
     @GetMapping("/post/{user_num}/{post_num}")
     public PostWithPicture getPostByNum(@PathVariable Integer user_num, @PathVariable Integer post_num) throws IOException {
-        listService.addvisit(user_num, post_num);
+        listService.visit(user_num, post_num);
         System.out.println(user_num + "번 사용자 " + post_num + "번 게시글 방문");
         return postService.getPostByNum(post_num);
     }
@@ -88,21 +88,21 @@ public class PostController {
     @GetMapping("post/category/{category}")
     public List<PostWithPicture> getPostByCategory(@PathVariable String category){
         System.out.println(category + " 게시글 목록 반환");
-        return postService.getCategoryPosts(category);
+        return postService.getPostByCategory(category);
     }
 
     // 해당 모델 내 게시글 목록 리턴
     @GetMapping("post/model/{model}")
     public List<PostWithPicture> getPostByModel(@PathVariable String model) {
         System.out.println(model + " 게시글 목록 반환");
-        return postService.getModelPosts(model);
+        return postService.getPostByModel(model);
     }
 
     // 오늘 작성된 게시글 목록 리턴
     @GetMapping("/post/today")
     public List<PostWithPicture> getTodayPost(){
         System.out.println("오늘 작성된 게시글 목록 반환");
-        return postService.getPost_Today();
+        return postService.getTodayPost();
     }
 
     // 해당 게시글 수정
@@ -124,14 +124,14 @@ public class PostController {
     @GetMapping("post/name/{type}/{name}")
     public List<PostWithPicture> getPostByName(@PathVariable String type, @PathVariable String name) throws IOException {
         System.out.println(name + " 포함한 게시글 목록 반환");
-        return postService.getNamePosts(type, name);
+        return postService.getPostByName(type, name);
     }
 
     // 해당 게시글 위치 리턴
     @GetMapping("post/location/{post_num}")
     public Location getPostLocation(@PathVariable int post_num){
         System.out.println(post_num + "번 게시글 판매 위치 반환");
-        return postService.getLocation(post_num);
+        return postService.getPostLocation(post_num);
     }
 
     // 해당 위치에서 해당 반경 내 게시글 목록 리턴

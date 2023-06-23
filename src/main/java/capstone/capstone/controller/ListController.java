@@ -17,7 +17,7 @@ public class ListController {
     // 즐겨찾기 추가
     @GetMapping("/like/add/{user_num}/{post_num}")
     public void addLikeList(@PathVariable int user_num, @PathVariable int post_num){
-        listService.addlike(user_num, post_num);
+        listService.addLikeList(user_num, post_num);
         System.out.println(user_num + "번 사용자 " + post_num + "번 게시글 즐겨찾기 추가");
     }
 
@@ -38,7 +38,7 @@ public class ListController {
     // 해당 사용자의 즐겨찾기 삭제
     @GetMapping("/like/delete/{user_num}/{post_num}")
     public void deleteLikeList(@PathVariable int user_num, @PathVariable int post_num){
-        listService.deletelike(user_num, post_num);
+        listService.deleteLikeList(user_num, post_num);
         System.out.println(user_num + "번 사용자의 " + post_num + "번 게시글 즐겨찾기 삭제");
     }
 
@@ -53,6 +53,6 @@ public class ListController {
     @GetMapping("/visit/delete/{user_num}/{post_num}")
     public void deleteVisitList(@PathVariable int user_num, @PathVariable int post_num){
         System.out.println(user_num + "번 사용자의 " + post_num + "번 게시글 방문기록 삭제");
-        listService.deletevisit(user_num, post_num);
+        listService.deleteVisitList(user_num, post_num);
     }
 }

@@ -10,6 +10,6 @@ public class UserService {
     private UserMemberRepository usermemberRepository;
 
     public String findName(int cht_member){
-        return  usermemberRepository.getNicknameByUserNum(cht_member);
+        return  usermemberRepository.getNickname(cht_member);
     }
 }

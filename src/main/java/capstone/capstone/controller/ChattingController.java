@@ -33,7 +33,7 @@ public class ChattingController {
     // 게시글에서 채팅방 입장(생성)
     @GetMapping("/chattingroom/post/{post_num}/{guest_num}")
     public ChattingList enterChattingRoom(@PathVariable Integer post_num, @PathVariable Integer guest_num) {
-        int cht_room_num = chattingRoomService.getChattingRoom(post_num, guest_num);
+        int cht_room_num = chattingRoomService.enterChattingRoom(post_num, guest_num);
         ChattingList chattingList = new ChattingList(chattingService.enterChattingRoom(cht_room_num));
         chattingList.setting(cht_room_num);
         System.out.println(guest_num + "사용자가 " + post_num + "번 게시글 " + cht_room_num + "번 채팅방 입장");
@@ -61,7 +61,7 @@ public class ChattingController {
     @GetMapping("/chattingroom/guest/{guest_num}")
     public List<ChattingRoomList> getAllChattingRoom(@PathVariable Integer guest_num) {
         List<ChattingRoomList> chattingRoomList = new ArrayList<ChattingRoomList>();
-        for (ChattingRoom chattingRoom : chattingRoomService.getguestAllChattingRoom(guest_num)) {
+        for (ChattingRoom chattingRoom : chattingRoomService.getAllChattingRoom(guest_num)) {
             chattingRoomList.add(new ChattingRoomList(chattingRoom));
         }
         return chattingRoomList;
@@ -91,10 +91,10 @@ public class ChattingController {
         public ChattingRoomList(ChattingRoom chattingRoom) {
             this.cht_room_num = chattingRoom.getCht_room_num();
             this.post_num = chattingRoom.getPost_num();
-            this.post_name = postService.getPost_Name(post_num);
-            this.host_info = postService.getPost_Host_info(post_num);
-            this.last_cht_msg = chattingService.getLastmsg(cht_room_num);
-            this.last_cht_time = chattingService.getLasttime(cht_room_num);
+            this.post_name = postService.getPostName(post_num);
+            this.host_info = postService.getHostInfo(post_num);
+            this.last_cht_msg = chattingService.getLastMsg(cht_room_num);
+            this.last_cht_time = chattingService.getLastTime(cht_room_num);
             this.pictureURL = chattingRoomService.getChattingPostPicture(cht_room_num);
         }
     }

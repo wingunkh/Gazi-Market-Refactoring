@@ -31,7 +31,7 @@ public class ReportService {
         List<Report_list> list = reportRepository.getAllReportList();
         for(Report_list reportList : list) {
             ReportListWithName reportListWithName = new ReportListWithName(reportList);
-            reportListWithName.setNickname(userMemberRepository.getNicknameByUserNum(reportList.getReporter_num()));
+            reportListWithName.setNickname(userMemberRepository.getNickname(reportList.getReporter_num()));
 
             allReports.add(reportListWithName);
         }
@@ -57,7 +57,7 @@ public class ReportService {
     public void deleteReportedPost(Integer report_num) {
         Integer post_no = reportRepository.getPostNoByReportNum(report_num);
 
-        List<String> list = pictureRepository.getPictureLocationByPostNo(post_no);
+        List<String> list = pictureRepository.getPictureLocation(post_no);
         for(String picture_location : list) {
             fileHandler.deleteFromS3(picture_location);
         }

@@ -10,13 +10,13 @@ import java.util.List;
 public interface ChattingRoomRepository extends JpaRepository<ChattingRoom, Integer> {
 
     @Query(value="select * from ChattingRoom where ChattingRoom.guest_member = :guest_num OR ChattingRoom.host_member = :guest_num order by ChattingRoom.cht_room_num", nativeQuery = true)
-    List<ChattingRoom> findAllId(@Param("guest_num") int guest_num);
+    List<ChattingRoom> getAllChattingRoom(@Param("guest_num") int guest_num);
 
     @Query(value="select * from ChattingRoom chr where chr.guest_member = :guest_num AND chr.post_num = :post_num", nativeQuery = true)
-    List<ChattingRoom> findByOne(@Param("post_num")Integer post_num, @Param("guest_num")Integer guest_num);
+    List<ChattingRoom> enterChattingRoom(@Param("post_num")Integer post_num, @Param("guest_num")Integer guest_num);
 
     @Query(value = "select p.post_title from POST p where p.post_num = (select chr.post_num from CHATTINGROOM chr where chr.cht_room_num = :cht_room_num)", nativeQuery = true)
-    String getPostTitle(@Param("cht_room_num")Integer cht_room_num);
+    String getChattingPostTitle(@Param("cht_room_num")Integer cht_room_num);
 
     @Query(value = "select chr.host_member from CHATTINGROOM chr where chr.cht_room_num = :cht_room_num", nativeQuery = true)
     Integer getHostInfo(@Param("cht_room_num")Integer cht_room_num);
@@ -25,5 +25,5 @@ public interface ChattingRoomRepository extends JpaRepository<ChattingRoom, Inte
     Integer getGuestInfo(@Param("cht_room_num")Integer cht_room_num);
 
     @Query(value = "select p.picture_location from picture p where p.post_num = (select cr.post_num from chattingroom cr where cr.cht_room_num = :cht_room_num)", nativeQuery = true)
-    String getPostPicture(@Param("cht_room_num")Integer cht_room_num);
+    String getChattingPostPicture(@Param("cht_room_num")Integer cht_room_num);
 }

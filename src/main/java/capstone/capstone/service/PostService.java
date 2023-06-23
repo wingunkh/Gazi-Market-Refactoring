@@ -7,7 +7,6 @@ import capstone.capstone.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,50 +40,19 @@ public class PostService {
     public PostWithPicture PostToPostWithPicture(Post post){
         PostWithPicture postWithPicture = new PostWithPicture(post);
 
-        postWithPicture.setNickname(userMemberRepository.getNicknameByUserNum(post.getUser_num()));
+        postWithPicture.setNickname(userMemberRepository.getNickname(post.getUser_num()));
         postWithPicture.setCategory_name(modelService.getCategoryName(post.getModel_name()));
-        postWithPicture.setPictureURL(pictureRepository.getPictureLocationByPostNo(post.getPost_num()));
-        postWithPicture.setFairPrice(postRepository.findFairPrice(post.getModel_name(), post.getGrade()));
-        postWithPicture.setLocation(postRepository.findLa(post.getUser_num()), postRepository.findLo(post.getUser_num()));
-        if(userMemberRepository.showProfileImage(post.getUser_num()) == null){
+        postWithPicture.setPictureURL(pictureRepository.getPictureLocation(post.getPost_num()));
+        postWithPicture.setFairPrice(postRepository.getMarketPrice(post.getModel_name(), post.getGrade()));
+        postWithPicture.setLocation(postRepository.getLa(post.getUser_num()), postRepository.getLo(post.getUser_num()));
+
+        if(userMemberRepository.showProfileImage(post.getUser_num()) == null) {
             postWithPicture.setProfile_image("https://capstone-eggplant-bucket.s3.ap-northeast-2.amazonaws.com/profile/default.jpg");
         } else {
             postWithPicture.setProfile_image(userMemberRepository.showProfileImage(post.getUser_num()));
         }
 
         return postWithPicture;
-    }
-
-    public List<PostWithPicture> getAllPost() throws IOException {
-        List<PostWithPicture> allPosts = new ArrayList<PostWithPicture>();
-
-        List<Post> list = postRepository.findAllPosts();
-        for(Post post : list) {
-            PostWithPicture postWithPicture = PostToPostWithPicture(post);
-            allPosts.add(postWithPicture);
-        }
-
-        return allPosts;
-    }
-
-    public List<PostWithPicture> getHiddenPost() throws IOException {
-        List<PostWithPicture> allPosts = new ArrayList<PostWithPicture>();
-
-        List<Post> list = postRepository.findHiddenPosts();
-        for(Post post : list) {
-            PostWithPicture postWithPicture = PostToPostWithPicture(post);
-            allPosts.add(postWithPicture);
-        }
-
-        return allPosts;
-    }
-
-    public void hidePost(Integer post_num) {
-        postRepository.hidePost(post_num);
-    }
-
-    public void exposureHiddenPost(Integer post_num) {
-        postRepository.exposureHiddenPost(post_num);
     }
 
     public void createPost(Post post, List<MultipartFile> files) throws Exception {
@@ -118,78 +86,81 @@ public class PostService {
         }
     }
 
+    public List<PostWithPicture> getAllPost() throws IOException {
+        List<PostWithPicture> allPosts = new ArrayList<PostWithPicture>();
+
+        List<Post> list = postRepository.getAllPost();
+        for(Post post : list) {
+            PostWithPicture postWithPicture = PostToPostWithPicture(post);
+            allPosts.add(postWithPicture);
+        }
+
+        return allPosts;
+    }
+
+    public PostWithPicture getPostByNum(Integer post_num) throws IOException {
+        PostWithPicture postWithPicture = PostToPostWithPicture(postRepository.findById(post_num)
+                .orElseThrow(() -> new ResourceNotFoundException("Not exist Post Data by no : ["+post_num+"]")));
+
+        return postWithPicture;
+    }
+
+    public List<PostWithPicture> getPostByCategory(String category){
+        List<PostWithPicture> Posts = new ArrayList<PostWithPicture>();
+
+        List<Post> list = postRepository.getPostByCategory(category);
+        for(Post post : list) {
+            PostWithPicture postWithPicture = PostToPostWithPicture(post);
+            Posts.add(postWithPicture);
+        }
+
+        return Posts;
+    }
+
+    public List<PostWithPicture> getPostByModel(String model) {
+        List<PostWithPicture> Posts = new ArrayList<PostWithPicture>();
+
+        List<Post> list = postRepository.getPostByModel(model);
+        for(Post post : list) {
+            PostWithPicture postWithPicture = PostToPostWithPicture(post);
+            Posts.add(postWithPicture);
+        }
+
+        return Posts;
+    }
+
+    public List<PostWithPicture> getTodayPost(){
+        List<Post> list = postRepository.getTodayPost();
+
+        List<PostWithPicture> postWithPictures = new ArrayList<>();
+        for(Post p: list){
+            postWithPictures.add(PostToPostWithPicture(p));
+        }
+
+        return postWithPictures;
+    }
+
     public void updatePost(Integer post_num, Post post) throws Exception {
         postRepository.updatePost(post_num, post.getModel_name(), post.getGrade(), post.getStatus(), post.getPrice(), post.getPost_title(), post.getPost_content());
     }
 
     public void deletePost(Integer num) {
-        List<String> list = pictureRepository.getPictureLocationByPostNo(num);
+        List<String> list = pictureRepository.getPictureLocation(num);
         for(String picture_location : list) {
             fileHandler.deleteFromS3(picture_location);
         }
 
-        likeListRepository.deletePost(num);
         visitListRepository.deletePost(num);
+        likeListRepository.deletePost(num);
         postRepository.deletePost(num);
     }
 
-    public void approvePost(Integer num, String model_name) {
-        postRepository.approvePost(num, model_name);
-    }
-
-    public void rejectPost(Integer num) {
-        List<String> list = pictureRepository.getPictureLocationByPostNo(num);
-        for(String picture_location : list) {
-            fileHandler.deleteFromS3(picture_location);
-        }
-
-        postRepository.rejectPost(num);
-    }
-
-    public List<Post> getAllWaitingApprovalPost() throws IOException {
-        return postRepository.findAllWaitingApprovalPosts();
-    }
-
-    public PostWithPicture getPostByNum(Integer num) throws IOException {
-        PostWithPicture postWithPicture = PostToPostWithPicture(postRepository.findById(num)
-                .orElseThrow(() -> new ResourceNotFoundException("Not exist Post Data by no : ["+num+"]")));
-        return postWithPicture;
-    }
-
-    public List<PostWithPicture> getCategoryPosts(String category){
-        List<PostWithPicture> Posts = new ArrayList<PostWithPicture>();
-
-        List<Post> list = postRepository.findCategory(category);
-        for(Post post : list) {
-            PostWithPicture postWithPicture = PostToPostWithPicture(post);
-            Posts.add(postWithPicture);
-        }
-
-        return Posts;
-    }
-
-    public List<PostWithPicture> getModelPosts(String model) {
-        List<PostWithPicture> Posts = new ArrayList<PostWithPicture>();
-
-        List<Post> list = postRepository.findModel(model);
-        for(Post post : list) {
-            PostWithPicture postWithPicture = PostToPostWithPicture(post);
-            Posts.add(postWithPicture);
-        }
-
-        return Posts;
-    }
-
-    public List<PostWithPicture> getNamePosts(String type, String name) {
+    public List<PostWithPicture> getPostByName(String type, String name) {
         List<Post> list;
         String text = "%" + name + "%";
-        if(type.equals("desc"))
-            list = postRepository.findIncludeNamed(text);
-        else{
-            list = postRepository.findIncludeNamed(text);
-        }
-        List<PostWithPicture> Posts = new ArrayList<PostWithPicture>();
+        list = postRepository.getPostByName(text);
 
+        List<PostWithPicture> Posts = new ArrayList<PostWithPicture>();
         for(Post post : list) {
             PostWithPicture postWithPicture = PostToPostWithPicture(post);
             Posts.add(postWithPicture);
@@ -198,21 +169,19 @@ public class PostService {
         return Posts;
     }
 
-    public String getPost_Name(int post_num) { return postRepository.findName(post_num); }
-
-    public String getPost_Host_info(int post_num) { return postRepository.findHostInfo(post_num);}
-
-    public Location getLocation(int post_num) {
-        return new Location(postRepository.findPostLocation_la(post_num),postRepository.findPostLocation_lo(post_num));
+    public Location getPostLocation(int post_num) {
+        return new Location(postRepository.getPostLocationLa(post_num),postRepository.getPostLocationLo(post_num));
     }
 
     public List<PostWithPicture> getAroundPost(double lon, double lat, double distance){
-        List<Integer> user_id = postRepository.findAroundLocation(lon, lat, distance);
+        List<Integer> user_id = postRepository.getAroundPost(lon, lat, distance);
         List<Post> postList = new ArrayList<>();
         List<PostWithPicture> postWithPictures = new ArrayList<>();
+
         for(int id : user_id){
             postList.addAll(postRepository.findAllUser(id));
         }
+
         for(Post p: postList){
             postWithPictures.add(PostToPostWithPicture(p));
         }
@@ -224,21 +193,55 @@ public class PostService {
         postRepository.setStatusSoldout(post_num);
     }
 
-    public List<PostWithPicture> getPost_Today(){
-        List<Post> list = postRepository.getPostToday();
+    public List<PostWithPicture> getSoldOutPost(int user_num){
+        List<Post> list = postRepository.getSoldOutPost(user_num);
+
         List<PostWithPicture> postWithPictures = new ArrayList<>();
         for(Post p: list){
             postWithPictures.add(PostToPostWithPicture(p));
         }
+
         return postWithPictures;
     }
 
-    public List<PostWithPicture> getSoldOutPost(int user_num){
-        List<Post> list = postRepository.getSellPost(user_num);
-        List<PostWithPicture> postWithPictures = new ArrayList<>();
-        for(Post p: list){
-            postWithPictures.add(PostToPostWithPicture(p));
-        }
-        return postWithPictures;
+    public void approvePost(Integer num, String model_name) {
+        postRepository.approvePost(num, model_name);
     }
+
+    public void rejectPost(Integer num) {
+        List<String> list = pictureRepository.getPictureLocation(num);
+        for(String picture_location : list) {
+            fileHandler.deleteFromS3(picture_location);
+        }
+
+        postRepository.rejectPost(num);
+    }
+
+    public List<Post> getAllWaitingApprovalPost() throws IOException {
+        return postRepository.getAllWaitingApprovalPost();
+    }
+
+    public void hidePost(Integer post_num) {
+        postRepository.hidePost(post_num);
+    }
+
+    public void exposureHiddenPost(Integer post_num) {
+        postRepository.exposureHiddenPost(post_num);
+    }
+
+    public List<PostWithPicture> getHiddenPost() throws IOException {
+        List<PostWithPicture> allPosts = new ArrayList<PostWithPicture>();
+
+        List<Post> list = postRepository.getHiddenPost();
+        for(Post post : list) {
+            PostWithPicture postWithPicture = PostToPostWithPicture(post);
+            allPosts.add(postWithPicture);
+        }
+
+        return allPosts;
+    }
+
+    public String getPostName(int post_num) { return postRepository.getPostName(post_num); }
+
+    public String getHostInfo(int post_num) { return postRepository.getHostInfo(post_num);}
 }

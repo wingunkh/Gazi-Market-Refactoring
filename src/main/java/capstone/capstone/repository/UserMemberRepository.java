@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface UserMemberRepository extends JpaRepository<User_Member, Integer> {
     @Query(value="select u.nickname from User_Member u where u.user_num = :user_num", nativeQuery = true)
-    String getNicknameByUserNum(@Param("user_num") int user_num);
+    String getNickname(@Param("user_num") int user_num);
 
     @Query(value="SELECT u.profile_image FROM User_Member u WHERE u.user_num = :user_num", nativeQuery = true)
     String showProfileImage(@Param("user_num") int user_num);

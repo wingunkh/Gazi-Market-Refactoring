@@ -19,33 +19,20 @@ public class ChattingRoomService {
     @Autowired
     private PostRepository postRepository;
 
-    public List<ChattingRoom> getguestAllChattingRoom(int guest_num) {
-        return chattingRoomRepository.findAllId(guest_num);
+    public ChattingRoom createChattingRoom(ChattingRoom chattingRoom){
+        return chattingRoomRepository.save(chattingRoom);
+    }
+
+    public List<ChattingRoom> getAllChattingRoom(int guest_num) {
+        return chattingRoomRepository.getAllChattingRoom(guest_num);
     }
 
     public List<ChattingRoom> getAllChattingRoom(){
         return chattingRoomRepository.findAll();
     }
 
-    public ChattingRoom createChattingRoom(ChattingRoom chattingRoom){
-        return chattingRoomRepository.save(chattingRoom);
-    }
-
-    public String getChattingPostTitle(int cht_room_num){
-        return chattingRoomRepository.getPostTitle(cht_room_num);
-    }
-
-    public String getChattingPostPicture(int cht_room_num) {return chattingRoomRepository.getPostPicture(cht_room_num);}
-    public int getHostInfo(int cht_room_num){
-        return chattingRoomRepository.getHostInfo(cht_room_num);
-    }
-
-    public int getGuestInfo(int cht_room_num){
-        return chattingRoomRepository.getGuestInfo(cht_room_num);
-    }
-
-    public int getChattingRoom(Integer post_num, Integer guest_num) {
-        List<ChattingRoom> chattingRoom = chattingRoomRepository.findByOne(post_num, guest_num);
+    public int enterChattingRoom(Integer post_num, Integer guest_num) {
+        List<ChattingRoom> chattingRoom = chattingRoomRepository.enterChattingRoom(post_num, guest_num);
         ChattingRoom ch;
         if(chattingRoom.size() == 0){
             ch = new ChattingRoom();
@@ -53,10 +40,26 @@ public class ChattingRoomService {
             ch.setGuest_member(guest_num);
             ch.setHost_member(postRepository.findHost(post_num));
             ch = createChattingRoom(ch);
-        }else{
+        } else{
             ch = chattingRoom.get(0);
         }
 
         return ch.getCht_room_num();
+    }
+
+    public String getChattingPostTitle(int cht_room_num){
+        return chattingRoomRepository.getChattingPostTitle(cht_room_num);
+    }
+
+    public String getChattingPostPicture(int cht_room_num) {
+        return chattingRoomRepository.getChattingPostPicture(cht_room_num);
+    }
+
+    public int getHostInfo(int cht_room_num){
+        return chattingRoomRepository.getHostInfo(cht_room_num);
+    }
+
+    public int getGuestInfo(int cht_room_num){
+        return chattingRoomRepository.getGuestInfo(cht_room_num);
     }
 }

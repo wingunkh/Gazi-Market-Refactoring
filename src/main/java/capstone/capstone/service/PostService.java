@@ -190,7 +190,7 @@ public class PostService {
     }
 
     public void soldOut(int post_num){
-        postRepository.setStatusSoldout(post_num);
+        postRepository.soldOut(post_num);
     }
 
     public List<PostWithPicture> getSoldOutPost(int user_num){

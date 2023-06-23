@@ -33,7 +33,7 @@ public interface ReportRepository extends JpaRepository<Report_list, Integer> {
 
     // 해당 신고 게시글 번호 리턴
     @Query(value = "SELECT post_num FROM post WHERE report_num = :report_num", nativeQuery = true)
-    Integer getPostNoByReportNum(@Param("report_num") Integer report_num);
+    Integer getPostNumByReportNum(@Param("report_num") Integer report_num);
 
     // 신고 기록 삭제 처리
     @Modifying

@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface VisitListRepository extends JpaRepository<Visit_list, Integer> {
     @Query(value="select V.post_num from Visit_list V where V.user_num = :user_num", nativeQuery = true)
-    List<Integer> findbyuser(@Param("user_num") int user_num);
+    List<Integer> getVisitList(@Param("user_num") int user_num);
 
     @Modifying
     @Transactional

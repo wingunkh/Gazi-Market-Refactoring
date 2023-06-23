@@ -12,9 +12,6 @@ public class ChattingService {
     @Autowired
     private ChattingRepository chattingRepository;
 
-    @Autowired
-    private UserService userService;
-
     public Chatting sendMessage(Chatting chatting) {
         return chattingRepository.save(chatting);
     }
@@ -22,7 +19,6 @@ public class ChattingService {
     public List<Chatting> enterChattingRoom(int cht_room_num) {
         return chattingRepository.enterChattingRoom(cht_room_num);
     }
-
 
     public String getLastMsg(int cht_room_num){
         return  chattingRepository.getLastMsg(cht_room_num);

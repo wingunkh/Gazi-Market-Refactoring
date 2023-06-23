@@ -29,11 +29,15 @@ public class UserMemberService {
         userMemberRepository.updateProfileImage(user_num, list.get(0));
     }
 
-    public String findName(int cht_member){
-        return  userMemberRepository.getNickname(cht_member);
+    public List<User_Member> getAllUserInfo() {
+        return userMemberRepository.getAll();
     }
 
-    public User_Member getUserInfo(int user_num) {return userMemberRepository.getInfo(user_num);}
+    public User_Member getUserInfo(int user_num) {
+        return userMemberRepository.getInfo(user_num);
+    }
 
-    public List<User_Member> getAllUserInfo() {return userMemberRepository.getAll();}
+    public String getNickName(int cht_member) {
+        return userMemberRepository.getNickname(cht_member);
+    }
 }

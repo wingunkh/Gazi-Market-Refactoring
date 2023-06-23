@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface LikeListRepository extends JpaRepository<Like_list, Integer> {
     @Query(value="select L.post_num from Like_list L where L.user_num = :user_num" , nativeQuery = true)
-    List<Integer> findbyuser(@Param("user_num") int user_num);
+    List<Integer> getLikeList(@Param("user_num") int user_num);
 
     @Modifying
     @Transactional

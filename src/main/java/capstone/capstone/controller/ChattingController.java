@@ -25,9 +25,6 @@ public class ChattingController {
     private UserMemberService userMemberService;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private PostService postService;
 
     // 게시글에서 채팅방 입장(생성)
@@ -112,7 +109,7 @@ public class ChattingController {
             this.chattingList = new ArrayList<>();
 
             for(Chatting chat : chattingList){
-                ChattingWithName chattingWithName = new ChattingWithName(chat, userService.findName(chat.getCht_member()));
+                ChattingWithName chattingWithName = new ChattingWithName(chat, userMemberService.getNickName(chat.getCht_member()));
                 chattingWithName.setCht_member_profile(userMemberService.showProfileImage(chattingWithName.getCht_member()));
                 this.chattingList.add(chattingWithName);
             }

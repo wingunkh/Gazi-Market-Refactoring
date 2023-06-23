@@ -41,7 +41,7 @@ public class ListService {
     }
 
     public List<PostWithPicture> getLikeList(int user_num) throws IOException {
-        List<Integer> postlist = likelistRepository.findbyuser(user_num);
+        List<Integer> postlist = likelistRepository.getLikeList(user_num);
         List<PostWithPicture> postWithPictureslist = new ArrayList<PostWithPicture>();
 
         for (int n : postlist) {
@@ -55,7 +55,7 @@ public class ListService {
     }
 
     public List<Integer> getLikeListPostNum(int user_num) throws IOException {
-        return likelistRepository.findbyuser(user_num);
+        return likelistRepository.getLikeList(user_num);
     }
 
     public void visit(int user_num, int post_num) {
@@ -77,7 +77,7 @@ public class ListService {
     }
 
     public List<PostWithPicture> getVisitList(int user_num) throws IOException {
-        List<Integer> postlist = visitListRepository.findbyuser(user_num);
+        List<Integer> postlist = visitListRepository.getVisitList(user_num);
         List<PostWithPicture> postWithPictureslist = new ArrayList<>();
 
         for (int n : postlist) {

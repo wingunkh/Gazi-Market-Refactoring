@@ -41,8 +41,8 @@ public class PostController {
     public void createPost(
             @RequestPart(value = "model_name")
             String model_name,
-            @RequestPart(value = "user_no")
-            String user_no,
+            @RequestPart(value = "user_num")
+            String user_num,
             @RequestPart(value = "grade")
             String grade,
             @RequestPart(value = "status")
@@ -58,7 +58,7 @@ public class PostController {
     ) throws Exception {
         Post post = new Post();
         post.setModel_name(model_name);
-        post.setUser_num(Integer.parseInt(user_no));
+        post.setUser_num(Integer.parseInt(user_num));
         post.setGrade(grade);
         post.setStatus(status);
         post.setPrice(Integer.parseInt(price));
@@ -77,11 +77,11 @@ public class PostController {
     }
 
     // 해당 게시글 리턴
-    @GetMapping("/post/{user_num}/{no}")
-    public PostWithPicture getPostByNum(@PathVariable Integer user_num, @PathVariable Integer no) throws IOException {
-        listService.addvisit(user_num, no);
-        System.out.println(user_num + "번 사용자 " + no + "번 게시글 방문");
-        return postService.getPostByNum(no);
+    @GetMapping("/post/{user_num}/{post_num}")
+    public PostWithPicture getPostByNum(@PathVariable Integer user_num, @PathVariable Integer post_num) throws IOException {
+        listService.addvisit(user_num, post_num);
+        System.out.println(user_num + "번 사용자 " + post_num + "번 게시글 방문");
+        return postService.getPostByNum(post_num);
     }
 
     // 해당 카테고리 내 게시글 목록 리턴
@@ -156,17 +156,17 @@ public class PostController {
     }
 
     // 해당 승인 대기 게시글 승인
-    @GetMapping("/approval/{no}/{model_name}")
-    public void approvePost(@PathVariable Integer no, @PathVariable String model_name) {
-        System.out.println(no + "번 게시글 승인 완료");
-        postService.approvePost(no, model_name);
+    @GetMapping("/approval/{post_num}/{model_name}")
+    public void approvePost(@PathVariable Integer num, @PathVariable String model_name) {
+        System.out.println(num + "번 게시글 승인 완료");
+        postService.approvePost(num, model_name);
     }
 
     // 해당 승인 대기 게시글 거절
-    @GetMapping("/approval/{no}/reject")
-    public void rejectPost(@PathVariable Integer no) {
-        System.out.println(no + "번 게시글 승인 거절");
-        postService.rejectPost(no);
+    @GetMapping("/approval/{post_num}/reject")
+    public void rejectPost(@PathVariable Integer post_num) {
+        System.out.println(post_num + "번 게시글 승인 거절");
+        postService.rejectPost(post_num);
     }
 
     // 전체 승인 대기글 목록 리턴
@@ -181,10 +181,10 @@ public class PostController {
     }
 
     // 해당 승인 대기 게시글 리턴
-    @GetMapping("/approval/{no}")
-    public PostWithPicture getWaitingApprovalPost(@PathVariable Integer no) throws IOException {
+    @GetMapping("/approval/{post_num}")
+    public PostWithPicture getWaitingApprovalPost(@PathVariable Integer post_num) throws IOException {
         System.out.println("승인 대기 게시글 방문");
-        return postService.getPostByNum(no);
+        return postService.getPostByNum(post_num);
     }
 
     // 해당 게시글 숨김 처리

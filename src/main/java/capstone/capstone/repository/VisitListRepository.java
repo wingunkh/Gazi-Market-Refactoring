@@ -10,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface VisitListRepository extends JpaRepository<Visit_list, Integer> {
-    @Query(value="select V.post_num from Visit_list V where V.user_num = :user_num", nativeQuery = true)
+    @Query(value="SELECT V.post_num FROM Visit_list v WHERE v.user_num = :user_num", nativeQuery = true)
     List<Integer> getVisitList(@Param("user_num") int user_num);
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM Visit_list V  WHERE V.post_num = :post_num", nativeQuery = true)
+    @Query(value = "DELETE FROM Visit_list v WHERE v.post_num = :post_num", nativeQuery = true)
     void deletePost(@Param("post_num") int post_num);
 }

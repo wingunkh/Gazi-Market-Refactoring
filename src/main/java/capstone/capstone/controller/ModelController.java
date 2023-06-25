@@ -28,10 +28,10 @@ public class ModelController {
     }
 
     // 해당 카테고리의 모델 목록 리턴
-    @GetMapping("/{category}/model")
-    public List<Model> getCategoryModel(@PathVariable String category){
-        System.out.println(category + " 카테고리 " + "모델 목록 반환");
-        return modelService.getCategoryModel(category);
+    @GetMapping("/{category_name}/model")
+    public List<Model> getModelName(@PathVariable String category_name){
+        System.out.println(category_name + " 카테고리 " + "모델 목록 반환");
+        return modelService.getModelName(category_name);
     }
 
     // 해당 모델의 해당 등급의 최근 거래가 리턴

@@ -9,35 +9,29 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface ReportRepository extends JpaRepository<Report_list, Integer> {
-    // 신고 목록 데이터 리턴
-    @Query(value="select * from report_list order by report_date desc", nativeQuery = true)
+    @Query(value="SELECT * FROM Report_list ORDER BY report_date desc", nativeQuery = true)
     List<Report_list> getAllReportList();
 
-    // 해당 신고 게시글 숨김 처리
-    @Modifying
-    @Transactional
-    @Query(value = "UPDATE Post SET status = '숨김' WHERE post_num = (SELECT post_num FROM report_list WHERE report_num = :report_num)", nativeQuery = true)
-    void hideReportedPost(@Param("report_num") Integer report_num);
-
-    // 해당 숨김 처리된 게시글 공개 처리
-    @Modifying
-    @Transactional
-    @Query(value = "UPDATE Post SET status = '판매중' WHERE post_num = (SELECT post_num FROM report_list WHERE report_num = :report_num)", nativeQuery = true)
-    void exposureReportedPost(@Param("report_num") Integer report_num);
-
-    // 해당 신고 게시글 삭제 처리
-    @Modifying
-    @Transactional
-    @Query(value = "Delete from Post WHERE post_num = (SELECT post_num FROM report_list WHERE report_num = :report_num)", nativeQuery = true)
-    void deleteReportedPost(@Param("report_num") Integer report_num);
-
-    // 해당 신고 게시글 번호 리턴
     @Query(value = "SELECT post_num FROM post WHERE report_num = :report_num", nativeQuery = true)
     Integer getPostNumByReportNum(@Param("report_num") Integer report_num);
 
-    // 신고 기록 삭제 처리
     @Modifying
     @Transactional
-    @Query(value = "delete from report_list WHERE post_num = (SELECT post_num FROM report_list WHERE report_num = :report_num)", nativeQuery = true)
+    @Query(value = "UPDATE Post SET status = '숨김' WHERE post_num = (SELECT post_num FROM Report_list WHERE report_num = :report_num)", nativeQuery = true)
+    void hideReportedPost(@Param("report_num") Integer report_num);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Post SET status = '판매중' WHERE post_num = (SELECT post_num FROM Report_list WHERE report_num = :report_num)", nativeQuery = true)
+    void exposureReportedPost(@Param("report_num") Integer report_num);
+
+    @Modifying
+    @Transactional
+    @Query(value = "Delete FROM Post WHERE post_num = (SELECT post_num FROM Report_list WHERE report_num = :report_num)", nativeQuery = true)
+    void deleteReportedPost(@Param("report_num") Integer report_num);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM Report_list WHERE post_num = (SELECT post_num FROM Report_list WHERE report_num = :report_num)", nativeQuery = true)
     void deleteReportList(@Param("report_num") Integer report_num);
 }

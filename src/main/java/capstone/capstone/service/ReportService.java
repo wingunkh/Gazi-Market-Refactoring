@@ -46,7 +46,7 @@ public class ReportService {
         List<Report_list> list = reportRepository.getAllReportList();
         for(Report_list reportList : list) {
             ReportListWithName reportListWithName = new ReportListWithName(reportList);
-            reportListWithName.setNickname(userMemberRepository.getNickname(reportList.getReporter_num()));
+            reportListWithName.setNickname(userMemberRepository.getNickName(reportList.getReporter_num()));
 
             allReports.add(reportListWithName);
         }

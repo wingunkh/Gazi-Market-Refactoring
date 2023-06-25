@@ -7,6 +7,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PictureRepository extends JpaRepository<Picture, Integer> {
-    @Query(value = "select p.picture_location from picture p where p.post_num = :post_num" , nativeQuery = true)
+    @Query(value = "SELECT p.picture_location FROM Picture p WHERE p.post_num = :post_num", nativeQuery = true)
     List<String> getPictureLocation(@Param("post_num") Integer post_num);
 }

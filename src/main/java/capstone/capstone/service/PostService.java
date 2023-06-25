@@ -40,7 +40,7 @@ public class PostService {
     public PostWithPicture PostToPostWithPicture(Post post){
         PostWithPicture postWithPicture = new PostWithPicture(post);
 
-        postWithPicture.setNickname(userMemberRepository.getNickname(post.getUser_num()));
+        postWithPicture.setNickname(userMemberRepository.getNickName(post.getUser_num()));
         postWithPicture.setCategory_name(modelService.getCategoryName(post.getModel_name()));
         postWithPicture.setPictureURL(pictureRepository.getPictureLocation(post.getPost_num()));
         postWithPicture.setFairPrice(postRepository.getMarketPrice(post.getModel_name(), post.getGrade()));

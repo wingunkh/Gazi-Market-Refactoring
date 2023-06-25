@@ -23,8 +23,8 @@ public class ModelService {
         return modelRepository.findAll();
     }
 
-    public List<Model> getCategoryModel(String category) {
-        return modelRepository.getCategoryModel(category);
+    public List<Model> getModelName(String category_name) {
+        return modelRepository.getModelName(category_name);
     }
 
     public String getCategoryName(String model_name) {

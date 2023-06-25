@@ -30,14 +30,14 @@ public class UserMemberService {
     }
 
     public List<User_Member> getAllUserInfo() {
-        return userMemberRepository.getAll();
+        return userMemberRepository.getAllUserInfo();
     }
 
     public User_Member getUserInfo(int user_num) {
-        return userMemberRepository.getInfo(user_num);
+        return userMemberRepository.getUserInfo(user_num);
     }
 
     public String getNickName(int cht_member) {
-        return userMemberRepository.getNickname(cht_member);
+        return userMemberRepository.getNickName(cht_member);
     }
 }

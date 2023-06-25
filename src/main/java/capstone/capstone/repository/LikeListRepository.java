@@ -6,11 +6,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 public interface LikeListRepository extends JpaRepository<Like_list, Integer> {
-    @Query(value="select L.post_num from Like_list L where L.user_num = :user_num" , nativeQuery = true)
+    @Query(value="SELECT l.post_num FROM Like_list l WHERE l.user_num = :user_num", nativeQuery = true)
     List<Integer> getLikeList(@Param("user_num") int user_num);
 
     @Modifying

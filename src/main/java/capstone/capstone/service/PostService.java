@@ -105,10 +105,10 @@ public class PostService {
         return postWithPicture;
     }
 
-    public List<PostWithPicture> getPostByCategory(String category){
+    public List<PostWithPicture> getPostByCategory(String category_name){
         List<PostWithPicture> Posts = new ArrayList<PostWithPicture>();
 
-        List<Post> list = postRepository.getPostByCategory(category);
+        List<Post> list = postRepository.getPostByCategory(category_name);
         for(Post post : list) {
             PostWithPicture postWithPicture = PostToPostWithPicture(post);
             Posts.add(postWithPicture);
@@ -117,10 +117,10 @@ public class PostService {
         return Posts;
     }
 
-    public List<PostWithPicture> getPostByModel(String model) {
+    public List<PostWithPicture> getPostByModel(String model_name) {
         List<PostWithPicture> Posts = new ArrayList<PostWithPicture>();
 
-        List<Post> list = postRepository.getPostByModel(model);
+        List<Post> list = postRepository.getPostByModel(model_name);
         for(Post post : list) {
             PostWithPicture postWithPicture = PostToPostWithPicture(post);
             Posts.add(postWithPicture);
@@ -144,15 +144,15 @@ public class PostService {
         postRepository.updatePost(post_num, post.getModel_name(), post.getGrade(), post.getStatus(), post.getPrice(), post.getPost_title(), post.getPost_content());
     }
 
-    public void deletePost(Integer num) {
-        List<String> list = pictureRepository.getPictureLocation(num);
+    public void deletePost(Integer post_num) {
+        List<String> list = pictureRepository.getPictureLocation(post_num);
         for(String picture_location : list) {
             fileHandler.deleteFromS3(picture_location);
         }
 
-        visitListRepository.deletePost(num);
-        likeListRepository.deletePost(num);
-        postRepository.deletePost(num);
+        visitListRepository.deletePost(post_num);
+        likeListRepository.deletePost(post_num);
+        postRepository.deletePost(post_num);
     }
 
     public List<PostWithPicture> getPostByName(String type, String name) {

@@ -85,17 +85,17 @@ public class PostController {
     }
 
     // 해당 카테고리 내 게시글 목록 리턴
-    @GetMapping("post/category/{category}")
-    public List<PostWithPicture> getPostByCategory(@PathVariable String category){
-        System.out.println(category + " 게시글 목록 반환");
-        return postService.getPostByCategory(category);
+    @GetMapping("post/category/{category_name}")
+    public List<PostWithPicture> getPostByCategory(@PathVariable String category_name){
+        System.out.println(category_name + " 게시글 목록 반환");
+        return postService.getPostByCategory(category_name);
     }
 
     // 해당 모델 내 게시글 목록 리턴
-    @GetMapping("post/model/{model}")
-    public List<PostWithPicture> getPostByModel(@PathVariable String model) {
-        System.out.println(model + " 게시글 목록 반환");
-        return postService.getPostByModel(model);
+    @GetMapping("post/model/{model_name}")
+    public List<PostWithPicture> getPostByModel(@PathVariable String model_name) {
+        System.out.println(model_name + " 게시글 목록 반환");
+        return postService.getPostByModel(model_name);
     }
 
     // 오늘 작성된 게시글 목록 리턴
@@ -114,10 +114,10 @@ public class PostController {
     }
 
     // 해당 게시글 삭제
-    @GetMapping("/post/{num}/delete")
-    public void deletePost(@PathVariable Integer num){
-        System.out.println(num + "번 게시글 삭제");
-        postService.deletePost(num);
+    @GetMapping("/post/{post_num}/delete")
+    public void deletePost(@PathVariable Integer post_num){
+        System.out.println(post_num + "번 게시글 삭제");
+        postService.deletePost(post_num);
     }
 
     // 게시글 제목으로 검색

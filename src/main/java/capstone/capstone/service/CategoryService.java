@@ -11,9 +11,9 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public Category createCategory(Category category) {
-        System.out.println(category.getCategory_name() + " 카테고리 추가");
-        return categoryRepository.save(category);
+    public Category createCategory(Category category_name) {
+        System.out.println(category_name.getCategory_name() + " 카테고리 추가");
+        return categoryRepository.save(category_name);
     }
 
     public List<Category> getAllCategory() {

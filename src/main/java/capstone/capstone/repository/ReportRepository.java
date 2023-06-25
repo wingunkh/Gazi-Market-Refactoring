@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface ReportRepository extends JpaRepository<Report_list, Integer> {
-    @Query(value="SELECT * FROM Report_list ORDER BY report_date desc", nativeQuery = true)
+    @Query(value = "SELECT * FROM Report_list ORDER BY report_date desc", nativeQuery = true)
     List<Report_list> getAllReportList();
 
     @Query(value = "SELECT post_num FROM post WHERE report_num = :report_num", nativeQuery = true)

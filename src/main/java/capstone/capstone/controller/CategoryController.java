@@ -15,9 +15,9 @@ public class CategoryController {
 
     // 카테고리 저장
     @PostMapping("/category")
-    public Category createCategory(@RequestBody Category category) {
-        System.out.println(category.getCategory_name() + "카테고리 저장");
-        return categoryService.createCategory(category);
+    public Category createCategory(@RequestBody Category category_name) {
+        System.out.println(category_name.getCategory_name() + "카테고리 저장");
+        return categoryService.createCategory(category_name);
     }
 
     // 전체 카테고리 목록 리턴

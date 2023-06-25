@@ -36,8 +36,8 @@ public class ModelController {
 
     // 해당 모델의 해당 등급의 최근 거래가 리턴
     @GetMapping("/{model}/{grade}")
-    public double getMarketPrice(@PathVariable String model, @PathVariable String grade){
-        System.out.println(model + "의 " + grade + "등급 최근 거래가 반환");
-        return modelService.getMarketPrice(model, grade);
+    public double getMarketPrice(@PathVariable String model_name, @PathVariable String grade){
+        System.out.println(model_name + "의 " + grade + "등급 최근 거래가 반환");
+        return modelService.getMarketPrice(model_name, grade);
     }
 }

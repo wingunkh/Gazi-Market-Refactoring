@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
-@CrossOrigin(origins = "http://13.125.107.73")
 @RestController
 @RequestMapping("/api")
 public class UserMemberController {

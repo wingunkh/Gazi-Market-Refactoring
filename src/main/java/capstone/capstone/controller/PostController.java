@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "http://13.125.107.73")
 @RestController // @Controller에 @ResponseBody가 결합한 어노테이션, 문자열과 JSON 등을 전송 가능
 @RequestMapping("/api") // 요청에 대해 어떤 Controller, 어떤 메소드가 처리할지를 맵핑하기 위한 어노테이션
 public class PostController {
@@ -24,7 +23,7 @@ public class PostController {
     private ListService listService;
 
     // 게시글 저장 (리액트)
-    @PostMapping("/post") // POST 방식: 특정 데이터를 서버로 제출하여 해당 데이터를 추가, 수정 또는 삭제하기 위해 데이터를 전송하는 방식
+    @PostMapping("/post/react") // POST 방식: 특정 데이터를 서버로 제출하여 해당 데이터를 추가, 수정 또는 삭제하기 위해 데이터를 전송하는 방식
     public void createPost(
             @RequestPart(value = "post", required = false) // multipart/form-data에 특화되어 여러 복잡한 값을 처리할 때 사용할 수 있는 어노테이션
             Post post,
@@ -37,7 +36,7 @@ public class PostController {
     }
 
     // 게시글 저장 (리액트 네이티브)
-    @PostMapping("/post/native")
+    @PostMapping("/post")
     public void createPost(
             @RequestPart(value = "model_name")
             String model_name,

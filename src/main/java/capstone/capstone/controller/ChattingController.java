@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "http://13.125.107.73")
 @RestController
 @RequestMapping("/api")
 public class ChattingController {

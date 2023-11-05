@@ -1,10 +1,15 @@
 package capstone.capstone.service;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +25,26 @@ import net.coobird.thumbnailator.Thumbnails;
 public class FileHandler {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
+
+    @Value("${cloud.aws.credentials.access-key}")
+    private String accessKey;
+
+    @Value("${cloud.aws.credentials.secret-key}")
+    private String secretKey;
+
+    @Value("${cloud.aws.region.static}")
+    private String region;
+
+    @Bean
+    public AmazonS3Client amazonS3Client() {
+        AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
+
+        return (AmazonS3Client) AmazonS3ClientBuilder
+                .standard()
+                .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                .withRegion(region)
+                .build();
+    }
 
     private final AmazonS3Client amazonS3Client;
 
@@ -82,10 +107,10 @@ public class FileHandler {
                 try {
                     multipartFile.transferTo(file);
                     // Amazon S3 Bucket에 전달받은 파일 업로드
-                    amazonS3Client.putObject(new PutObjectRequest(bucket, key + current_date + new_file_name, file)
-                            .withCannedAcl(CannedAccessControlList.PublicRead));
+                    amazonS3Client.putObject(new PutObjectRequest(bucket, key + current_date + new_file_name, file));
+                    System.gc();
                 } catch (Exception e) {
-                    throw new RuntimeException();
+                    throw new Exception();
                 } finally {
                     // 로컬 폴더에 임시 저장한 파일 삭제
                     if (file.exists()) {
@@ -101,7 +126,7 @@ public class FileHandler {
     }
 
     public void deleteFromS3(String picture_location) {
-        String key = picture_location.replace("https://capstone-eggplant-bucket.s3.ap-northeast-2.amazonaws.com/", "");
+        String key = picture_location.replace("https://gazi-market-bucket.s3.ap-northeast-2.amazonaws.com/", "");
         amazonS3Client.deleteObject(bucket, key);
     }
 }

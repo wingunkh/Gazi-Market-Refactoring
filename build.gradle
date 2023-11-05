@@ -30,7 +30,7 @@ dependencies {
 	implementation 'org.webjars:stomp-websocket:2.3.4'
 	implementation 'com.google.code.gson:gson:2.9.0'
 	implementation group: 'net.coobird', name: 'thumbnailator', version: '0.4.14'
-	implementation 'com.drewnoakes:metadata-extractor:2.16.0'
+	implementation 'com.drewnoakes:metadata-extractor:2.18.0'
 }
 
 tasks.named('test') {

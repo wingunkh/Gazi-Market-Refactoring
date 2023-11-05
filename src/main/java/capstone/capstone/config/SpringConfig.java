@@ -6,22 +6,17 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
-@Configuration // 설정 파일을 만들기 위한 그리고 Bean을 등록하기 위한 어노테이션
-@EnableWebSocketMessageBroker   // 스프링부트에서 웹소켓을 사용하기 위한 어노테이션
+@Configuration
+@EnableWebSocketMessageBroker
 public class SpringConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        // stomp 접속 주소 url => /ws-stomp
-        registry.addEndpoint("/ws-stomp").setAllowedOrigins("http://52.78.130.186") // 연결될 엔드포인트 52.78.130.186
-                .withSockJS(); // SocketJS 를 연결한다는 설정
+        registry.addEndpoint("/ws-stomp").setAllowedOrigins("http://13.125.107.73").withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        // 메시지를 구독하는 요청 url => 즉 메시지 받을 때
         registry.enableSimpleBroker("/sub");
-
-        // 메시지를 발행하는 요청 url => 즉 메시지 보낼 때
         registry.setApplicationDestinationPrefixes("/pub");
     }
 }

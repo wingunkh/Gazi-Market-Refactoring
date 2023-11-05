@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@CrossOrigin(origins = "http://52.78.130.186")
+@CrossOrigin(origins = "http://13.125.107.73")
 @RestController
 @RequestMapping("/api")
 public class ListController {

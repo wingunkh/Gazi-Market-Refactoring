@@ -12,7 +12,7 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public Category createCategory(Category category_name) {
-        System.out.println(category_name.getCategory_name() + " 카테고리 추가");
+        System.out.println(category_name.getCategoryName() + " 카테고리 추가");
         return categoryRepository.save(category_name);
     }
 

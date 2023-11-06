@@ -30,42 +30,43 @@ public class PostController {
             @RequestPart(value = "files") // 쿼리 파라미터, 폼 데이터, Multipart 등 많은 요청 파라미터를 처리할 수 있는 어노테이션
             List<MultipartFile> files
     ) throws Exception {
-        post.setWritten_date(LocalDateTime.now().plusHours(9));
-        System.out.println(post.getUser_num() + "번 사용자 -> " + post.getModel_name() + " 판매 게시글 작성");
+        System.out.println(post.getUserNum() + "번 사용자 -> " + post.getModelName() + " 판매 게시글 작성");
         postService.createPost(post, files);
     }
 
     // 게시글 저장 (리액트 네이티브)
     @PostMapping("/post")
     public void createPost(
-            @RequestPart(value = "model_name")
-            String model_name,
-            @RequestPart(value = "user_num")
-            String user_num,
+            @RequestPart(value = "userNum")
+            String userNum,
+            @RequestPart(value = "modelName")
+            String modelName,
             @RequestPart(value = "grade")
             String grade,
             @RequestPart(value = "status")
             String status,
             @RequestPart(value = "price")
             String price,
-            @RequestPart(value = "post_title")
-            String post_title,
-            @RequestPart(value = "post_content")
-            String post_content,
+            @RequestPart(value = "postTitle")
+            String postTitle,
+            @RequestPart(value = "postContent")
+            String postContent,
             @RequestPart(value = "files")
             List<MultipartFile> files
     ) throws Exception {
-        Post post = new Post();
-        post.setModel_name(model_name);
-        post.setUser_num(Integer.parseInt(user_num));
-        post.setGrade(grade);
-        post.setStatus(status);
-        post.setPrice(Integer.parseInt(price));
-        post.setPost_title(post_title);
-        post.setPost_content(post_content);
-        post.setWritten_date(LocalDateTime.now().plusHours(9));
+        Post post = Post.builder()
+                .userNum(Integer.parseInt(userNum))
+                .modelName(modelName)
+                .grade(grade)
+                .status(status)
+                .price(Integer.parseInt(price))
+                .postTitle(postTitle)
+                .postContent(postContent)
+                .writtenDate(LocalDateTime.now())
+                .build();
+
         postService.createPost(post, files);
-        System.out.println(post.getUser_num() + "번 사용자 -> " + post.getModel_name() + " 판매 게시글 작성");
+        System.out.println(post.getUserNum() + "번 사용자 -> " + post.getModelName() + " 판매 게시글 작성");
     }
 
     // 전체 공개 게시글 목록 리턴
@@ -107,8 +108,7 @@ public class PostController {
     // 해당 게시글 수정
     @PostMapping("/post/{post_num}/modify")
     public void updatePost(@PathVariable Integer post_num, @RequestBody Post post) throws Exception {
-        post.setWritten_date(LocalDateTime.now().plusHours(9));
-        System.out.println(post.getUser_num() + "번 사용자 " + post_num + "번 게시글 수정");
+        System.out.println(post.getUserNum() + "번 사용자 " + post_num + "번 게시글 수정");
         postService.updatePost(post_num, post);
     }
 

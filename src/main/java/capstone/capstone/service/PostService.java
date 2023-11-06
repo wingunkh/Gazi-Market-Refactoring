@@ -40,16 +40,16 @@ public class PostService {
     public PostWithPicture PostToPostWithPicture(Post post){
         PostWithPicture postWithPicture = new PostWithPicture(post);
 
-        postWithPicture.setNickname(userMemberRepository.getNickName(post.getUser_num()));
-        postWithPicture.setCategory_name(modelService.getCategoryName(post.getModel_name()));
-        postWithPicture.setPictureURL(pictureRepository.getPictureLocation(post.getPost_num()));
-        postWithPicture.setFairPrice(postRepository.getMarketPrice(post.getModel_name(), post.getGrade()));
-        postWithPicture.setLocation(postRepository.getLa(post.getUser_num()), postRepository.getLo(post.getUser_num()));
+        postWithPicture.setNickname(userMemberRepository.getNickName(post.getUserNum()));
+        postWithPicture.setCategory_name(modelService.getCategoryName(post.getModelName()));
+        postWithPicture.setPictureURL(pictureRepository.getPictureLocation(post.getPostNum()));
+        postWithPicture.setFairPrice(postRepository.getMarketPrice(post.getModelName(), post.getGrade()));
+        postWithPicture.setLocation(postRepository.getLa(post.getUserNum()), postRepository.getLo(post.getUserNum()));
 
-        if(userMemberRepository.showProfileImage(post.getUser_num()) == null) {
+        if(userMemberRepository.showProfileImage(post.getUserNum()) == null) {
             postWithPicture.setProfile_image("https://capstone-eggplant-bucket.s3.ap-northeast-2.amazonaws.com/profile/default.jpg");
         } else {
-            postWithPicture.setProfile_image(userMemberRepository.showProfileImage(post.getUser_num()));
+            postWithPicture.setProfile_image(userMemberRepository.showProfileImage(post.getUserNum()));
         }
 
         return postWithPicture;
@@ -61,14 +61,14 @@ public class PostService {
 
         if(imageSource == "CAPTURED") {
             System.out.println("해당 이미지는 직접 촬영한 이미지로 추정됩니다.");
-            post.setIsCaptured(1);
+            post.setImageSource(1);
         } else if(imageSource == "DOWNLOADED") {
             System.out.println("해당 이미지는 인터넷을 통해 다운로드된 이미지로 추정됩니다.");
-            post.setIsCaptured(0);
+            post.setImageSource(0);
         }
         else {
             System.out.println("해당 이미지는 직접 촬영한 이미지로 추정됩니다.");
-            post.setIsCaptured(1);
+            post.setImageSource(1);
         }
 
         postRepository.save(post);
@@ -79,8 +79,9 @@ public class PostService {
         for(String imageUrl : list) {
             // Picture 객체 생성 후 Picture 리스트에 추가
             Picture picture = Picture.builder()
-                    .post_num(post.getPost_num())
-                    .picture_location(imageUrl).build();
+                    .postNum(post.getPostNum())
+                    .location(imageUrl)
+                    .build();
 
             pictureRepository.save(picture);
         }
@@ -141,7 +142,7 @@ public class PostService {
     }
 
     public void updatePost(Integer post_num, Post post) throws Exception {
-        postRepository.updatePost(post_num, post.getModel_name(), post.getGrade(), post.getStatus(), post.getPrice(), post.getPost_title(), post.getPost_content());
+        postRepository.updatePost(post_num, post.getModelName(), post.getGrade(), post.getStatus(), post.getPrice(), post.getPostTitle(), post.getPostContent());
     }
 
     public void deletePost(Integer post_num) {

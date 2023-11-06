@@ -1,6 +1,6 @@
 package capstone.capstone.controller;
 
-import capstone.capstone.domain.Chatting;
+import capstone.capstone.domain.ChattingMessage;
 import capstone.capstone.domain.ChattingRoom;
 import capstone.capstone.extendedDomain.ChattingWithName;
 import capstone.capstone.service.*;
@@ -47,9 +47,8 @@ public class ChattingController {
 
     // 채팅 전송
     @PostMapping("/chatting")
-    public Chatting sendMessage(@RequestBody Chatting chatting) {
-        chatting.setCht_time(LocalDateTime.now().plusHours(9));
-        System.out.println(chatting.getCht_room_num() + "번 채팅방 -> " + chatting.getCht_member() + "번 사용자: " + chatting.getCht_text());
+    public ChattingMessage sendMessage(@RequestBody ChattingMessage chatting) {
+        System.out.println(chatting.getRoomNum() + "번 채팅방 -> " + chatting.getSenderNum() + "번 사용자: " + chatting.getContent());
         return chattingService.sendMessage(chatting);
     }
 
@@ -85,8 +84,8 @@ public class ChattingController {
         LocalDateTime last_cht_time;
 
         public ChattingRoomList(ChattingRoom chattingRoom) {
-            this.cht_room_num = chattingRoom.getCht_room_num();
-            this.post_num = chattingRoom.getPost_num();
+            this.cht_room_num = chattingRoom.getRoomNum();
+            this.post_num = chattingRoom.getPostNum();
             this.post_name = postService.getPostName(post_num);
             this.host_info = postService.getHostInfo(post_num);
             this.last_cht_msg = chattingService.getLastMsg(cht_room_num);
@@ -104,11 +103,11 @@ public class ChattingController {
         int guest_num;
         String pictureURL;
 
-        public ChattingList(List<Chatting> chattingList) {
+        public ChattingList(List<ChattingMessage> chattingList) {
             this.chattingList = new ArrayList<>();
 
-            for(Chatting chat : chattingList){
-                ChattingWithName chattingWithName = new ChattingWithName(chat, userMemberService.getNickName(chat.getCht_member()));
+            for(ChattingMessage chat : chattingList){
+                ChattingWithName chattingWithName = new ChattingWithName(chat, userMemberService.getNickName(chat.getSenderNum()));
                 chattingWithName.setCht_member_profile(userMemberService.showProfileImage(chattingWithName.getCht_member()));
                 this.chattingList.add(chattingWithName);
             }

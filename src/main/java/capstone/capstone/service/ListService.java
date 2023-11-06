@@ -1,8 +1,8 @@
 package capstone.capstone.service;
 
-import capstone.capstone.domain.Like_list;
+import capstone.capstone.domain.LikeList;
 import capstone.capstone.extendedDomain.PostWithPicture;
-import capstone.capstone.domain.Visit_list;
+import capstone.capstone.domain.VisitList;
 import capstone.capstone.repository.LikeListRepository;
 import capstone.capstone.repository.VisitListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +23,13 @@ public class ListService {
     private VisitListRepository visitListRepository;
 
     public void addLikeList(int user_num, int post_num) {
-        Like_list like = new Like_list();
-
-        like.setUser_num(user_num);
-        like.setPost_num(post_num);
+        LikeList like = new LikeList(user_num, post_num);
 
         likelistRepository.save(like);
     }
 
     public void deleteLikeList(int user_num, int post_num) {
-        Like_list like = new Like_list();
-
-        like.setUser_num(user_num);
-        like.setPost_num(post_num);
+        LikeList like = new LikeList(user_num, post_num);
 
         likelistRepository.delete(like);
     }
@@ -59,19 +53,13 @@ public class ListService {
     }
 
     public void visit(int user_num, int post_num) {
-        Visit_list visit = new Visit_list();
-
-        visit.setUser_num(user_num);
-        visit.setPost_num(post_num);
+        VisitList visit = new VisitList(user_num, post_num);
 
         visitListRepository.save(visit);
     }
 
     public void deleteVisitList(int user_num, int post_num) {
-        Visit_list visit = new Visit_list();
-
-        visit.setUser_num(user_num);
-        visit.setPost_num(post_num);
+        VisitList visit = new VisitList(user_num, post_num);
 
         visitListRepository.delete(visit);
     }

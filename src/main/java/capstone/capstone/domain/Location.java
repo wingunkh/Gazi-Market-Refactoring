@@ -1,16 +1,14 @@
 package capstone.capstone.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
-@Setter
 public class Location {
     private Double latitude;
-    private Double longitude;
 
-    public Location(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
+    private Double longitude;
 }

@@ -15,7 +15,7 @@ public class ModelController {
     // 모델 저장
     @PostMapping("/model")
     public Model createModel(@RequestBody Model model) {
-        System.out.println(model.getModel_name() + "모델 추가");
+        System.out.println(model.getModelName() + "모델 추가");
         return modelService.createModel(model);
     }
 

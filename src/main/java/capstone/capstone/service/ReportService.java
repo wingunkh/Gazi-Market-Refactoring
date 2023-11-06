@@ -1,6 +1,6 @@
 package capstone.capstone.service;
 
-import capstone.capstone.domain.Report_list;
+import capstone.capstone.domain.ReportList;
 import capstone.capstone.extendedDomain.ReportListWithName;
 import capstone.capstone.repository.PictureRepository;
 import capstone.capstone.repository.ReportRepository;
@@ -25,8 +25,8 @@ public class ReportService {
     @Autowired
     private FileHandler fileHandler;
 
-    public void reportPost(Integer reporter_num, Integer post_num) {
-        Report_list reportList = new Report_list(reporter_num, post_num, LocalDateTime.now().plusHours(9));
+    public void reportPost(Integer reporterNum, Integer postNum) {
+        ReportList reportList = new ReportList(reporterNum, postNum, LocalDateTime.now().plusHours(9));
         reportRepository.save(reportList);
     }
 
@@ -43,10 +43,10 @@ public class ReportService {
     public List<ReportListWithName> getAllReportList() {
         List<ReportListWithName> allReports = new ArrayList<ReportListWithName>();
 
-        List<Report_list> list = reportRepository.getAllReportList();
-        for(Report_list reportList : list) {
+        List<ReportList> list = reportRepository.getAllReportList();
+        for(ReportList reportList : list) {
             ReportListWithName reportListWithName = new ReportListWithName(reportList);
-            reportListWithName.setNickname(userMemberRepository.getNickName(reportList.getReporter_num()));
+            reportListWithName.setNickname(userMemberRepository.getNickName(reportList.getReporterNum()));
 
             allReports.add(reportListWithName);
         }

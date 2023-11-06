@@ -1,6 +1,6 @@
 package capstone.capstone.service;
 
-import capstone.capstone.domain.Chatting;
+import capstone.capstone.domain.ChattingMessage;
 import capstone.capstone.repository.ChattingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,11 +12,11 @@ public class ChattingService {
     @Autowired
     private ChattingRepository chattingRepository;
 
-    public Chatting sendMessage(Chatting chatting) {
+    public ChattingMessage sendMessage(ChattingMessage chatting) {
         return chattingRepository.save(chatting);
     }
 
-    public List<Chatting> enterChattingRoom(int cht_room_num) {
+    public List<ChattingMessage> enterChattingRoom(int cht_room_num) {
         return chattingRepository.enterChattingRoom(cht_room_num);
     }
 

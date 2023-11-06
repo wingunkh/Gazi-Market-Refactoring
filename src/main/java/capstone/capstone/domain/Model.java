@@ -1,27 +1,20 @@
 package capstone.capstone.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import javax.persistence.Column;
+import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "model")
-@DynamicUpdate
-@DynamicInsert
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
-@Setter
 public class Model {
     @Id
-    private String model_name;
+    private String modelName;
 
-    @Column(name = "category_name")
-    private String category_name;
+    private String categoryName;
 
-    @Column(name = "market_price")
-    private int market_price;
+    private Integer marketPrice;
 }

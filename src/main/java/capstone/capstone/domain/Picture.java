@@ -1,33 +1,20 @@
 package capstone.capstone.domain;
 
-import capstone.capstone.idclass.Posts_Picture;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import capstone.capstone.idclass.Picture_Post;
+import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "picture")
-@DynamicInsert
-@DynamicUpdate
-@IdClass(Posts_Picture.class) // 복합키 매핑을 위한 어노테이션
-@Builder
+@IdClass(Picture_Post.class)
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
-@Setter
 public class Picture implements Serializable {
     @Id
-    private Integer post_num;
+    private Integer postNum;
 
     @Id
-    private String picture_location;
-
-    public Picture(Integer post_num, String picture_location) {
-        this.post_num = post_num;
-        this.picture_location = picture_location;
-    }
+    private String location;
 }

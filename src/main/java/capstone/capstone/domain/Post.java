@@ -1,48 +1,39 @@
 package capstone.capstone.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "post")
-@DynamicInsert // INSERT 시 NULL인 부분을 제외하기 위해 사용, 동적 인서트
-@DynamicUpdate // UPDATE 시 NULL인 부분을 제외하기 위해 사용, 동적 업데이트
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Getter
-@Setter
 public class Post {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY, generator = "post_SEQUENCE_GENERATOR")
-    @SequenceGenerator(name="post_SEQUENCE_GENERATOR", sequenceName = "post_SQ", initialValue = 1, allocationSize = 1)
-    protected Integer post_num;
+    @GeneratedValue(strategy=GenerationType.IDENTITY, generator = "POST_SEQUENCE_GENERATOR")
+    @SequenceGenerator(name="POST_SEQUENCE_GENERATOR", sequenceName = "POST_SQ", initialValue = 1, allocationSize = 1)
+    protected Integer postNum;
 
-    @Column(name = "user_num")
-    protected Integer user_num;
+    protected Integer userNum;
 
-    @Column(name = "model_name")
-    protected String model_name;
+    protected String modelName;
 
-    @Column(name = "grade")
     protected String grade;
 
-    @Column(name = "status")
     protected String status;
 
-    @Column(name = "price")
     protected Integer price;
 
-    @Column(name = "post_title")
-    protected String post_title;
+    protected String postTitle;
 
-    @Column(name = "post_content")
-    protected String post_content;
+    protected String postContent;
 
-    @Column(name = "written_date")
-    protected LocalDateTime written_date;
+    protected LocalDateTime writtenDate;
 
-    @Column(name = "iscaptured")
     protected Integer isCaptured;
+
+    public void setImageSource(int flag) {
+        isCaptured = flag;
+    }
 }

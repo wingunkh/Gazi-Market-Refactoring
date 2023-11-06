@@ -1,6 +1,6 @@
 package capstone.capstone.controller;
 
-import capstone.capstone.domain.User_Member;
+import capstone.capstone.domain.Users;
 import capstone.capstone.service.UserMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,14 +34,14 @@ public class UserMemberController {
 
     // 모든 사용자 정보 리턴
     @GetMapping("/user/info")
-    public List<User_Member> getAllUserInfo(){
+    public List<Users> getAllUserInfo(){
         System.out.println("전체 고객 정보 반환");
         return userMemberService.getAllUserInfo();
     }
 
     // 해당 사용자 정보 리턴
     @GetMapping("/user/info/{user_num}")
-    public User_Member getUserInfo(@PathVariable Integer user_num){
+    public Users getUserInfo(@PathVariable Integer user_num){
         System.out.println(user_num + "번 고객 정보 반환");
         return userMemberService.getUserInfo(user_num);
     }

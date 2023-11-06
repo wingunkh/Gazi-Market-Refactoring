@@ -1,6 +1,6 @@
 package capstone.capstone.service;
 
-import capstone.capstone.domain.User_Member;
+import capstone.capstone.domain.Users;
 import capstone.capstone.repository.UserMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,11 +29,11 @@ public class UserMemberService {
         userMemberRepository.updateProfileImage(user_num, list.get(0));
     }
 
-    public List<User_Member> getAllUserInfo() {
+    public List<Users> getAllUserInfo() {
         return userMemberRepository.getAllUserInfo();
     }
 
-    public User_Member getUserInfo(int user_num) {
+    public Users getUserInfo(int user_num) {
         return userMemberRepository.getUserInfo(user_num);
     }
 

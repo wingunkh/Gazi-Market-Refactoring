@@ -1,29 +1,29 @@
 package capstone.capstone.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "chattingroom")
-@DynamicInsert
-@DynamicUpdate
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
-@Setter
 public class ChattingRoom {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY, generator = "chattingroom_SEQUENCE_GENERATOR")
-    @SequenceGenerator(name="chattingroom_SEQUENCE_GENERATOR", sequenceName = "chtroom_SQ", initialValue = 1, allocationSize = 1)
-    private int cht_room_num;
+    @GeneratedValue(strategy=GenerationType.IDENTITY, generator = "CHATTING_ROOM_SEQUENCE_GENERATOR")
+    @SequenceGenerator(name="CHATTING_ROOM_SEQUENCE_GENERATOR", sequenceName = "CHATTING_ROOM_SQ", initialValue = 1, allocationSize = 1)
+    private Integer roomNum;
 
-    @Column(name = "post_num")
-    private int post_num;
+    private Integer postNum;
 
-    @Column(name = "host_member")
-    private int host_member;
+    private Integer hostNum;
 
-    @Column(name = "guest_member")
-    private int guest_member;
+    private Integer guestNum;
+
+    public ChattingRoom(Integer postNum, Integer hostNum, Integer guestNum) {
+        this.postNum = postNum;
+        this.hostNum = hostNum;
+        this.guestNum = guestNum;
+    }
 }

@@ -1,6 +1,6 @@
 package capstone.capstone.repository;
 
-import capstone.capstone.domain.Report_list;
+import capstone.capstone.domain.ReportList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -8,9 +8,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
-public interface ReportRepository extends JpaRepository<Report_list, Integer> {
+public interface ReportRepository extends JpaRepository<ReportList, Integer> {
     @Query(value = "SELECT * FROM Report_list ORDER BY report_date desc", nativeQuery = true)
-    List<Report_list> getAllReportList();
+    List<ReportList> getAllReportList();
 
     @Query(value = "SELECT post_num FROM post WHERE report_num = :report_num", nativeQuery = true)
     Integer getPostNumByReportNum(@Param("report_num") Integer report_num);

@@ -35,16 +35,13 @@ public class ChattingRoomService {
         List<ChattingRoom> chattingRoom = chattingRoomRepository.enterChattingRoom(post_num, guest_num);
         ChattingRoom ch;
         if(chattingRoom.size() == 0){
-            ch = new ChattingRoom();
-            ch.setPost_num(post_num);
-            ch.setGuest_member(guest_num);
-            ch.setHost_member(postRepository.findHost(post_num));
+            ch = new ChattingRoom(post_num, guest_num, postRepository.findHost(post_num));
             ch = createChattingRoom(ch);
         } else{
             ch = chattingRoom.get(0);
         }
 
-        return ch.getCht_room_num();
+        return ch.getRoomNum();
     }
 
     public String getChattingPostTitle(int cht_room_num){

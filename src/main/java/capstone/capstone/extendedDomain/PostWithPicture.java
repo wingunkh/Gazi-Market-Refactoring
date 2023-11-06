@@ -19,15 +19,15 @@ public class PostWithPicture extends Post {
     String profile_image;
 
     public PostWithPicture(Post post) {
-        this.post_num = post.getPost_num();
-        this.model_name = post.getModel_name();
-        this.user_num = post.getUser_num();
+        this.postNum = post.getPostNum();
+        this.modelName = post.getModelName();
+        this.userNum = post.getUserNum();
         this.grade = post.getGrade();
         this.status = post.getStatus();
         this.price = post.getPrice();
-        this.post_title = post.getPost_title();
-        this.post_content = post.getPost_content();
-        this.written_date = post.getWritten_date();
+        this.postTitle = post.getPostTitle();
+        this.postContent = post.getPostContent();
+        this.writtenDate = post.getWrittenDate();
         this.isCaptured = post.getIsCaptured();
     }
 

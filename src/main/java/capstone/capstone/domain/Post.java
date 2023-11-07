@@ -5,14 +5,14 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@SequenceGenerator(name = "POST_SEQUENCE_GENERATOR", sequenceName = "POST_SQ", initialValue = 1, allocationSize = 1)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 public class Post {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY, generator = "POST_SEQUENCE_GENERATOR")
-    @SequenceGenerator(name="POST_SEQUENCE_GENERATOR", sequenceName = "POST_SQ", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "POST_SEQUENCE_GENERATOR")
     protected Integer postNum;
 
     protected Integer userNum;

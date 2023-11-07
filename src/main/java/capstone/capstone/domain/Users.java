@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
+@SequenceGenerator(name = "USERS_SEQUENCE_GENERATOR", sequenceName = "USERS_SQ", initialValue = 1, allocationSize = 1)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public class Users {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY, generator = "USERS_SEQUENCE_GENERATOR")
-    @SequenceGenerator(name="USERS_SEQUENCE_GENERATOR", sequenceName = "USERS_SQ", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERS_SEQUENCE_GENERATOR")
     protected Integer userNum;
 
     protected String profileImage;

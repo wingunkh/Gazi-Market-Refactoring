@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
+@SequenceGenerator(name = "CHATTING_ROOM_SEQUENCE_GENERATOR", sequenceName = "CHATTING_ROOM_SQ", initialValue = 1, allocationSize = 1)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public class ChattingRoom {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY, generator = "CHATTING_ROOM_SEQUENCE_GENERATOR")
-    @SequenceGenerator(name="CHATTING_ROOM_SEQUENCE_GENERATOR", sequenceName = "CHATTING_ROOM_SQ", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CHATTING_ROOM_SEQUENCE_GENERATOR")
     private Integer roomNum;
 
     private Integer postNum;

@@ -15,23 +15,23 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "POST_SEQUENCE_GENERATOR")
     protected Integer postNum;
 
-    protected Integer userNum;
-
     protected String modelName;
-
-    protected String grade;
-
-    protected String status;
-
-    protected Integer price;
 
     protected String postTitle;
 
     protected String postContent;
 
-    protected LocalDateTime writtenDate;
+    protected String grade;
+
+    protected Integer price;
 
     protected Integer isCaptured;
+
+    protected LocalDateTime writtenDate;
+
+    protected String status;
+
+    protected Integer userNum;
 
     public void setImageSource(int flag) {
         isCaptured = flag;

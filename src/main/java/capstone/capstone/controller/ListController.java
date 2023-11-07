@@ -1,6 +1,6 @@
 package capstone.capstone.controller;
 
-import capstone.capstone.extendedDomain.PostWithPicture;
+import capstone.capstone.dto.PostResponse;
 import capstone.capstone.service.ListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,21 +15,21 @@ public class ListController {
 
     // 즐겨찾기 추가
     @GetMapping("/like/add/{user_num}/{post_num}")
-    public void addLikeList(@PathVariable int user_num, @PathVariable int post_num){
-        listService.addLikeList(user_num, post_num);
+    public void addLikeList(@PathVariable Integer user_num, @PathVariable Integer post_num){
         System.out.println(user_num + "번 사용자 " + post_num + "번 게시글 즐겨찾기 추가");
+        listService.addLikeList(user_num, post_num);
     }
 
     // 해당 사용자의 즐겨찾기 목록 리턴
     @GetMapping("/like/{user_num}")
-    public List<PostWithPicture> getLikeList(@PathVariable int user_num) throws IOException {
+    public List<PostResponse> getLikeList(@PathVariable Integer user_num) throws IOException {
         System.out.println(user_num + "번 사용자의 즐겨찾기 목록 반환");
         return listService.getLikeList(user_num);
     }
 
     // 해당 사용자의 즐겨찾기 게시글 번호 리턴
     @GetMapping("/like/num/{user_num}")
-    public List<Integer> getLikeListPostNum(@PathVariable int user_num) throws IOException {
+    public List<Integer> getLikeListPostNum(@PathVariable Integer user_num) throws IOException {
         System.out.println(user_num + "번 사용자의 즐겨찾기 게시글 번호 반환");
         return listService.getLikeListPostNum(user_num);
     }
@@ -37,13 +37,13 @@ public class ListController {
     // 해당 사용자의 즐겨찾기 삭제
     @GetMapping("/like/delete/{user_num}/{post_num}")
     public void deleteLikeList(@PathVariable int user_num, @PathVariable int post_num){
-        listService.deleteLikeList(user_num, post_num);
         System.out.println(user_num + "번 사용자의 " + post_num + "번 게시글 즐겨찾기 삭제");
+        listService.deleteLikeList(user_num, post_num);
     }
 
     // 해당 사용자의 방문기록 목록 리턴
     @GetMapping("/visit/{user_num}")
-    public List<PostWithPicture> getVisitList(@PathVariable int user_num) throws IOException {
+    public List<PostResponse> getVisitList(@PathVariable int user_num) throws IOException {
         System.out.println(user_num + "번 사용자의 방문기록 목록 반환");
         return listService.getVisitList(user_num);
     }

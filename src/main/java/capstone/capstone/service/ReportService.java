@@ -1,7 +1,7 @@
 package capstone.capstone.service;
 
 import capstone.capstone.domain.ReportList;
-import capstone.capstone.extendedDomain.ReportListWithName;
+import capstone.capstone.dto.ReportListResponse;
 import capstone.capstone.repository.PictureRepository;
 import capstone.capstone.repository.ReportRepository;
 import capstone.capstone.repository.UserMemberRepository;
@@ -27,6 +27,7 @@ public class ReportService {
 
     public void reportPost(Integer reporterNum, Integer postNum) {
         ReportList reportList = new ReportList(reporterNum, postNum, LocalDateTime.now().plusHours(9));
+
         reportRepository.save(reportList);
     }
 
@@ -40,15 +41,15 @@ public class ReportService {
         reportRepository.deleteReportList(report_num);
     }
 
-    public List<ReportListWithName> getAllReportList() {
-        List<ReportListWithName> allReports = new ArrayList<ReportListWithName>();
-
+    public List<ReportListResponse> getAllReportList() {
+        List<ReportListResponse> allReports = new ArrayList<>();
         List<ReportList> list = reportRepository.getAllReportList();
-        for(ReportList reportList : list) {
-            ReportListWithName reportListWithName = new ReportListWithName(reportList);
-            reportListWithName.setNickname(userMemberRepository.getNickName(reportList.getReporterNum()));
 
-            allReports.add(reportListWithName);
+        for(ReportList reportList : list) {
+            String nickname = userMemberRepository.getNickName(reportList.getReporterNum());
+            ReportListResponse reportListResponse = new ReportListResponse(reportList, nickname);
+
+            allReports.add(reportListResponse);
         }
 
         return allReports;
@@ -56,8 +57,8 @@ public class ReportService {
 
     public void deleteReportedPost(Integer report_num) {
         Integer post_num = reportRepository.getPostNumByReportNum(report_num);
-
         List<String> list = pictureRepository.getPictureLocation(post_num);
+
         for(String picture_location : list) {
             fileHandler.deleteFromS3(picture_location);
         }

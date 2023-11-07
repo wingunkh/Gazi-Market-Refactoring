@@ -1,6 +1,6 @@
 package capstone.capstone.controller;
 
-import capstone.capstone.extendedDomain.ReportListWithName;
+import capstone.capstone.dto.ReportListResponse;
 import capstone.capstone.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,7 @@ public class ReportController {
 
     // 전체 신고 목록 리턴
     @GetMapping("/report")
-    public List<ReportListWithName> getAllReportList() {
+    public List<ReportListResponse> getAllReportList() {
         System.out.println("전체 신고 목록 반환");
         return reportService.getAllReportList();
     }

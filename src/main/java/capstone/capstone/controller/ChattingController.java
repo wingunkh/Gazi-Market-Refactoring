@@ -2,7 +2,7 @@ package capstone.capstone.controller;
 
 import capstone.capstone.domain.ChattingMessage;
 import capstone.capstone.domain.ChattingRoom;
-import capstone.capstone.extendedDomain.ChattingWithName;
+import capstone.capstone.dto.ChattingMessageResponse;
 import capstone.capstone.service.*;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +29,10 @@ public class ChattingController {
     // 게시글에서 채팅방 입장(생성)
     @GetMapping("/chattingroom/post/{post_num}/{guest_num}")
     public ChattingList enterChattingRoom(@PathVariable Integer post_num, @PathVariable Integer guest_num) {
-        int cht_room_num = chattingRoomService.enterChattingRoom(post_num, guest_num);
+        Integer cht_room_num = chattingRoomService.enterChattingRoom(post_num, guest_num);
         ChattingList chattingList = new ChattingList(chattingService.enterChattingRoom(cht_room_num));
         chattingList.setting(cht_room_num);
+
         System.out.println(guest_num + "사용자가 " + post_num + "번 게시글 " + cht_room_num + "번 채팅방 입장");
         return chattingList;
     }
@@ -41,6 +42,7 @@ public class ChattingController {
     public ChattingList enterChattingRoom(@PathVariable Integer cht_room_num) {
         ChattingList chattingList = new ChattingList(chattingService.enterChattingRoom(cht_room_num));
         chattingList.setting(cht_room_num);
+
         System.out.println(cht_room_num + "번 채팅방 입장");
         return chattingList;
     }
@@ -55,28 +57,32 @@ public class ChattingController {
     // 전체 채팅방 목록 리턴(사용자)
     @GetMapping("/chattingroom/guest/{guest_num}")
     public List<ChattingRoomList> getAllChattingRoom(@PathVariable Integer guest_num) {
-        List<ChattingRoomList> chattingRoomList = new ArrayList<ChattingRoomList>();
+        List<ChattingRoomList> chattingRoomList = new ArrayList<>();
+
         for (ChattingRoom chattingRoom : chattingRoomService.getAllChattingRoom(guest_num)) {
             chattingRoomList.add(new ChattingRoomList(chattingRoom));
         }
+
         return chattingRoomList;
     }
 
     // 전체 채팅방 목록 리턴(관리자)
     @GetMapping("/chattingroom")
     public List<ChattingRoomList> getAllChattingRoom() {
-        List<ChattingRoomList> chattingRoomList = new ArrayList<ChattingRoomList>();
+        List<ChattingRoomList> chattingRoomList = new ArrayList<>();
+
         for (ChattingRoom chattingRoom : chattingRoomService.getAllChattingRoom()) {
             chattingRoomList.add(new ChattingRoomList(chattingRoom));
         }
+
         System.out.println("전체 활성 채팅방 목록 반환");
         return chattingRoomList;
     }
 
     @Getter
     class ChattingRoomList {
-        int cht_room_num;
-        int post_num;
+        Integer cht_room_num;
+        Integer post_num;
         String host_info;
         String post_name;
         String last_cht_msg;
@@ -96,20 +102,22 @@ public class ChattingController {
 
     @Getter
     class ChattingList {
-        int cht_room_num;
-        List<ChattingWithName> chattingList;
+        Integer cht_room_num;
+        List<ChattingMessageResponse> chattingList;
         String post_title;
-        int host_num;
-        int guest_num;
+        Integer host_num;
+        Integer guest_num;
         String pictureURL;
 
         public ChattingList(List<ChattingMessage> chattingList) {
             this.chattingList = new ArrayList<>();
 
-            for(ChattingMessage chat : chattingList){
-                ChattingWithName chattingWithName = new ChattingWithName(chat, userMemberService.getNickName(chat.getSenderNum()));
-                chattingWithName.setCht_member_profile(userMemberService.showProfileImage(chattingWithName.getCht_member()));
-                this.chattingList.add(chattingWithName);
+            for(ChattingMessage chattingMessage : chattingList) {
+                String senderProfileImage = userMemberService.showProfileImage(chattingMessage.getSenderNum());
+                String senderNickname = userMemberService.getNickName(chattingMessage.getSenderNum());
+                ChattingMessageResponse chattingMessageResponse = new ChattingMessageResponse(chattingMessage, senderProfileImage, senderNickname);
+
+                this.chattingList.add(chattingMessageResponse);
             }
         }
 

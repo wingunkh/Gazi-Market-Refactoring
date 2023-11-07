@@ -1,7 +1,7 @@
 package capstone.capstone.service;
 
 import capstone.capstone.domain.LikeList;
-import capstone.capstone.extendedDomain.PostWithPicture;
+import capstone.capstone.dto.PostResponse;
 import capstone.capstone.domain.VisitList;
 import capstone.capstone.repository.LikeListRepository;
 import capstone.capstone.repository.VisitListRepository;
@@ -22,56 +22,56 @@ public class ListService {
     @Autowired
     private VisitListRepository visitListRepository;
 
-    public void addLikeList(int user_num, int post_num) {
+    public void addLikeList(Integer user_num, Integer post_num) {
         LikeList like = new LikeList(user_num, post_num);
 
         likelistRepository.save(like);
     }
 
-    public void deleteLikeList(int user_num, int post_num) {
+    public void deleteLikeList(Integer user_num, Integer post_num) {
         LikeList like = new LikeList(user_num, post_num);
 
         likelistRepository.delete(like);
     }
 
-    public List<PostWithPicture> getLikeList(int user_num) throws IOException {
+    public List<PostResponse> getLikeList(Integer user_num) throws IOException {
         List<Integer> postlist = likelistRepository.getLikeList(user_num);
-        List<PostWithPicture> postWithPictureslist = new ArrayList<PostWithPicture>();
+        List<PostResponse> postWithPictureslist = new ArrayList<>();
 
-        for (int n : postlist) {
-            PostWithPicture postWithPicture = postService.getPostByNum(n);
-            if (postWithPicture != null) {
-                postWithPictureslist.add(postWithPicture);
+        for (Integer n : postlist) {
+            PostResponse postResponse = postService.getPostByNum(n);
+            if (postResponse != null) {
+                postWithPictureslist.add(postResponse);
             }
         }
 
         return postWithPictureslist;
     }
 
-    public List<Integer> getLikeListPostNum(int user_num) throws IOException {
+    public List<Integer> getLikeListPostNum(Integer user_num) throws IOException {
         return likelistRepository.getLikeList(user_num);
     }
 
-    public void visit(int user_num, int post_num) {
+    public void visit(Integer user_num, Integer post_num) {
         VisitList visit = new VisitList(user_num, post_num);
 
         visitListRepository.save(visit);
     }
 
-    public void deleteVisitList(int user_num, int post_num) {
+    public void deleteVisitList(Integer user_num, Integer post_num) {
         VisitList visit = new VisitList(user_num, post_num);
 
         visitListRepository.delete(visit);
     }
 
-    public List<PostWithPicture> getVisitList(int user_num) throws IOException {
+    public List<PostResponse> getVisitList(Integer user_num) throws IOException {
         List<Integer> postlist = visitListRepository.getVisitList(user_num);
-        List<PostWithPicture> postWithPictureslist = new ArrayList<>();
+        List<PostResponse> postWithPictureslist = new ArrayList<>();
 
-        for (int n : postlist) {
-            PostWithPicture postWithPicture = postService.getPostByNum(n);
-            if (postWithPicture != null) {
-                postWithPictureslist.add(postWithPicture);
+        for (Integer n : postlist) {
+            PostResponse postResponse = postService.getPostByNum(n);
+            if (postResponse != null) {
+                postWithPictureslist.add(postResponse);
             }
         }
 

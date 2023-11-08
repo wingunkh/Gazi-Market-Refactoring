@@ -2,22 +2,21 @@ package capstone.capstone.service;
 
 import capstone.capstone.domain.Category;
 import capstone.capstone.repository.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+// 핵심 비즈니스 로직을 구현하는 클래스임을 명시
+@RequiredArgsConstructor
 public class CategoryService {
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
-    public Category createCategory(Category category_name) {
-        System.out.println(category_name.getCategoryName() + " 카테고리 추가");
-        return categoryRepository.save(category_name);
+    public Category createCategory(Category categoryName) {
+        return categoryRepository.save(categoryName);
     }
 
     public List<Category> getAllCategory() {
-        System.out.println("전체 카테고리 반환");
         return categoryRepository.findAll();
     }
 }

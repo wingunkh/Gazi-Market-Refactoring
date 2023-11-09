@@ -12,8 +12,8 @@ import java.util.List;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 
-    public Category createCategory(Category categoryName) {
-        return categoryRepository.save(categoryName);
+    public Category createCategory(Category category) {
+        return categoryRepository.save(category);
     }
 
     public List<Category> getAllCategory() {

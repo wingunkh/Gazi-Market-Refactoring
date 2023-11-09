@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 @AllArgsConstructor
@@ -14,7 +15,6 @@ public class Model {
     @Id
     private String modelName;
 
-    private String categoryName;
-
-    private Integer marketPrice;
+    @ManyToOne
+    private Category category;
 }

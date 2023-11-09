@@ -15,7 +15,8 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "POST_SEQUENCE_GENERATOR")
     protected Integer postNum;
 
-    protected String modelName;
+    @ManyToOne
+    protected Model model;
 
     protected String postTitle;
 

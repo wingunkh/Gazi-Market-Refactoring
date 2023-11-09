@@ -4,6 +4,7 @@ import capstone.capstone.domain.Location;
 import capstone.capstone.dto.PostResponse;
 import capstone.capstone.domain.Post;
 import capstone.capstone.service.ListService;
+import capstone.capstone.service.ModelService;
 import capstone.capstone.service.PostService;;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,9 @@ public class PostController {
     private PostService postService;
 
     @Autowired
+    private ModelService modelService;
+
+    @Autowired
     private ListService listService;
 
     // 게시글 저장 (리액트)
@@ -30,7 +34,7 @@ public class PostController {
             @RequestPart(value = "files") // 쿼리 파라미터, 폼 데이터, Multipart 등 많은 요청 파라미터를 처리할 수 있는 어노테이션
             List<MultipartFile> files
     ) throws Exception {
-        System.out.println(post.getUserNum() + "번 사용자 -> " + post.getModelName() + " 판매 게시글 작성");
+        System.out.println(post.getUserNum() + "번 사용자 -> " + post.getModel().getModelName() + " 판매 게시글 작성");
         postService.createPost(post, files);
     }
 
@@ -56,7 +60,7 @@ public class PostController {
     ) throws Exception {
         Post post = Post.builder()
                 .userNum(Integer.parseInt(userNum))
-                .modelName(modelName)
+                .model(modelService.findByModelName(modelName))
                 .grade(grade)
                 .status(status)
                 .price(Integer.parseInt(price))
@@ -66,7 +70,7 @@ public class PostController {
                 .build();
 
         postService.createPost(post, files);
-        System.out.println(post.getUserNum() + "번 사용자 -> " + post.getModelName() + " 판매 게시글 작성");
+        System.out.println(post.getUserNum() + "번 사용자 -> " + post.getModel().getModelName() + " 판매 게시글 작성");
     }
 
     // 전체 공개 게시글 목록 리턴

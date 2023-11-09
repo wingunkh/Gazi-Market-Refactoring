@@ -14,9 +14,6 @@ import java.util.List;
 @Service
 public class PostService {
     @Autowired
-    private ModelService modelService;
-
-    @Autowired
     private PostRepository postRepository;
 
     @Autowired
@@ -38,9 +35,9 @@ public class PostService {
     private LikeListRepository likeListRepository;
 
     public PostResponse convertPostToPostResponse(Post post) {
-        String categoryName = modelService.getCategoryName(post.getModelName());
+        String categoryName = post.getModel().getCategory().getCategoryName();
         List<String> pictureUrlList = pictureRepository.getPictureLocation(post.getPostNum());
-        Double fairPrice = postRepository.getMarketPrice(post.getModelName(), post.getGrade());
+        Double marketPrice = calculateMarketPrice(post.getModel().getModelName(), post.getGrade());
         Location location = new Location(postRepository.getLa(post.getUserNum()), postRepository.getLo(post.getUserNum()));
         String profileImage;
         if(userMemberRepository.showProfileImage(post.getUserNum()) == null) {
@@ -50,7 +47,7 @@ public class PostService {
         }
         String nickName = userMemberRepository.getNickName(post.getUserNum());
 
-        return new PostResponse(post, categoryName, pictureUrlList, fairPrice, location, profileImage, nickName);
+        return new PostResponse(post, categoryName, pictureUrlList, marketPrice, location, profileImage, nickName);
     }
 
     public void createPost(Post post, List<MultipartFile> files) throws Exception {
@@ -137,7 +134,7 @@ public class PostService {
     }
 
     public void updatePost(Integer post_num, Post post) throws Exception {
-        postRepository.updatePost(post_num, post.getModelName(), post.getGrade(), post.getStatus(), post.getPrice(), post.getPostTitle(), post.getPostContent());
+        postRepository.updatePost(post_num, post.getModel().getModelName(), post.getGrade(), post.getStatus(), post.getPrice(), post.getPostTitle(), post.getPostContent());
     }
 
     public void deletePost(Integer post_num) {
@@ -242,4 +239,15 @@ public class PostService {
     public String getPostName(Integer post_num) { return postRepository.getPostName(post_num); }
 
     public String getHostInfo(Integer post_num) { return postRepository.getHostInfo(post_num); }
+
+    public Double calculateMarketPrice(String modelName, String grade) {
+        List<Post> postList = postRepository.findByModelModelNameAndGrade(modelName, grade);
+        Integer sum = 0;
+        
+        for (Post post : postList) {
+            sum += post.getPrice();
+        }
+        
+        return (double) (sum / postList.size());
+    }
 }

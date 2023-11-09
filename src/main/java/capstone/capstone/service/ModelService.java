@@ -2,36 +2,28 @@ package capstone.capstone.service;
 
 import capstone.capstone.domain.Model;
 import capstone.capstone.repository.ModelRepository;
-import capstone.capstone.repository.PostRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ModelService {
-    @Autowired
-    private ModelRepository modelRepository;
+    private final ModelRepository modelRepository;
 
-    @Autowired
-    private PostRepository postRepository;
-
-    public Model createModel(Model model) {
+    public Model save(Model model) {
         return modelRepository.save(model);
     }
 
-    public List<Model> getAllModel() {
+    public Model findByModelName(String modelName) {
+        return modelRepository.findByModelName(modelName);
+    }
+
+    public List<Model> findAll() {
         return modelRepository.findAll();
     }
 
-    public List<Model> getModelName(String category_name) {
-        return modelRepository.getModelName(category_name);
-    }
-
-    public String getCategoryName(String model_name) {
-        return modelRepository.getCategoryName(model_name);
-    }
-
-    public Double getMarketPrice(String model_name, String grade) {
-        return postRepository.getMarketPrice(model_name, grade);
+    public List<Model> findByCategoryCategoryName(String categoryName) {
+        return modelRepository.findByCategoryCategoryName(categoryName);
     }
 }

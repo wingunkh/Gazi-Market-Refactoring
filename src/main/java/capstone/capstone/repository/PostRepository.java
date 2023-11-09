@@ -37,9 +37,6 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query(value = "SELECT * FROM Post p WHERE p.grade LIKE %:name% OR p.post_content LIKE %:name% OR p.post_title like %:name% AND p.status = '판매중' ORDER BY p.written_date desc", nativeQuery = true)
     List<Post> getPostByName(@Param("name") String name);
 
-    @Query(value = "SELECT avg(p.price) FROM Post p GROUP BY p.model_name, p.grade HAVING p.model_name = :model_name AND p.grade = :grade", nativeQuery = true)
-    Double getMarketPrice(@Param("model_name") String model_name, @Param("grade") String grade);
-
     @Query(value = "SELECT u.longitude FROM User_Member u WHERE u.user_num = (SELECT distinct p.user_num FROM Post p WHERE p.post_num = :post_num)", nativeQuery = true)
     double getPostLocationLo(@Param("post_num")int post_num);
 
@@ -106,4 +103,6 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Transactional
     @Query(value = "DELETE FROM Post WHERE post_num = :post_num", nativeQuery = true)
     void rejectPost(@Param("post_num") int post_num);
+
+    List<Post> findByModelModelNameAndGrade(@Param("modelName") String modelName, @Param("grade") String grade);
 }

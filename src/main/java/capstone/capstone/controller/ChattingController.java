@@ -21,7 +21,7 @@ public class ChattingController {
     private ChattingRoomService chattingRoomService;
 
     @Autowired
-    private UserMemberService userMemberService;
+    private MemberService memberService;
 
     @Autowired
     private PostService postService;
@@ -113,8 +113,8 @@ public class ChattingController {
             this.chattingList = new ArrayList<>();
 
             for(ChattingMessage chattingMessage : chattingList) {
-                String senderProfileImage = userMemberService.showProfileImage(chattingMessage.getSenderNum());
-                String senderNickname = userMemberService.getNickName(chattingMessage.getSenderNum());
+                String senderProfileImage = memberService.getProfileImage(chattingMessage.getSenderNum());
+                String senderNickname = memberService.findById(chattingMessage.getSenderNum()).getNickname();
                 ChattingMessageResponse chattingMessageResponse = new ChattingMessageResponse(chattingMessage, senderProfileImage, senderNickname);
 
                 this.chattingList.add(chattingMessageResponse);

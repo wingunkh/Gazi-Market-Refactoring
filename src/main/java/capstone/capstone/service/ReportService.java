@@ -4,7 +4,6 @@ import capstone.capstone.domain.ReportList;
 import capstone.capstone.dto.ReportListResponse;
 import capstone.capstone.repository.PictureRepository;
 import capstone.capstone.repository.ReportRepository;
-import capstone.capstone.repository.UserMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
@@ -14,13 +13,13 @@ import java.util.List;
 @Service
 public class ReportService {
     @Autowired
+    private MemberService memberService;
+
+    @Autowired
     private ReportRepository reportRepository;
 
     @Autowired
     private PictureRepository pictureRepository;
-
-    @Autowired
-    private UserMemberRepository userMemberRepository;
 
     @Autowired
     private FileHandler fileHandler;
@@ -46,7 +45,7 @@ public class ReportService {
         List<ReportList> list = reportRepository.getAllReportList();
 
         for(ReportList reportList : list) {
-            String nickname = userMemberRepository.getNickName(reportList.getReporterNum());
+            String nickname = memberService.findById(reportList.getReporterNum()).getNickname();
             ReportListResponse reportListResponse = new ReportListResponse(reportList, nickname);
 
             allReports.add(reportListResponse);

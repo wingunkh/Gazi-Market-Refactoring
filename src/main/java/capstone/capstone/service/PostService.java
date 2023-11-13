@@ -14,19 +14,19 @@ import java.util.List;
 @Service
 public class PostService {
     @Autowired
-    private PostRepository postRepository;
-
-    @Autowired
-    private UserMemberRepository userMemberRepository;
-
-    @Autowired
-    private PictureRepository pictureRepository;
+    private MemberService memberService;
 
     @Autowired
     private FileHandler fileHandler;
 
     @Autowired
     private ImageSourceHandler imageSourceHandler;
+
+    @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
+    private PictureRepository pictureRepository;
 
     @Autowired
     private VisitListRepository visitListRepository;
@@ -40,12 +40,12 @@ public class PostService {
         Double marketPrice = calculateMarketPrice(post.getModel().getModelName(), post.getGrade());
         Location location = new Location(postRepository.getLa(post.getUserNum()), postRepository.getLo(post.getUserNum()));
         String profileImage;
-        if(userMemberRepository.showProfileImage(post.getUserNum()) == null) {
+        if(memberService.getProfileImage(post.getUserNum()) == null) {
             profileImage = "https://gazi-market-bucket.s3.ap-northeast-2.amazonaws.com/profile/default.jpg";
         } else {
-            profileImage = userMemberRepository.showProfileImage(post.getUserNum());
+            profileImage = memberService.getProfileImage(post.getUserNum());
         }
-        String nickName = userMemberRepository.getNickName(post.getUserNum());
+        String nickName = memberService.findById(post.getUserNum()).getNickname();
 
         return new PostResponse(post, categoryName, pictureUrlList, marketPrice, location, profileImage, nickName);
     }

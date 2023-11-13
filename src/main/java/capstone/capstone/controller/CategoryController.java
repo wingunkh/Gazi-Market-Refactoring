@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 // final 또는 @NonNull이 붙은 필드 값을 파라미터로 받는 생성자 추가
 // 생성자가 하나일 경우 @Autowired 어노테이션을 생략 가능
-@RequestMapping("/api")
+@RequestMapping("/api/category")
 // HTTP Request URL을 특정 클래스나 메서드에 매핑
 public class CategoryController {
     private final CategoryService categoryService;
@@ -23,7 +23,7 @@ public class CategoryController {
     // 3. 필드에 final 키워드를 사용할 수 있다. 그러므로 생성자에서 혹시 값이 설정되지 않았을 경우 컴파일 오류가 발생한다.
 
     // 카테고리 저장
-    @PostMapping("/category")
+    @PostMapping
     // POST 메서드 : RequestBody를 통해 서버로 데이터를 전송, 주로 등록에 사용
     // POST 메서드는 멱등하지 않다.
     // 멱등성(Idempotent)이란? 연산을 여러 번 적용하더라도 결과가 달라지지 않는 성질
@@ -32,7 +32,7 @@ public class CategoryController {
     }
 
     // 전체 카테고리 조회
-    @GetMapping("/category")
+    @GetMapping
     // GET 메서드 : 데이터 조회
     public ResponseEntity<List<Category>> getAllCategory() {
         return ResponseEntity.ok(categoryService.getAllCategory());

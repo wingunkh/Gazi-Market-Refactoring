@@ -31,11 +31,11 @@ public class PostController {
     public void createPost(
             @RequestPart(value = "post", required = false) // multipart/form-data에 특화되어 여러 복잡한 값을 처리할 때 사용할 수 있는 어노테이션
             Post post,
-            @RequestPart(value = "files") // 쿼리 파라미터, 폼 데이터, Multipart 등 많은 요청 파라미터를 처리할 수 있는 어노테이션
-            List<MultipartFile> files
+            @RequestPart(value = "file") // 쿼리 파라미터, 폼 데이터, Multipart 등 많은 요청 파라미터를 처리할 수 있는 어노테이션
+            MultipartFile file
     ) throws Exception {
         System.out.println(post.getUserNum() + "번 사용자 -> " + post.getModel().getModelName() + " 판매 게시글 작성");
-        postService.createPost(post, files);
+        postService.createPost(post, file);
     }
 
     // 게시글 저장 (리액트 네이티브)
@@ -55,8 +55,8 @@ public class PostController {
             String postTitle,
             @RequestPart(value = "postContent")
             String postContent,
-            @RequestPart(value = "files")
-            List<MultipartFile> files
+            @RequestPart(value = "file")
+            MultipartFile file
     ) throws Exception {
         Post post = Post.builder()
                 .userNum(Integer.parseInt(userNum))
@@ -69,7 +69,7 @@ public class PostController {
                 .writtenDate(LocalDateTime.now())
                 .build();
 
-        postService.createPost(post, files);
+        postService.createPost(post, file);
         System.out.println(post.getUserNum() + "번 사용자 -> " + post.getModel().getModelName() + " 판매 게시글 작성");
     }
 

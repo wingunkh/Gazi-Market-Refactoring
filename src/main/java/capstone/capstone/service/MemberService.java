@@ -52,17 +52,17 @@ public class MemberService {
     // 일관성 (Consistency) : 트랜잭션의 작업 처리 결과는 항상 일관성 있어야 한다.
     // 독립성 (Isolation) : 둘 이상의 트랜잭션이 동시에 병행 실행되고 있을 때, 타 트랜잭션에 끼어들 수 없다.
     // 지속성 (Durability) : 트랜잭션이 성공적으로 완료되었으면, 결과는 영구적으로 반영되어야 한다.
-    public String updateProfileImage(Integer memberNum, List<MultipartFile> file) throws Exception {
+    public String updateProfileImage(Integer memberNum, MultipartFile file) throws Exception {
         Optional<Member> optionalMember = memberRepository.findById(memberNum);
 
         if (optionalMember.isPresent()) {
             Member member = optionalMember.get();
 
-            // Amazon S3에 전달받은 사진을 업로드하고 해당 사진의 Url이 담긴 Url 리스트를 반환받아 변수 list에 저장
-            List<String> list = fileHandler.saveToS3(file, "profile/");
+            // Amazon S3에 전달받은 사진을 업로드하고 해당 사진의 Url을 반환받아 변수에 저장
+            String pictureUrl = fileHandler.saveToS3(file, "profile/");
 
             member.setMemberNum(memberNum);
-            member.setProfileImage(list.get(0));
+            member.setProfileImage(pictureUrl);
 
             return "해당 사용자의 프로필 이미지 수정 완료";
 

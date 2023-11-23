@@ -56,12 +56,9 @@ public class ReportService {
 
     public void deleteReportedPost(Integer report_num) {
         Integer post_num = reportRepository.getPostNumByReportNum(report_num);
-        List<String> list = pictureRepository.getPictureLocation(post_num);
+        String pictureUrl = pictureRepository.findByPostPostNum(post_num).getLocation();
 
-        for(String picture_location : list) {
-            fileHandler.deleteFromS3(picture_location);
-        }
-
+        fileHandler.deleteFromS3(pictureUrl);
         reportRepository.deleteReportedPost(report_num);
         reportRepository.deleteReportList(report_num);
     }

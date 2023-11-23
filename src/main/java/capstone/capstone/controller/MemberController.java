@@ -45,7 +45,7 @@ public class MemberController {
             @RequestPart(value = "memberNum")
             String memberNum,
             @RequestPart(value = "file")
-            List<MultipartFile> file
+            MultipartFile file
     ) throws Exception {
         return ResponseEntity.ok(memberService.updateProfileImage(Integer.parseInt(memberNum), file));
     }

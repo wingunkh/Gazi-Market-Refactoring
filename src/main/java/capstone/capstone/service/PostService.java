@@ -36,23 +36,23 @@ public class PostService {
 
     public PostResponse convertPostToPostResponse(Post post) {
         String categoryName = post.getModel().getCategory().getCategoryName();
-        List<String> pictureUrlList = pictureRepository.getPictureLocation(post.getPostNum());
+        String pictureUrl = pictureRepository.findByPostPostNum(post.getPostNum()).getLocation();
         Double marketPrice = calculateMarketPrice(post.getModel().getModelName(), post.getGrade());
         Location location = new Location(postRepository.getLa(post.getUserNum()), postRepository.getLo(post.getUserNum()));
         String profileImage;
-        if(memberService.getProfileImage(post.getUserNum()) == null) {
+        if (memberService.getProfileImage(post.getUserNum()) == null) {
             profileImage = "https://gazi-market-bucket.s3.ap-northeast-2.amazonaws.com/profile/default.jpg";
         } else {
             profileImage = memberService.getProfileImage(post.getUserNum());
         }
         String nickName = memberService.findById(post.getUserNum()).getNickname();
 
-        return new PostResponse(post, categoryName, pictureUrlList, marketPrice, location, profileImage, nickName);
+        return new PostResponse(post, categoryName, pictureUrl, marketPrice, location, profileImage, nickName);
     }
 
-    public void createPost(Post post, List<MultipartFile> files) throws Exception {
+    public void createPost(Post post, MultipartFile file) throws Exception {
         // 해당 이미지가 직접 촬영한 이미지인지 도용한 이미지인지 확인
-        String imageSource = imageSourceHandler.detectImageSource(files.get(0));
+        String imageSource = imageSourceHandler.detectImageSource(file);
 
         if(imageSource == "CAPTURED") {
             System.out.println("해당 이미지는 직접 촬영한 이미지로 추정됩니다.");
@@ -67,18 +67,17 @@ public class PostService {
 
         postRepository.save(post);
 
-        // Amazon S3에 전달받은 사진들을 업로드하고 해당 사진들의 Url이 담긴 Url 리스트를 반환받아 변수 list에 저장
-        List<String> list = fileHandler.saveToS3(files, "images/");
+        // Amazon S3에 전달받은 사진들을 업로드하고 해당 사진의 Url을 반환받아 변수에 저장
+        String pictureUrl = fileHandler.saveToS3(file, "images/");
 
-        for(String imageUrl : list) {
-            // Picture 객체 생성 후 Picture 리스트에 추가
-            Picture picture = Picture.builder()
-                    .postNum(post.getPostNum())
-                    .location(imageUrl)
-                    .build();
 
-            pictureRepository.save(picture);
-        }
+        // Picture 객체 생성 후 Picture 리스트에 추가
+        Picture picture = Picture.builder()
+                .post(post)
+                .location(pictureUrl)
+                .build();
+
+        pictureRepository.save(picture);
     }
 
     public List<PostResponse> getAllPost() throws IOException {
@@ -138,12 +137,9 @@ public class PostService {
     }
 
     public void deletePost(Integer post_num) {
-        List<String> list = pictureRepository.getPictureLocation(post_num);
+        String pictureUrl = pictureRepository.findByPostPostNum(post_num).getLocation();
 
-        for(String picture_location : list) {
-            fileHandler.deleteFromS3(picture_location);
-        }
-
+        fileHandler.deleteFromS3(pictureUrl);
         visitListRepository.deletePost(post_num);
         likeListRepository.deletePost(post_num);
         postRepository.deletePost(post_num);
@@ -203,12 +199,10 @@ public class PostService {
     }
 
     public void rejectPost(Integer num) {
-        List<String> list = pictureRepository.getPictureLocation(num);
+        String pictureUrl = pictureRepository.findByPostPostNum(num).getLocation();
 
-        for(String picture_location : list) {
-            fileHandler.deleteFromS3(picture_location);
-        }
 
+        fileHandler.deleteFromS3(pictureUrl);
         postRepository.rejectPost(num);
     }
 

@@ -39,7 +39,7 @@ public class ListService {
         List<PostResponse> postWithPictureslist = new ArrayList<>();
 
         for (Integer n : postlist) {
-            PostResponse postResponse = postService.getPostByNum(n);
+            PostResponse postResponse = postService.findById(n);
             if (postResponse != null) {
                 postWithPictureslist.add(postResponse);
             }
@@ -52,8 +52,8 @@ public class ListService {
         return likelistRepository.getLikeList(user_num);
     }
 
-    public void visit(Integer user_num, Integer post_num) {
-        VisitList visit = new VisitList(user_num, post_num);
+    public void visit(Integer postNum, Integer userNum) {
+        VisitList visit = new VisitList(postNum, userNum);
 
         visitListRepository.save(visit);
     }
@@ -69,7 +69,7 @@ public class ListService {
         List<PostResponse> postWithPictureslist = new ArrayList<>();
 
         for (Integer n : postlist) {
-            PostResponse postResponse = postService.getPostByNum(n);
+            PostResponse postResponse = postService.findById(n);
             if (postResponse != null) {
                 postWithPictureslist.add(postResponse);
             }

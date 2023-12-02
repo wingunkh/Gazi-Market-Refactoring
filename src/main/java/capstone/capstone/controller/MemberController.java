@@ -20,7 +20,7 @@ public class MemberController {
         return ResponseEntity.ok(memberService.save(member));
     }
 
-    // 전체 사용자 조회
+    // 사용자 전체 조회
     @GetMapping
     public ResponseEntity<List<Member>> findAll() {
         return ResponseEntity.ok(memberService.findAll());

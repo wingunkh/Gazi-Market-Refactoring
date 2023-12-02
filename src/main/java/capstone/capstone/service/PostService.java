@@ -1,238 +1,245 @@
 package capstone.capstone.service;
 
 import capstone.capstone.domain.*;
-import capstone.capstone.exception.ResourceNotFoundException;
 import capstone.capstone.dto.PostResponse;
+import capstone.capstone.idclass.List_Post;
 import capstone.capstone.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class PostService {
-    @Autowired
-    private MemberService memberService;
+    private final MemberService memberService;
 
-    @Autowired
-    private FileHandler fileHandler;
+    private final FileHandler fileHandler;
 
-    @Autowired
-    private ImageSourceHandler imageSourceHandler;
+    private final ImageSourceHandler imageSourceHandler;
 
-    @Autowired
-    private PostRepository postRepository;
+    private final PostRepository postRepository;
 
-    @Autowired
-    private PictureRepository pictureRepository;
+    private final PictureRepository pictureRepository;
 
-    @Autowired
-    private VisitListRepository visitListRepository;
+    private final VisitListRepository visitListRepository;
 
-    @Autowired
-    private LikeListRepository likeListRepository;
+    private final LikeListRepository likeListRepository;
+
+    private final MemberRepository memberRepository;
 
     public PostResponse convertPostToPostResponse(Post post) {
         String categoryName = post.getModel().getCategory().getCategoryName();
         String pictureUrl = pictureRepository.findByPostPostNum(post.getPostNum()).getLocation();
         Double marketPrice = calculateMarketPrice(post.getModel().getModelName(), post.getGrade());
-        Location location = new Location(postRepository.getLa(post.getUserNum()), postRepository.getLo(post.getUserNum()));
-        String profileImage;
-        if (memberService.getProfileImage(post.getUserNum()) == null) {
+        Member member = memberService.findById(post.getMember().getMemberNum());
+        Location location = new Location(member.getLatitude(), member.getLongitude());
+        String profileImage = "";
+
+        if (memberService.getProfileImage(post.getMember().getMemberNum()) == null)
             profileImage = "https://gazi-market-bucket.s3.ap-northeast-2.amazonaws.com/profile/default.jpg";
-        } else {
-            profileImage = memberService.getProfileImage(post.getUserNum());
-        }
-        String nickName = memberService.findById(post.getUserNum()).getNickname();
+        else
+            profileImage = memberService.getProfileImage(post.getMember().getMemberNum());
+
+        String nickName = memberService.findById(post.getMember().getMemberNum()).getNickname();
 
         return new PostResponse(post, categoryName, pictureUrl, marketPrice, location, profileImage, nickName);
     }
 
-    public void createPost(Post post, MultipartFile file) throws Exception {
-        // 해당 이미지가 직접 촬영한 이미지인지 도용한 이미지인지 확인
+    public Post save(Post post, MultipartFile file) throws Exception {
         String imageSource = imageSourceHandler.detectImageSource(file);
 
-        if(imageSource == "CAPTURED") {
-            System.out.println("해당 이미지는 직접 촬영한 이미지로 추정됩니다.");
+        if (Objects.equals(imageSource, "CAPTURED"))
             post.setImageSource(1);
-        } else if(imageSource == "DOWNLOADED") {
-            System.out.println("해당 이미지는 인터넷을 통해 다운로드된 이미지로 추정됩니다.");
+        else if (Objects.equals(imageSource, "DOWNLOADED"))
             post.setImageSource(0);
-        } else {
-            System.out.println("해당 이미지는 직접 촬영한 이미지로 추정됩니다.");
+        else
             post.setImageSource(1);
-        }
 
-        postRepository.save(post);
+        // Post 객체를 먼저 저장
+        post = postRepository.save(post);
 
-        // Amazon S3에 전달받은 사진들을 업로드하고 해당 사진의 Url을 반환받아 변수에 저장
+        // Amazon S3 Bucket에 전달받은 사진들을 업로드하고 해당 사진의 Url을 반환받아 변수에 저장
         String pictureUrl = fileHandler.saveToS3(file, "images/");
 
-
-        // Picture 객체 생성 후 Picture 리스트에 추가
         Picture picture = Picture.builder()
                 .post(post)
                 .location(pictureUrl)
                 .build();
 
         pictureRepository.save(picture);
+
+        return post;
     }
 
-    public List<PostResponse> getAllPost() throws IOException {
-        List<PostResponse> allPosts = new ArrayList<>();
-        List<Post> list = postRepository.getAllPost();
+    public List<PostResponse> findAll() {
+        List<Post> postList = postRepository.findAll();
+        List<PostResponse> postResponseList = new ArrayList<>();
 
-        for(Post post : list) {
+        for (Post post : postList) {
             PostResponse postResponse = convertPostToPostResponse(post);
-            allPosts.add(postResponse);
+            postResponseList.add(postResponse);
         }
 
-        return allPosts;
+        return postResponseList;
     }
 
-    public PostResponse getPostByNum(Integer post_num) throws IOException {
-        return convertPostToPostResponse(postRepository.findById(post_num)
-                .orElseThrow(() -> new ResourceNotFoundException("Not exist Post Data by no : ["+post_num+"]")));
+    public PostResponse findById(Integer postNum) {
+        Optional<Post> optionalPost = postRepository.findById(postNum);
+
+        if (optionalPost.isPresent()) {
+            Post post = optionalPost.get();
+            return convertPostToPostResponse(post);
+        } else
+            throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
     }
 
-    public List<PostResponse> getPostByCategory(String category_name) {
-        List<PostResponse> Posts = new ArrayList<>();
-        List<Post> list = postRepository.getPostByCategory(category_name);
+    @Transactional
+    public String update(Post post) {
+        Optional<Post> optionalPost = postRepository.findById(post.getPostNum());
 
-        for(Post post : list) {
+        if (optionalPost.isPresent()) {
+            Post targetPost = optionalPost.get();
+
+            targetPost.setModel(post.getModel());
+            targetPost.setPostTitle(post.getPostTitle());
+            targetPost.setPostContent(post.getPostContent());
+            targetPost.setGrade(post.getGrade());
+            targetPost.setPrice(post.getPrice());
+            targetPost.setWrittenDate(LocalDateTime.now());
+
+            return "게시글 수정 완료";
+        } else
+            throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
+    }
+
+    @Transactional
+    public String delete(Integer postNum) {
+        Optional<Post> optionalPost = postRepository.findById(postNum);
+
+        if (optionalPost.isPresent()) {
+            Post targetPost = optionalPost.get();
+
+            String pictureUrl = pictureRepository.findByPostPostNum(targetPost.getPostNum()).getLocation();
+            pictureRepository.deleteById(pictureUrl);
+            fileHandler.deleteFromS3(pictureUrl);
+
+            List_Post listPost = new List_Post(targetPost.getPostNum(), targetPost.getMember().getMemberNum());
+
+            if (visitListRepository.existsById(listPost))
+                visitListRepository.deleteById(listPost);
+            if (likeListRepository.existsById(listPost))
+                likeListRepository.deleteById(listPost);
+
+            postRepository.delete(targetPost);
+
+            return "게시글 삭제 완료";
+        } else
+            throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
+    }
+
+    public List<PostResponse> findAllByWrittenDate() {
+        List<Post> postList = postRepository.findAllByWrittenDateBetween(LocalDateTime.of(LocalDateTime.now().toLocalDate(), LocalTime.MIN), LocalDateTime.of(LocalDateTime.now().toLocalDate(), LocalTime.MAX));
+        List<PostResponse> postResponseList = new ArrayList<>();
+
+        for (Post post: postList) {
+            postResponseList.add(convertPostToPostResponse(post));
+        }
+
+        return postResponseList;
+    }
+
+    public List<PostResponse> findAllByModelModelName(String modelName) {
+        List<Post> postList = postRepository.findAllByModelModelName(modelName);
+        List<PostResponse> postResponseList = new ArrayList<>();
+
+        for (Post post : postList) {
             PostResponse postResponse = convertPostToPostResponse(post);
-            Posts.add(postResponse);
+            postResponseList.add(postResponse);
         }
 
-        return Posts;
+        return postResponseList;
     }
 
-    public List<PostResponse> getPostByModel(String model_name) {
-        List<PostResponse> Posts = new ArrayList<>();
-        List<Post> list = postRepository.getPostByModel(model_name);
+    public List<PostResponse> findByPostTitleContainingOrPostContentContainingOrderByWrittenDateDesc(String keyWord) {
+        List<Post> postList = postRepository.findByPostTitleContainingOrPostContentContainingOrderByWrittenDateDesc(keyWord, keyWord);
+        List<PostResponse> postResponseList = new ArrayList<>();
 
-        for(Post post : list) {
+        for (Post post : postList) {
             PostResponse postResponse = convertPostToPostResponse(post);
-            Posts.add(postResponse);
+            postResponseList.add(postResponse);
         }
 
-        return Posts;
+        return postResponseList;
     }
 
-    public List<PostResponse> getTodayPost() {
-        List<Post> list = postRepository.getTodayPost();
-        List<PostResponse> postResponses = new ArrayList<>();
+    public List<PostResponse> findAllByLatitudeBetweenAndLongitudeBetween(Double latitude, Double longitude, Double distance) {
+        Double earthRadius = 6371.0;
+        Double latitudeAngularDistance = (distance / earthRadius) * (180.0 / Math.PI);
+        Double longitudeAngularDistance = (distance / earthRadius) * (180.0 / Math.PI) / Math.cos(latitude * Math.PI / 180);
 
-        for(Post p: list) {
-            postResponses.add(convertPostToPostResponse(p));
-        }
+        List<Member> memberList = memberRepository.findAllByLatitudeBetweenAndLongitudeBetween(
+                latitude - latitudeAngularDistance,
+                latitude + latitudeAngularDistance,
+                longitude - longitudeAngularDistance,
+                longitude + longitudeAngularDistance
+        );
 
-        return postResponses;
-    }
-
-    public void updatePost(Integer post_num, Post post) throws Exception {
-        postRepository.updatePost(post_num, post.getModel().getModelName(), post.getGrade(), post.getStatus(), post.getPrice(), post.getPostTitle(), post.getPostContent());
-    }
-
-    public void deletePost(Integer post_num) {
-        String pictureUrl = pictureRepository.findByPostPostNum(post_num).getLocation();
-
-        fileHandler.deleteFromS3(pictureUrl);
-        visitListRepository.deletePost(post_num);
-        likeListRepository.deletePost(post_num);
-        postRepository.deletePost(post_num);
-    }
-
-    public List<PostResponse> getPostByName(String type, String name) {
-        List<Post> list;
-        String text = "%" + name + "%";
-        list = postRepository.getPostByName(text);
-        List<PostResponse> Posts = new ArrayList<>();
-
-        for(Post post : list) {
-            PostResponse postResponse = convertPostToPostResponse(post);
-            Posts.add(postResponse);
-        }
-
-        return Posts;
-    }
-
-    public Location getPostLocation(Integer post_num) {
-        return new Location(postRepository.getPostLocationLa(post_num),postRepository.getPostLocationLo(post_num));
-    }
-
-    public List<PostResponse> getAroundPost(double lon, double lat, double distance) {
-        List<Integer> user_id = postRepository.getAroundPost(lon, lat, distance);
         List<Post> postList = new ArrayList<>();
-        List<PostResponse> postResponses = new ArrayList<>();
+        List<PostResponse> postResponseList = new ArrayList<>();
 
-        for(Integer id : user_id) {
-            postList.addAll(postRepository.findAllUser(id));
+        for (Member member : memberList) {
+            postList.addAll(postRepository.findAllByMemberMemberNum(member.getMemberNum()));
         }
 
-        for(Post p: postList) {
-            postResponses.add(convertPostToPostResponse(p));
+        for (Post post: postList) {
+            postResponseList.add(convertPostToPostResponse(post));
+        }
+
+        return postResponseList;
+    }
+
+    public Location findLocation(Integer postNum) {
+        Optional<Post> optionalPost = postRepository.findById(postNum);
+
+        if (optionalPost.isPresent()) {
+            Member member = memberService.findById(optionalPost.get().getMember().getMemberNum());
+
+            return new Location(member.getLatitude(), member.getLongitude());
+        } else
+            throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
+    }
+
+    public List<PostResponse> findAllByMemberMemberNumAndStatusOrderByWrittenDate(Integer memberNum) {
+        List<Post> postList = postRepository.findAllByMemberMemberNumAndStatusOrderByWrittenDate(memberNum, "판매 완료");
+        List<PostResponse> postResponses = new ArrayList<>();
+
+        for (Post post: postList) {
+            postResponses.add(convertPostToPostResponse(post));
         }
 
         return postResponses;
     }
 
-    public void soldOut(Integer post_num) {
-        postRepository.soldOut(post_num);
+    @Transactional
+    public String soldOut(Integer postNum) {
+        Optional<Post> optionalPost = postRepository.findById(postNum);
+
+        if (optionalPost.isPresent()) {
+            Post targetPost = optionalPost.get();
+
+            targetPost.setStatus("판매 완료");
+
+            return "판매 완료 처리 완료";
+        } else
+            throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
     }
-
-    public List<PostResponse> getSoldOutPost(Integer user_num) {
-        List<Post> list = postRepository.getSoldOutPost(user_num);
-        List<PostResponse> postResponses = new ArrayList<>();
-
-        for(Post p: list){
-            postResponses.add(convertPostToPostResponse(p));
-        }
-
-        return postResponses;
-    }
-
-    public void approvePost(Integer num, String model_name) {
-        postRepository.approvePost(num, model_name);
-    }
-
-    public void rejectPost(Integer num) {
-        String pictureUrl = pictureRepository.findByPostPostNum(num).getLocation();
-
-
-        fileHandler.deleteFromS3(pictureUrl);
-        postRepository.rejectPost(num);
-    }
-
-    public List<Post> getAllWaitingApprovalPost() throws IOException {
-        return postRepository.getAllWaitingApprovalPost();
-    }
-
-    public void hidePost(Integer post_num) {
-        postRepository.hidePost(post_num);
-    }
-
-    public void exposureHiddenPost(Integer post_num) {
-        postRepository.exposureHiddenPost(post_num);
-    }
-
-    public List<PostResponse> getHiddenPost() throws IOException {
-        List<PostResponse> allPosts = new ArrayList<>();
-        List<Post> list = postRepository.getHiddenPost();
-
-        for(Post post : list) {
-            PostResponse postResponse = convertPostToPostResponse(post);
-            allPosts.add(postResponse);
-        }
-
-        return allPosts;
-    }
-
-    public String getPostName(Integer post_num) { return postRepository.getPostName(post_num); }
-
-    public String getHostInfo(Integer post_num) { return postRepository.getHostInfo(post_num); }
 
     public Double calculateMarketPrice(String modelName, String grade) {
         List<Post> postList = postRepository.findByModelModelNameAndGrade(modelName, grade);

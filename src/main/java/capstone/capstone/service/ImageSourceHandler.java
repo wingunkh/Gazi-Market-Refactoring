@@ -8,12 +8,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class ImageSourceHandler {
+    // 해당 이미지가 직접 촬영한 이미지인지 도용한 이미지인지 확인
     public String detectImageSource(MultipartFile imageFile) {
         try {
             // 이미지 파일의 메타데이터를 읽어온다.
             Metadata metadata = ImageMetadataReader.readMetadata(imageFile.getInputStream());
 
-            // EXIF 메타 데이터를 읽어오며 존재하지 않을 시 null 값이 저장된다.
+            // EXIF 메타데이터를 읽어오며 존재하지 않을 시 null 값이 저장된다.
             ExifSubIFDDirectory directory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
 
             if (directory == null) {
@@ -22,8 +23,6 @@ public class ImageSourceHandler {
                 return "CAPTURED";
             }
         } catch (Exception e) {
-            // 이미지 파일을 읽을 수 없거나 예외가 발생한 경우 예외 처리
-            e.printStackTrace();
             return "???";
         }
     }

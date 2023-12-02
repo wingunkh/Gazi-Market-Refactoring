@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Getter
+@Setter
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "POST_SEQUENCE_GENERATOR")
@@ -22,17 +23,18 @@ public class Post {
 
     protected String postContent;
 
+    protected Integer isCaptured;
+
     protected String grade;
 
     protected Integer price;
-
-    protected Integer isCaptured;
 
     protected LocalDateTime writtenDate;
 
     protected String status;
 
-    protected Integer userNum;
+    @ManyToOne
+    protected Member member;
 
     public void setImageSource(int flag) {
         isCaptured = flag;

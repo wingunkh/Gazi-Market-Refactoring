@@ -12,11 +12,11 @@ import java.util.List;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 
-    public Category createCategory(Category category) {
+    public Category save(Category category) {
         return categoryRepository.save(category);
     }
 
-    public List<Category> getAllCategory() {
+    public List<Category> findAll() {
         return categoryRepository.findAll();
     }
 }

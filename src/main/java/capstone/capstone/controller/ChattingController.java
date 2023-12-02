@@ -2,7 +2,9 @@ package capstone.capstone.controller;
 
 import capstone.capstone.domain.ChattingMessage;
 import capstone.capstone.domain.ChattingRoom;
+import capstone.capstone.domain.Post;
 import capstone.capstone.dto.ChattingMessageResponse;
+import capstone.capstone.repository.PostRepository;
 import capstone.capstone.service.*;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -25,6 +28,9 @@ public class ChattingController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private PostRepository postRepository;
 
     // 게시글에서 채팅방 입장(생성)
     @GetMapping("/chattingroom/post/{post_num}/{guest_num}")
@@ -92,8 +98,15 @@ public class ChattingController {
         public ChattingRoomList(ChattingRoom chattingRoom) {
             this.cht_room_num = chattingRoom.getRoomNum();
             this.post_num = chattingRoom.getPostNum();
-            this.post_name = postService.getPostName(post_num);
-            this.host_info = postService.getHostInfo(post_num);
+
+            Optional<Post> optionalPost = postRepository.findById(post_num);
+
+            if (optionalPost.isPresent()) {
+                this.post_name = optionalPost.get().getPostTitle();
+                this.host_info = optionalPost.get().getMember().getNickname();
+            } else
+                throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
+
             this.last_cht_msg = chattingService.getLastMsg(cht_room_num);
             this.last_cht_time = chattingService.getLastTime(cht_room_num);
             this.pictureURL = chattingRoomService.getChattingPostPicture(cht_room_num);

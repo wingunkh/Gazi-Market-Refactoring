@@ -19,15 +19,15 @@ public class ModelController {
         return ResponseEntity.ok(modelService.save(model));
     }
 
-    // 전체 모델 조회
+    // 모델 전체 조회
     @GetMapping
     public ResponseEntity<List<Model>> findAll() {
         return ResponseEntity.ok(modelService.findAll());
     }
 
-    // 해당 카테고리의 모델 조회
+    // 해당 카테고리 내 모델 전체 조회
     @GetMapping("/{categoryName}")
-    public ResponseEntity<List<Model>> findByCategoryCategoryName(@PathVariable String categoryName){
-        return ResponseEntity.ok(modelService.findByCategoryCategoryName(categoryName));
+    public ResponseEntity<List<Model>> findAllByCategoryCategoryName(@PathVariable String categoryName) {
+        return ResponseEntity.ok(modelService.findAllByCategoryCategoryName(categoryName));
     }
 }

@@ -5,6 +5,7 @@ import capstone.capstone.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,15 +16,20 @@ public class ModelService {
         return modelRepository.save(model);
     }
 
-    public Model findByModelName(String modelName) {
-        return modelRepository.findByModelName(modelName);
-    }
-
     public List<Model> findAll() {
         return modelRepository.findAll();
     }
 
-    public List<Model> findByCategoryCategoryName(String categoryName) {
-        return modelRepository.findByCategoryCategoryName(categoryName);
+    public Model findById(String modelName) {
+        Optional<Model> optionalModel = modelRepository.findById(modelName);
+
+        if (optionalModel.isPresent())
+            return optionalModel.get();
+        else
+            throw new IllegalArgumentException("해당 모델이 존재하지 않습니다.");
+    }
+
+    public List<Model> findAllByCategoryCategoryName(String categoryName) {
+        return modelRepository.findAllByCategoryCategoryName(categoryName);
     }
 }

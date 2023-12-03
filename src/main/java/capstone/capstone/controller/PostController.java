@@ -3,7 +3,7 @@ package capstone.capstone.controller;
 import capstone.capstone.domain.Location;
 import capstone.capstone.dto.PostResponse;
 import capstone.capstone.domain.Post;
-import capstone.capstone.service.ListService;
+import capstone.capstone.service.HistoryService;
 import capstone.capstone.service.MemberService;
 import capstone.capstone.service.ModelService;
 import capstone.capstone.service.PostService;;
@@ -24,7 +24,7 @@ public class PostController {
 
     private final MemberService memberService;
 
-    private final ListService listService;
+    private final HistoryService historyService;
 
     // 게시글 저장 (리액트)
     @PostMapping("/react")
@@ -79,7 +79,7 @@ public class PostController {
     // 해당 게시글 조회
     @GetMapping("/{postNum}/{memberNum}")
     public ResponseEntity<PostResponse> findById(@PathVariable Integer postNum, @PathVariable Integer memberNum) {
-        listService.visit(postNum, memberNum);
+        historyService.visit(postNum, memberNum);
 
         return ResponseEntity.ok(postService.findById(postNum));
     }
@@ -111,13 +111,13 @@ public class PostController {
     // 키워드로 게시글 검색
     @GetMapping("/search/{keyWord}")
     public ResponseEntity<List<PostResponse>> searchByKeyword(@PathVariable String keyWord) {
-        return ResponseEntity.ok(postService.findByPostTitleContainingOrPostContentContainingOrderByWrittenDateDesc(keyWord));
+        return ResponseEntity.ok(postService.searchByKeyword(keyWord));
     }
 
     // 해당 위치에서 해당 반경 내 게시글 전체 조회 (위도/경도/km)
     @GetMapping("/location/{latitude}/{longitude}/{distance}")
     public ResponseEntity<List<PostResponse>> findNearby(@PathVariable Double latitude, @PathVariable Double longitude, @PathVariable Double distance) {
-        return ResponseEntity.ok(postService.findAllByLatitudeBetweenAndLongitudeBetween(latitude, longitude, distance));
+        return ResponseEntity.ok(postService.findNearby(latitude, longitude, distance));
     }
 
     // 해당 게시글 거래 위치 조회
@@ -129,7 +129,7 @@ public class PostController {
     // 해당 사용자의 판매 완료 게시글 전체 조회
     @GetMapping("/soldOut/{memberNum}")
     public ResponseEntity<List<PostResponse>> findSoldOut(@PathVariable Integer memberNum) {
-        return ResponseEntity.ok(postService.findAllByMemberMemberNumAndStatusOrderByWrittenDate(memberNum));
+        return ResponseEntity.ok(postService.findSoldOut(memberNum));
     }
 
     // 해당 게시글 판매 완료 처리

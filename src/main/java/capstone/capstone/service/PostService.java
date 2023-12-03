@@ -2,7 +2,7 @@ package capstone.capstone.service;
 
 import capstone.capstone.domain.*;
 import capstone.capstone.dto.PostResponse;
-import capstone.capstone.idclass.List_Post;
+import capstone.capstone.idclass.History_Post;
 import capstone.capstone.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,9 +28,9 @@ public class PostService {
 
     private final PictureRepository pictureRepository;
 
-    private final VisitListRepository visitListRepository;
+    private final VisitHistoryRepository visitHistoryRepository;
 
-    private final LikeListRepository likeListRepository;
+    private final LikeHistoryRepository likeHistoryRepository;
 
     private final MemberRepository memberRepository;
 
@@ -130,12 +130,12 @@ public class PostService {
             pictureRepository.deleteById(pictureUrl);
             fileHandler.deleteFromS3(pictureUrl);
 
-            List_Post listPost = new List_Post(targetPost.getPostNum(), targetPost.getMember().getMemberNum());
+            History_Post listPost = new History_Post(targetPost.getPostNum(), targetPost.getMember().getMemberNum());
 
-            if (visitListRepository.existsById(listPost))
-                visitListRepository.deleteById(listPost);
-            if (likeListRepository.existsById(listPost))
-                likeListRepository.deleteById(listPost);
+            if (visitHistoryRepository.existsById(listPost))
+                visitHistoryRepository.deleteById(listPost);
+            if (likeHistoryRepository.existsById(listPost))
+                likeHistoryRepository.deleteById(listPost);
 
             postRepository.delete(targetPost);
 
@@ -167,7 +167,7 @@ public class PostService {
         return postResponseList;
     }
 
-    public List<PostResponse> findByPostTitleContainingOrPostContentContainingOrderByWrittenDateDesc(String keyWord) {
+    public List<PostResponse> searchByKeyword(String keyWord) {
         List<Post> postList = postRepository.findByPostTitleContainingOrPostContentContainingOrderByWrittenDateDesc(keyWord, keyWord);
         List<PostResponse> postResponseList = new ArrayList<>();
 
@@ -179,7 +179,7 @@ public class PostService {
         return postResponseList;
     }
 
-    public List<PostResponse> findAllByLatitudeBetweenAndLongitudeBetween(Double latitude, Double longitude, Double distance) {
+    public List<PostResponse> findNearby(Double latitude, Double longitude, Double distance) {
         Double earthRadius = 6371.0;
         Double latitudeAngularDistance = (distance / earthRadius) * (180.0 / Math.PI);
         Double longitudeAngularDistance = (distance / earthRadius) * (180.0 / Math.PI) / Math.cos(latitude * Math.PI / 180);
@@ -216,7 +216,7 @@ public class PostService {
             throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
     }
 
-    public List<PostResponse> findAllByMemberMemberNumAndStatusOrderByWrittenDate(Integer memberNum) {
+    public List<PostResponse> findSoldOut(Integer memberNum) {
         List<Post> postList = postRepository.findAllByMemberMemberNumAndStatusOrderByWrittenDate(memberNum, "판매 완료");
         List<PostResponse> postResponses = new ArrayList<>();
 

@@ -1,7 +1,7 @@
 package capstone.capstone.service;
 
-import capstone.capstone.domain.ReportList;
-import capstone.capstone.dto.ReportListResponse;
+import capstone.capstone.domain.Report;
+import capstone.capstone.dto.ReportResponse;
 import capstone.capstone.repository.PictureRepository;
 import capstone.capstone.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +25,9 @@ public class ReportService {
     private FileHandler fileHandler;
 
     public void reportPost(Integer reporterNum, Integer postNum) {
-        ReportList reportList = new ReportList(reporterNum, postNum, LocalDateTime.now().plusHours(9));
+        Report report = new Report(reporterNum, postNum, LocalDateTime.now().plusHours(9));
 
-        reportRepository.save(reportList);
+        reportRepository.save(report);
     }
 
     public void hideReportedPost(Integer report_num) {
@@ -40,13 +40,13 @@ public class ReportService {
         reportRepository.deleteReportList(report_num);
     }
 
-    public List<ReportListResponse> getAllReportList() {
-        List<ReportListResponse> allReports = new ArrayList<>();
-        List<ReportList> list = reportRepository.getAllReportList();
+    public List<ReportResponse> getAllReportList() {
+        List<ReportResponse> allReports = new ArrayList<>();
+        List<Report> list = reportRepository.getAllReportList();
 
-        for(ReportList reportList : list) {
-            String nickname = memberService.findById(reportList.getReporterNum()).getNickname();
-            ReportListResponse reportListResponse = new ReportListResponse(reportList, nickname);
+        for(Report report : list) {
+            String nickname = memberService.findById(report.getReporterNum()).getNickname();
+            ReportResponse reportListResponse = new ReportResponse(report, nickname);
 
             allReports.add(reportListResponse);
         }

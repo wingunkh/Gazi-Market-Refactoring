@@ -7,13 +7,13 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@SequenceGenerator(name = "REPORT_LIST_SEQUENCE_GENERATOR", sequenceName = "REPORT_LIST_SQ", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "REPORT_SEQUENCE_GENERATOR", sequenceName = "REPORT_SQ", initialValue = 1, allocationSize = 1)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class ReportList {
+public class Report {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REPORT_LIST_SEQUENCE_GENERATOR")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REPORT_SEQUENCE_GENERATOR")
     protected Integer reportNum;
 
     protected Integer reporterNum;
@@ -22,7 +22,7 @@ public class ReportList {
 
     protected LocalDateTime reportedDate;
 
-    public ReportList(Integer reporterNum, Integer postNum, LocalDateTime reportedDate) {
+    public Report(Integer reporterNum, Integer postNum, LocalDateTime reportedDate) {
         this.reporterNum = reporterNum;
         this.postNum = postNum;
         this.reportedDate = reportedDate;

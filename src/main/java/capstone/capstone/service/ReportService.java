@@ -1,65 +1,38 @@
 package capstone.capstone.service;
 
+import capstone.capstone.domain.Member;
 import capstone.capstone.domain.Report;
-import capstone.capstone.dto.ReportResponse;
-import capstone.capstone.repository.PictureRepository;
+import capstone.capstone.repository.MemberRepository;
 import capstone.capstone.repository.ReportRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ReportService {
-    @Autowired
-    private MemberService memberService;
+    private final ReportRepository reportRepository;
 
-    @Autowired
-    private ReportRepository reportRepository;
+    private final MemberRepository memberRepository;
 
-    @Autowired
-    private PictureRepository pictureRepository;
+    public Report save(Integer reporterNum, Integer postNum) {
+        Optional<Member> optionalMember = memberRepository.findById(reporterNum);
 
-    @Autowired
-    private FileHandler fileHandler;
+        if (optionalMember.isPresent()) {
+            Report report = Report.builder()
+                    .member(optionalMember.get())
+                    .postNum(postNum)
+                    .reportedDate(LocalDateTime.now())
+                    .build();
 
-    public void reportPost(Integer reporterNum, Integer postNum) {
-        Report report = new Report(reporterNum, postNum, LocalDateTime.now().plusHours(9));
-
-        reportRepository.save(report);
+            return reportRepository.save(report);
+        } else
+            throw new IllegalArgumentException("해당 사용자가 존재하지 않습니다.");
     }
 
-    public void hideReportedPost(Integer report_num) {
-        reportRepository.hideReportedPost(report_num);
-        reportRepository.deleteReportList(report_num);
-    }
-
-    public void exposureReportedPost(Integer report_num) {
-        reportRepository.exposureReportedPost(report_num);
-        reportRepository.deleteReportList(report_num);
-    }
-
-    public List<ReportResponse> getAllReportList() {
-        List<ReportResponse> allReports = new ArrayList<>();
-        List<Report> list = reportRepository.getAllReportList();
-
-        for(Report report : list) {
-            String nickname = memberService.findById(report.getReporterNum()).getNickname();
-            ReportResponse reportListResponse = new ReportResponse(report, nickname);
-
-            allReports.add(reportListResponse);
-        }
-
-        return allReports;
-    }
-
-    public void deleteReportedPost(Integer report_num) {
-        Integer post_num = reportRepository.getPostNumByReportNum(report_num);
-        String pictureUrl = pictureRepository.findByPostPostNum(post_num).getLocation();
-
-        fileHandler.deleteFromS3(pictureUrl);
-        reportRepository.deleteReportedPost(report_num);
-        reportRepository.deleteReportList(report_num);
+    public List<Report> findAll() {
+        return reportRepository.findAll();
     }
 }

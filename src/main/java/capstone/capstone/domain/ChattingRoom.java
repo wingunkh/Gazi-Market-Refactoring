@@ -3,6 +3,7 @@ package capstone.capstone.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 public class ChattingRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CHATTING_ROOM_SEQUENCE_GENERATOR")
@@ -20,10 +22,4 @@ public class ChattingRoom {
     private Integer hostNum;
 
     private Integer guestNum;
-
-    public ChattingRoom(Integer postNum, Integer hostNum, Integer guestNum) {
-        this.postNum = postNum;
-        this.hostNum = hostNum;
-        this.guestNum = guestNum;
-    }
 }

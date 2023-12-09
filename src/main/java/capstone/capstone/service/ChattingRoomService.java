@@ -4,63 +4,43 @@ import capstone.capstone.domain.ChattingRoom;
 import capstone.capstone.domain.Post;
 import capstone.capstone.repository.ChattingRoomRepository;
 import capstone.capstone.repository.PostRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ChattingRoomService {
-    @Autowired
-    private ChattingRoomRepository chattingRoomRepository;
+    private final ChattingRoomRepository chattingRoomRepository;
 
-    @Autowired
-    private PostRepository postRepository;
+    private final PostRepository postRepository;
 
-    public ChattingRoom createChattingRoom(ChattingRoom chattingRoom){
-        return chattingRoomRepository.save(chattingRoom);
+    public ChattingRoom enterChattingRoom(Integer postNum, Integer guestNum) {
+        ChattingRoom chattingRoom = chattingRoomRepository.findByPostNumAndGuestNum(postNum, guestNum);
+
+        if (chattingRoom == null) {
+            Optional<Post> optionalPost = postRepository.findById(postNum);
+            ChattingRoom newChattingRoom = new ChattingRoom();
+
+            if (optionalPost.isPresent()) {
+                Post post = optionalPost.get();
+                newChattingRoom.setPostNum(post.getPostNum());
+                newChattingRoom.setHostNum(post.getMember().getMemberNum());
+                newChattingRoom.setGuestNum(guestNum);
+
+                return chattingRoomRepository.save(newChattingRoom);
+            } else
+                throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
+        } else
+            return chattingRoom;
     }
 
-    public List<ChattingRoom> getAllChattingRoom(int guest_num) {
-        return chattingRoomRepository.getAllChattingRoom(guest_num);
-    }
-
-    public List<ChattingRoom> getAllChattingRoom(){
+    public List<ChattingRoom> findAll() {
         return chattingRoomRepository.findAll();
     }
 
-    public Integer enterChattingRoom(Integer postNum, Integer guestNum) {
-        List<ChattingRoom> chattingRoom = chattingRoomRepository.enterChattingRoom(postNum, guestNum);
-        ChattingRoom ch;
-
-        if(chattingRoom.isEmpty()) {
-            Optional<Post> optionalPost = postRepository.findById(postNum);
-
-            if (optionalPost.isPresent()) {
-                ch = new ChattingRoom(postNum, guestNum, optionalPost.get().getMember().getMemberNum());
-                ch = createChattingRoom(ch);
-            } else
-                throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
-        } else{
-            ch = chattingRoom.get(0);
-        }
-
-        return ch.getRoomNum();
-    }
-
-    public String getChattingPostTitle(int cht_room_num){
-        return chattingRoomRepository.getChattingPostTitle(cht_room_num);
-    }
-
-    public String getChattingPostPicture(int cht_room_num) {
-        return chattingRoomRepository.getChattingPostPicture(cht_room_num);
-    }
-
-    public int getHostInfo(int cht_room_num){
-        return chattingRoomRepository.getHostInfo(cht_room_num);
-    }
-
-    public int getGuestInfo(int cht_room_num){
-        return chattingRoomRepository.getGuestInfo(cht_room_num);
+    public List<ChattingRoom> findAllByHostNumOrGuestNum(Integer memberNum) {
+        return chattingRoomRepository.findAllByHostNumOrGuestNum(memberNum, memberNum);
     }
 }

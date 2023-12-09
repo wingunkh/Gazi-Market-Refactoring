@@ -93,10 +93,9 @@ public class PostService {
     public PostResponse findById(Integer postNum) {
         Optional<Post> optionalPost = postRepository.findById(postNum);
 
-        if (optionalPost.isPresent()) {
-            Post post = optionalPost.get();
-            return convertPostToPostResponse(post);
-        } else
+        if (optionalPost.isPresent())
+            return convertPostToPostResponse(optionalPost.get());
+        else
             throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
     }
 
@@ -216,17 +215,6 @@ public class PostService {
             throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
     }
 
-    public List<PostResponse> findSoldOut(Integer memberNum) {
-        List<Post> postList = postRepository.findAllByMemberMemberNumAndStatusOrderByWrittenDate(memberNum, "판매 완료");
-        List<PostResponse> postResponses = new ArrayList<>();
-
-        for (Post post: postList) {
-            postResponses.add(convertPostToPostResponse(post));
-        }
-
-        return postResponses;
-    }
-
     @Transactional
     public String soldOut(Integer postNum) {
         Optional<Post> optionalPost = postRepository.findById(postNum);
@@ -239,6 +227,17 @@ public class PostService {
             return "판매 완료 처리 완료";
         } else
             throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
+    }
+
+    public List<PostResponse> findSoldOut(Integer memberNum) {
+        List<Post> postList = postRepository.findAllByMemberMemberNumAndStatusOrderByWrittenDate(memberNum, "판매 완료");
+        List<PostResponse> postResponses = new ArrayList<>();
+
+        for (Post post: postList) {
+            postResponses.add(convertPostToPostResponse(post));
+        }
+
+        return postResponses;
     }
 
     public Double calculateMarketPrice(String modelName, String grade) {

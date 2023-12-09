@@ -20,25 +20,25 @@ public class HistoryController {
         return ResponseEntity.ok(historyService.saveLikeHistory(memberNum, postNum));
     }
 
-    // 즐겨찾기 기록 전체 조회
+    // 해당 사용자의 즐겨찾기 기록 전체 조회
     @GetMapping("/like/{memberNum}")
     public ResponseEntity<List<LikeHistory>> findAllLikeHistory(@PathVariable Integer memberNum) {
         return ResponseEntity.ok(historyService.findAllLikeHistory(memberNum));
     }
 
-    // 해당 게시글 즐겨찾기 취소
+    // 해당 사용자의 해당 게시글 즐겨찾기 취소
     @DeleteMapping("/like/{memberNum}/{postNum}")
     public ResponseEntity<String> deleteLikeList(@PathVariable Integer memberNum, @PathVariable Integer postNum) {
         return ResponseEntity.ok(historyService.deleteLikeList(memberNum, postNum));
     }
 
-    // 방문 기록 전체 조회
+    // 해당 사용자의 방문 기록 전체 조회
     @GetMapping("/visit/{memberNum}")
     public ResponseEntity<List<VisitHistory>> findAllVisitHistory(@PathVariable Integer memberNum) {
         return ResponseEntity.ok(historyService.findAllVisitHistory(memberNum));
     }
 
-    // 방문 기록 삭제
+    // 해당 사용자의 해당 방문 기록 삭제
     @DeleteMapping("/visit/{memberNum}/{postNum}")
     public ResponseEntity<String> deleteVisitHistory(@PathVariable Integer memberNum, @PathVariable Integer postNum) {
         return ResponseEntity.ok(historyService.deleteVisitList(memberNum, postNum));

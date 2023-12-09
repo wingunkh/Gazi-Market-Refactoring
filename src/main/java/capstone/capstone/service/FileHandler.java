@@ -50,9 +50,8 @@ public class FileHandler {
         String pictureUrl = "";
 
         // 빈 파일이 들어오면 빈 pictureUrl 반환
-        if (multipartFile.isEmpty()) {
+        if (multipartFile.isEmpty())
             return pictureUrl;
-        }
 
         // 업로드한 날짜를 파일명으로 지정
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -63,10 +62,9 @@ public class FileHandler {
         File file = new File(path);
 
         // 저장할 위치에 디렉터리가 존재하지 않을 경우
-        if (!file.exists()) {
+        if (!file.exists())
             // mkdir() 함수와 다른 점 : 상위 디렉터리가 존재하지 않을 때 상위 디렉터리까지 생성
             file.mkdirs();
-        }
 
         // 파일 핸들링
         // 파일이 비어 있지 않을 때 작업해야 오류가 발생하지 않는다.
@@ -76,20 +74,18 @@ public class FileHandler {
             String originalFileExtension = "";
 
             // 확장자명이 없으면 잘못된 파일이므로 빈 pictureUrl 반환
-            if (ObjectUtils.isEmpty(contentType)) {
+            if (ObjectUtils.isEmpty(contentType))
                 return pictureUrl;
-            } else {
-                if (contentType.contains("image/jpeg")) {
+            else {
+                if (contentType.contains("image/jpeg"))
                     originalFileExtension = ".jpg";
-                } else if (contentType.contains("image/png")) {
+                else if (contentType.contains("image/png"))
                     originalFileExtension = ".png";
-                } else if (contentType.contains("image/gif")) {
+                else if (contentType.contains("image/gif"))
                     originalFileExtension = ".gif";
-                }
                 // 다른 확장자명이면 빈 pictureUrl 반환
-                else {
+                else
                     return pictureUrl;
-                }
             }
 
             // 파일명에 중복이 발생하지 않도록 나노 세컨드까지 동원하여 파일명 지정
@@ -110,18 +106,19 @@ public class FileHandler {
             } catch (Exception e) {
                 throw new Exception();
             } finally {
-                if (file.exists()) {
+                if (file.exists())
                     // 로컬 폴더에 임시 저장한 파일 삭제
                     file.delete();
-                }
             }
             pictureUrl = amazonS3Client.getUrl(bucket, key + currentDate + newFileName).toString();
         }
+
         return pictureUrl;
     }
 
     public void deleteFromS3(String pictureLocation) {
         String key = pictureLocation.replace("https://gazi-market-bucket.s3.ap-northeast-2.amazonaws.com/", "");
+
         amazonS3Client.deleteObject(bucket, key);
     }
 }

@@ -32,13 +32,13 @@ public class MemberController {
         return memberService.findById(memberNum);
     }
 
-    // 해당 사용자 프로필 이미지 조회
+    // 해당 사용자의 프로필 이미지 조회
     @GetMapping("/{memberNum}/profileImage")
     public ResponseEntity<String> getProfileImage(@PathVariable Integer memberNum) {
         return ResponseEntity.ok(memberService.getProfileImage(memberNum));
     }
 
-    // 해당 사용자 프로필 이미지 수정
+    // 해당 사용자의 프로필 이미지 수정
     @PatchMapping
     // PATCH 메서드 : RequestBody를 통해 데이터 부분 수정
     public ResponseEntity<String> updateProfileImage(

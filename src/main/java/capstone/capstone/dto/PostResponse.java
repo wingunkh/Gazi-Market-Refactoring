@@ -5,17 +5,17 @@ import lombok.Getter;
 
 @Getter
 public class PostResponse extends Post {
-    String categoryName;
+    private final String categoryName;
 
-    String pictureUrl;
+    private final String pictureUrl;
 
-    Double marketPrice;
+    private final Double marketPrice;
 
-    Location location;
+    private final Location location;
 
-    String profileImage;
+    private final String profileImage;
 
-    String nickname;
+    private final String nickname;
 
     public PostResponse(Post post, String categoryName, String pictureUrl, Double marketPrice, Location location, String profileImage, String nickname) {
         super(

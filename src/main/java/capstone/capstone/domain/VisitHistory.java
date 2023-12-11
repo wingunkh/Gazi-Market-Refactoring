@@ -15,8 +15,8 @@ import javax.persistence.IdClass;
 @Getter
 public class VisitHistory {
     @Id
-    private Integer postNum;
+    private Integer memberNum;
 
     @Id
-    private Integer memberNum;
+    private Integer postNum;
 }

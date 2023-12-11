@@ -4,6 +4,7 @@ import capstone.capstone.domain.Member;
 import capstone.capstone.handler.FileHandler;
 import capstone.capstone.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,21 +29,23 @@ public class MemberService {
     public Member findMemberById(Integer memberNum) {
         Optional<Member> optionalMember = memberRepository.findById(memberNum);
 
-        if (optionalMember.isPresent())
-            return optionalMember.get();
-        else
+        if (optionalMember.isEmpty()) {
             throw new IllegalArgumentException("해당 사용자가 존재하지 않습니다.");
+        }
+
+        return optionalMember.get();
     }
 
     public String findProfileImage(Integer memberNum) {
         Optional<Member> optionalMember = memberRepository.findById(memberNum);
 
-        if (optionalMember.isPresent()) {
-            Member member = optionalMember.get();
-
-            return (member.getProfileImage() == null) ? "https://gazi-market-bucket.s3.ap-northeast-2.amazonaws.com/profile/default.png" : member.getProfileImage();
-        } else
+        if (optionalMember.isEmpty()) {
             throw new IllegalArgumentException("해당 사용자가 존재하지 않습니다.");
+        }
+
+        Member member = optionalMember.get();
+
+        return (member.getProfileImage() == null) ? "https://gazi-market-bucket.s3.ap-northeast-2.amazonaws.com/profile/default.png" : member.getProfileImage();
     }
 
     @Transactional
@@ -56,21 +59,22 @@ public class MemberService {
     public String updateProfileImage(Integer memberNum, MultipartFile file) throws Exception {
         Optional<Member> optionalMember = memberRepository.findById(memberNum);
 
-        if (optionalMember.isPresent()) {
-            Member member = optionalMember.get();
-
-            // Amazon S3에 전달받은 사진을 업로드하고 해당 사진의 Url을 반환받아 변수에 저장
-            String pictureUrl = fileHandler.saveToS3(file, "profile/");
-
-            member.setMemberNum(memberNum);
-            member.setProfileImage(pictureUrl);
-
-            return "해당 사용자의 프로필 이미지 수정 완료";
-
-            // memberRepository.save(member);
-            // 영속성 컨텍스트의 Dirty Checking 기능을 통해 변경된 엔티티의 상태가 감지된다.
-            // 그 후 트랜잭션 커밋 시 해당 변경 사항이 데이터베이스에 반영되어 업데이트가 자동으로 수행된다.
-        } else
+        if (optionalMember.isEmpty()) {
             throw new IllegalArgumentException("해당 사용자가 존재하지 않습니다.");
+        }
+
+        Member member = optionalMember.get();
+
+        // Amazon S3에 전달받은 사진을 업로드하고 해당 사진의 Url을 반환받아 변수에 저장
+        String pictureUrl = fileHandler.saveToS3(file, "profile/");
+
+        member.setMemberNum(memberNum);
+        member.setProfileImage(pictureUrl);
+
+        return ResponseEntity.ok().toString();
+
+        // memberRepository.save(member);
+        // 영속성 컨텍스트의 Dirty Checking 기능을 통해 변경된 엔티티의 상태가 감지된다.
+        // 그 후 트랜잭션 커밋 시 해당 변경 사항이 데이터베이스에 반영되어 업데이트가 자동으로 수행된다.
     }
 }

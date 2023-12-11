@@ -23,10 +23,11 @@ public class ModelService {
     public Model findById(String modelName) {
         Optional<Model> optionalModel = modelRepository.findById(modelName);
 
-        if (optionalModel.isPresent())
-            return optionalModel.get();
-        else
+        if (optionalModel.isEmpty()) {
             throw new IllegalArgumentException("해당 모델이 존재하지 않습니다.");
+        }
+
+        return optionalModel.get();
     }
 
     public List<Model> findAllModelsByCategoryName(String categoryName) {

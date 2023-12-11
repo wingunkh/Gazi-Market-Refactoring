@@ -19,21 +19,23 @@ public class ChattingRoomService {
     public ChattingRoom createChattingRoom(Integer guestNum, Integer postNum) {
         ChattingRoom chattingRoom = chattingRoomRepository.findByGuestNumAndPostNum(guestNum, postNum);
 
-        if (chattingRoom == null) {
-            Optional<Post> optionalPost = postRepository.findById(postNum);
-            ChattingRoom newChattingRoom = new ChattingRoom();
-
-            if (optionalPost.isPresent()) {
-                Post post = optionalPost.get();
-                newChattingRoom.setPostNum(post.getPostNum());
-                newChattingRoom.setHostNum(post.getMember().getMemberNum());
-                newChattingRoom.setGuestNum(guestNum);
-
-                return chattingRoomRepository.save(newChattingRoom);
-            } else
-                throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
-        } else
+        if (chattingRoom != null) {
             return chattingRoom;
+        }
+
+        Optional<Post> optionalPost = postRepository.findById(postNum);
+        ChattingRoom newChattingRoom = new ChattingRoom();
+
+        if (optionalPost.isEmpty()) {
+            throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
+        }
+
+        Post post = optionalPost.get();
+        newChattingRoom.setPostNum(post.getPostNum());
+        newChattingRoom.setHostNum(post.getMember().getMemberNum());
+        newChattingRoom.setGuestNum(guestNum);
+
+        return chattingRoomRepository.save(newChattingRoom);
     }
 
     public List<ChattingRoom> findAllChattingRooms() {

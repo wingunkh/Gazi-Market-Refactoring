@@ -20,16 +20,17 @@ public class ReportService {
     public Report saveReport(Integer reporterNum, Integer postNum) {
         Optional<Member> optionalMember = memberRepository.findById(reporterNum);
 
-        if (optionalMember.isPresent()) {
-            Report report = Report.builder()
-                    .member(optionalMember.get())
-                    .postNum(postNum)
-                    .reportedDate(LocalDateTime.now())
-                    .build();
-
-            return reportRepository.save(report);
-        } else
+        if (optionalMember.isEmpty()) {
             throw new IllegalArgumentException("해당 사용자가 존재하지 않습니다.");
+        }
+
+        Report report = Report.builder()
+                .member(optionalMember.get())
+                .postNum(postNum)
+                .reportedDate(LocalDateTime.now())
+                .build();
+
+        return reportRepository.save(report);
     }
 
     public List<Report> findAllReports() {

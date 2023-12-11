@@ -5,6 +5,7 @@ import capstone.capstone.domain.VisitHistory;
 import capstone.capstone.repository.LikeHistoryRepository;
 import capstone.capstone.repository.VisitHistoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -28,11 +29,11 @@ public class HistoryService {
     public String deleteLikeHistory(Integer memberNum, Integer postNum) {
         likeHistoryRepository.delete(new LikeHistory(memberNum, postNum));
 
-        return "즐겨찾기 취소 완료";
+        return ResponseEntity.ok().toString();
     }
 
     public void visit(Integer memberNum, Integer postNum) {
-       visitHistoryRepository.save(new VisitHistory(memberNum, postNum));
+        visitHistoryRepository.save(new VisitHistory(memberNum, postNum));
     }
 
     public List<VisitHistory> findAllVisitHistories(Integer memberNum) {
@@ -43,6 +44,6 @@ public class HistoryService {
     public String deleteVisitHistory(Integer memberNum, Integer postNum) {
         visitHistoryRepository.delete(new VisitHistory(memberNum, postNum));
 
-        return "방문 기록 삭제 완료";
+        return ResponseEntity.ok().toString();
     }
 }

@@ -17,12 +17,13 @@ public class ImageSourceHandler {
             // EXIF 메타데이터를 읽어오며 존재하지 않을 시 null 값이 저장된다.
             ExifSubIFDDirectory directory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
 
-            if (directory == null)
+            if (directory == null) {
                 return "DOWNLOADED";
-            else
-                return "CAPTURED";
+            }
+
+            return "CAPTURED";
         } catch (Exception e) {
-            return "???";
+            return "?";
         }
     }
 }

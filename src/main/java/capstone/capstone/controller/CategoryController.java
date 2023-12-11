@@ -27,14 +27,14 @@ public class CategoryController {
     // POST 메서드 : RequestBody를 통해 서버로 데이터를 전송, 주로 등록에 사용
     // POST 메서드는 멱등하지 않다.
     // 멱등성(Idempotent)이란? 연산을 여러 번 적용하더라도 결과가 달라지지 않는 성질
-    public ResponseEntity<Category> save(@RequestBody Category category) {
-        return ResponseEntity.ok(categoryService.save(category));
+    public ResponseEntity<Category> saveCategory(@RequestBody Category category) {
+        return ResponseEntity.ok(categoryService.saveCategory(category));
     }
 
     // 카테고리 전체 조회
     @GetMapping
     // GET 메서드 : 데이터 조회
-    public ResponseEntity<List<Category>> findAll() {
-        return ResponseEntity.ok(categoryService.findAll());
+    public ResponseEntity<List<Category>> findAllCategories() {
+        return ResponseEntity.ok(categoryService.findAllCategories());
     }
 }

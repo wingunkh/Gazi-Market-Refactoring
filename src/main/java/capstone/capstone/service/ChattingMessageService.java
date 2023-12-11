@@ -12,7 +12,7 @@ import java.util.List;
 public class ChattingMessageService {
     private final ChattingMessageRepository chattingMessageRepository;
 
-    public List<ChattingMessage> findAllByChattingRoomRoomNumOrderByTime(Integer roomNum) {
+    public List<ChattingMessage> enterChattingRoom(Integer roomNum) {
         return chattingMessageRepository.findAllByChattingRoomRoomNumOrderByTime(roomNum);
     }
 

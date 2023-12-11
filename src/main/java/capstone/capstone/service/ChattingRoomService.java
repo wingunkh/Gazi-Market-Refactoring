@@ -16,8 +16,8 @@ public class ChattingRoomService {
 
     private final PostRepository postRepository;
 
-    public ChattingRoom enterChattingRoom(Integer postNum, Integer guestNum) {
-        ChattingRoom chattingRoom = chattingRoomRepository.findByPostNumAndGuestNum(postNum, guestNum);
+    public ChattingRoom createChattingRoom(Integer guestNum, Integer postNum) {
+        ChattingRoom chattingRoom = chattingRoomRepository.findByGuestNumAndPostNum(guestNum, postNum);
 
         if (chattingRoom == null) {
             Optional<Post> optionalPost = postRepository.findById(postNum);
@@ -36,11 +36,11 @@ public class ChattingRoomService {
             return chattingRoom;
     }
 
-    public List<ChattingRoom> findAll() {
+    public List<ChattingRoom> findAllChattingRooms() {
         return chattingRoomRepository.findAll();
     }
 
-    public List<ChattingRoom> findAllByHostNumOrGuestNum(Integer memberNum) {
+    public List<ChattingRoom> findAllChattingRoomsByHostNumOrGuestNum(Integer memberNum) {
         return chattingRoomRepository.findAllByHostNumOrGuestNum(memberNum, memberNum);
     }
 }

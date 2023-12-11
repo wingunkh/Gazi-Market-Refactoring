@@ -15,13 +15,13 @@ public class ReportController {
 
     // 게시글 신고
     @PostMapping("/{reporterNum}/{postNum}")
-    public ResponseEntity<Report> save(@PathVariable Integer reporterNum, @PathVariable Integer postNum) {
-        return ResponseEntity.ok(reportService.save(reporterNum, postNum));
+    public ResponseEntity<Report> saveReport(@PathVariable Integer reporterNum, @PathVariable Integer postNum) {
+        return ResponseEntity.ok(reportService.saveReport(reporterNum, postNum));
     }
 
     // 신고 기록 전체 조회
     @GetMapping
-    public ResponseEntity<List<Report>> findAll() {
-        return ResponseEntity.ok(reportService.findAll());
+    public ResponseEntity<List<Report>> findAllReports() {
+        return ResponseEntity.ok(reportService.findAllReports());
     }
 }

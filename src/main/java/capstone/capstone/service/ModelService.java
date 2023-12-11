@@ -12,11 +12,11 @@ import java.util.Optional;
 public class ModelService {
     private final ModelRepository modelRepository;
 
-    public Model save(Model model) {
+    public Model saveModel(Model model) {
         return modelRepository.save(model);
     }
 
-    public List<Model> findAll() {
+    public List<Model> findAllModels() {
         return modelRepository.findAll();
     }
 
@@ -29,7 +29,7 @@ public class ModelService {
             throw new IllegalArgumentException("해당 모델이 존재하지 않습니다.");
     }
 
-    public List<Model> findAllByCategoryCategoryName(String categoryName) {
+    public List<Model> findAllModelsByCategoryName(String categoryName) {
         return modelRepository.findAllByCategoryCategoryName(categoryName);
     }
 }

@@ -17,7 +17,7 @@ public class ReportService {
 
     private final MemberRepository memberRepository;
 
-    public Report save(Integer reporterNum, Integer postNum) {
+    public Report saveReport(Integer reporterNum, Integer postNum) {
         Optional<Member> optionalMember = memberRepository.findById(reporterNum);
 
         if (optionalMember.isPresent()) {
@@ -32,7 +32,7 @@ public class ReportService {
             throw new IllegalArgumentException("해당 사용자가 존재하지 않습니다.");
     }
 
-    public List<Report> findAll() {
+    public List<Report> findAllReports() {
         return reportRepository.findAll();
     }
 }

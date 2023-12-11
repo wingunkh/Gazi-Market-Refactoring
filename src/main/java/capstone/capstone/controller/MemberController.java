@@ -16,26 +16,26 @@ public class MemberController {
 
     // 사용자 저장
     @PostMapping
-    public ResponseEntity<Member> save(@RequestBody Member member) {
-        return ResponseEntity.ok(memberService.save(member));
+    public ResponseEntity<Member> saveMember(@RequestBody Member member) {
+        return ResponseEntity.ok(memberService.saveMember(member));
     }
 
     // 사용자 전체 조회
     @GetMapping
-    public ResponseEntity<List<Member>> findAll() {
-        return ResponseEntity.ok(memberService.findAll());
+    public ResponseEntity<List<Member>> findAllMembers() {
+        return ResponseEntity.ok(memberService.findAllMembers());
     }
 
     // 해당 사용자 조회
     @GetMapping("/{memberNum}")
-    public Member findById(@PathVariable Integer memberNum) {
-        return memberService.findById(memberNum);
+    public Member findMemberById(@PathVariable Integer memberNum) {
+        return memberService.findMemberById(memberNum);
     }
 
     // 해당 사용자의 프로필 이미지 조회
     @GetMapping("/{memberNum}/profileImage")
-    public ResponseEntity<String> getProfileImage(@PathVariable Integer memberNum) {
-        return ResponseEntity.ok(memberService.getProfileImage(memberNum));
+    public ResponseEntity<String> findProfileImage(@PathVariable Integer memberNum) {
+        return ResponseEntity.ok(memberService.findProfileImage(memberNum));
     }
 
     // 해당 사용자의 프로필 이미지 수정

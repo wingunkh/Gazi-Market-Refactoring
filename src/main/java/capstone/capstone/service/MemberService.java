@@ -1,6 +1,7 @@
 package capstone.capstone.service;
 
 import capstone.capstone.domain.Member;
+import capstone.capstone.handler.FileHandler;
 import capstone.capstone.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,15 +17,15 @@ public class MemberService {
 
     private final FileHandler fileHandler;
 
-    public Member save(Member member) {
+    public Member saveMember(Member member) {
         return memberRepository.save(member);
     }
 
-    public List<Member> findAll() {
+    public List<Member> findAllMembers() {
         return memberRepository.findAll();
     }
 
-    public Member findById(Integer memberNum) {
+    public Member findMemberById(Integer memberNum) {
         Optional<Member> optionalMember = memberRepository.findById(memberNum);
 
         if (optionalMember.isPresent())
@@ -33,7 +34,7 @@ public class MemberService {
             throw new IllegalArgumentException("해당 사용자가 존재하지 않습니다.");
     }
 
-    public String getProfileImage(Integer memberNum) {
+    public String findProfileImage(Integer memberNum) {
         Optional<Member> optionalMember = memberRepository.findById(memberNum);
 
         if (optionalMember.isPresent()) {

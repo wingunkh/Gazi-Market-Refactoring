@@ -1,6 +1,6 @@
 package capstone.capstone.controller;
 
-import capstone.capstone.domain.Location;
+import capstone.capstone.dto.Location;
 import capstone.capstone.dto.PostResponse;
 import capstone.capstone.domain.Post;
 import capstone.capstone.service.HistoryService;
@@ -28,17 +28,17 @@ public class PostController {
 
     // 게시글 저장 (리액트)
     @PostMapping("/react")
-    public ResponseEntity<Post> save(
+    public ResponseEntity<Post> savePost(
             @RequestPart(value = "post") Post post,
             // HTTP Request Body에 multipart/form-data가 포함되어 있는 경우 사용
             @RequestPart(value = "file") MultipartFile file
     ) throws Exception {
-        return ResponseEntity.ok(postService.save(post, file));
+        return ResponseEntity.ok(postService.savePost(post, file));
     }
 
     // 게시글 저장 (리액트 네이티브)
     @PostMapping
-    public ResponseEntity<Post> save(
+    public ResponseEntity<Post> savePost(
             @RequestPart(value = "modelName")
             String modelName,
             @RequestPart(value = "postTitle")
@@ -64,66 +64,66 @@ public class PostController {
                 .price(Integer.parseInt(price))
                 .status(status)
                 .writtenDate(LocalDateTime.now())
-                .member(memberService.findById(Integer.parseInt(memberNum)))
+                .member(memberService.findMemberById(Integer.parseInt(memberNum)))
                 .build();
 
-        return ResponseEntity.ok(postService.save(post, file));
+        return ResponseEntity.ok(postService.savePost(post, file));
     }
 
     // 게시글 전체 조회
     @GetMapping
-    public ResponseEntity<List<PostResponse>> findAll() {
-        return ResponseEntity.ok(postService.findAll());
+    public ResponseEntity<List<PostResponse>> findAllPosts() {
+        return ResponseEntity.ok(postService.findAllPosts());
     }
 
     // 해당 게시글 조회
-    @GetMapping("/{postNum}/{memberNum}")
-    public ResponseEntity<PostResponse> findById(@PathVariable Integer postNum, @PathVariable Integer memberNum) {
-        historyService.visit(postNum, memberNum);
+    @GetMapping("/{memberNum}/{postNum}")
+    public ResponseEntity<PostResponse> findPostById(@PathVariable Integer memberNum, @PathVariable Integer postNum) {
+        historyService.visit(memberNum, postNum);
 
-        return ResponseEntity.ok(postService.findById(postNum));
+        return ResponseEntity.ok(postService.findPostById(postNum));
     }
 
     // 해당 게시글 수정
     @PatchMapping
-    public ResponseEntity<String> update(@RequestBody Post post) {
-        return ResponseEntity.ok(postService.update(post));
+    public ResponseEntity<String> updatePost(@RequestBody Post post) {
+        return ResponseEntity.ok(postService.updatePost(post));
     }
 
     // 해당 게시글 삭제
     @DeleteMapping("/{postNum}")
-    public ResponseEntity<String> delete(@PathVariable Integer postNum) {
-        return ResponseEntity.ok(postService.delete(postNum));
+    public ResponseEntity<String> deletePost(@PathVariable Integer postNum) {
+        return ResponseEntity.ok(postService.deletePost(postNum));
     }
 
     // 오늘 작성된 게시글 전제 조회
     @GetMapping("/today")
-    public ResponseEntity<List<PostResponse>> findAllByWrittenDate() {
-        return ResponseEntity.ok(postService.findAllByWrittenDate());
+    public ResponseEntity<List<PostResponse>> findAllTodayPosts() {
+        return ResponseEntity.ok(postService.findAllTodayPosts());
     }
 
     // 해당 모델 내 게시글 전체 조회
     @GetMapping("/model/{modelName}")
-    public ResponseEntity<List<PostResponse>> findAllByModelModelName(@PathVariable String modelName) {
-        return ResponseEntity.ok(postService.findAllByModelModelName(modelName));
+    public ResponseEntity<List<PostResponse>> findAllPostsByModelName(@PathVariable String modelName) {
+        return ResponseEntity.ok(postService.findAllPostsByModelName(modelName));
     }
 
     // 키워드로 게시글 검색
     @GetMapping("/search/{keyWord}")
-    public ResponseEntity<List<PostResponse>> searchByKeyword(@PathVariable String keyWord) {
-        return ResponseEntity.ok(postService.searchByKeyword(keyWord));
+    public ResponseEntity<List<PostResponse>> searchPostByKeyword(@PathVariable String keyWord) {
+        return ResponseEntity.ok(postService.searchPostByKeyword(keyWord));
     }
 
     // 해당 위치에서 해당 반경 내 게시글 전체 조회 (위도/경도/km)
     @GetMapping("/location/{latitude}/{longitude}/{distance}")
-    public ResponseEntity<List<PostResponse>> findNearby(@PathVariable Double latitude, @PathVariable Double longitude, @PathVariable Double distance) {
-        return ResponseEntity.ok(postService.findNearby(latitude, longitude, distance));
+    public ResponseEntity<List<PostResponse>> findAllNearbyPosts(@PathVariable Double latitude, @PathVariable Double longitude, @PathVariable Double distance) {
+        return ResponseEntity.ok(postService.findAllNearbyPosts(latitude, longitude, distance));
     }
 
     // 해당 게시글 거래 위치 조회
     @GetMapping("/location/{postNum}")
-    public ResponseEntity<Location> findLocation(@PathVariable Integer postNum) {
-        return ResponseEntity.ok(postService.findLocation(postNum));
+    public ResponseEntity<Location> findPostLocation(@PathVariable Integer postNum) {
+        return ResponseEntity.ok(postService.findPostLocation(postNum));
     }
 
     // 해당 게시글 판매 완료 처리
@@ -134,7 +134,7 @@ public class PostController {
 
     // 해당 사용자의 판매 완료 게시글 전체 조회
     @GetMapping("/soldOut/{memberNum}")
-    public ResponseEntity<List<PostResponse>> findSoldOut(@PathVariable Integer memberNum) {
-        return ResponseEntity.ok(postService.findSoldOut(memberNum));
+    public ResponseEntity<List<PostResponse>> findAllSoldOutPosts(@PathVariable Integer memberNum) {
+        return ResponseEntity.ok(postService.findAllSoldOutPosts(memberNum));
     }
 }

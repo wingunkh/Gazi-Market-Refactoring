@@ -22,11 +22,11 @@ public class ChattingController {
     private final ChattingRoomService chattingRoomService;
 
     // 채팅방 생성 후 입장
-    @PostMapping("create/{postNum}/{guestNum}")
-    public ResponseEntity<List<ChattingMessage>> createChattingRoom(@PathVariable Integer postNum, @PathVariable Integer guestNum) {
-        Integer roomNum = chattingRoomService.enterChattingRoom(postNum, guestNum).getRoomNum();
+    @PostMapping("create/{guestNum}/{postNum}")
+    public ResponseEntity<List<ChattingMessage>> createChattingRoom(@PathVariable Integer guestNum, @PathVariable Integer postNum) {
+        Integer roomNum = chattingRoomService.createChattingRoom(guestNum, postNum).getRoomNum();
 
-        return ResponseEntity.ok(chattingMessageService.findAllByChattingRoomRoomNumOrderByTime(roomNum));
+        return ResponseEntity.ok(chattingMessageService.enterChattingRoom(roomNum));
     }
 
     // 채팅 전송
@@ -52,19 +52,19 @@ public class ChattingController {
 
     // 채팅방 목록 전체 조회 (관리자)
     @GetMapping("/admin")
-    public ResponseEntity<List<ChattingRoom>> findAll() {
-        return ResponseEntity.ok(chattingRoomService.findAll());
+    public ResponseEntity<List<ChattingRoom>> findAllChattingRooms() {
+        return ResponseEntity.ok(chattingRoomService.findAllChattingRooms());
     }
 
     // 채팅방 목록 전체 조회 (사용자)
     @GetMapping("/member/{memberNum}")
-    public ResponseEntity<List<ChattingRoom>> findAllByHostNumOrGuestNum(@PathVariable Integer memberNum) {
-        return ResponseEntity.ok(chattingRoomService.findAllByHostNumOrGuestNum(memberNum));
+    public ResponseEntity<List<ChattingRoom>> findAllChattingRoomsByHostNumOrGuestNum(@PathVariable Integer memberNum) {
+        return ResponseEntity.ok(chattingRoomService.findAllChattingRoomsByHostNumOrGuestNum(memberNum));
     }
 
     // 채팅방 목록에서 채팅방 입장
     @GetMapping("enter/{roomNum}")
     public ResponseEntity<List<ChattingMessage>> enterChattingRoom(@PathVariable Integer roomNum) {
-        return ResponseEntity.ok(chattingMessageService.findAllByChattingRoomRoomNumOrderByTime(roomNum));
+        return ResponseEntity.ok(chattingMessageService.enterChattingRoom(roomNum));
     }
 }

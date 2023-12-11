@@ -1,7 +1,10 @@
 package capstone.capstone.service;
 
 import capstone.capstone.domain.*;
+import capstone.capstone.dto.Location;
 import capstone.capstone.dto.PostResponse;
+import capstone.capstone.handler.FileHandler;
+import capstone.capstone.handler.ImageSourceHandler;
 import capstone.capstone.idclass.History_Post;
 import capstone.capstone.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -38,21 +41,21 @@ public class PostService {
         String categoryName = post.getModel().getCategory().getCategoryName();
         String pictureUrl = pictureRepository.findByPostPostNum(post.getPostNum()).getLocation();
         Double marketPrice = calculateMarketPrice(post.getModel().getModelName(), post.getGrade());
-        Member member = memberService.findById(post.getMember().getMemberNum());
+        Member member = memberService.findMemberById(post.getMember().getMemberNum());
         Location location = new Location(member.getLatitude(), member.getLongitude());
         String profileImage = "";
 
-        if (memberService.getProfileImage(post.getMember().getMemberNum()) == null)
+        if (memberService.findProfileImage(post.getMember().getMemberNum()) == null)
             profileImage = "https://gazi-market-bucket.s3.ap-northeast-2.amazonaws.com/profile/default.jpg";
         else
-            profileImage = memberService.getProfileImage(post.getMember().getMemberNum());
+            profileImage = memberService.findProfileImage(post.getMember().getMemberNum());
 
-        String nickName = memberService.findById(post.getMember().getMemberNum()).getNickname();
+        String nickName = memberService.findMemberById(post.getMember().getMemberNum()).getNickname();
 
         return new PostResponse(post, categoryName, pictureUrl, marketPrice, location, profileImage, nickName);
     }
 
-    public Post save(Post post, MultipartFile file) throws Exception {
+    public Post savePost(Post post, MultipartFile file) throws Exception {
         String imageSource = imageSourceHandler.detectImageSource(file);
 
         if (Objects.equals(imageSource, "CAPTURED"))
@@ -78,7 +81,7 @@ public class PostService {
         return post;
     }
 
-    public List<PostResponse> findAll() {
+    public List<PostResponse> findAllPosts() {
         List<Post> postList = postRepository.findAll();
         List<PostResponse> postResponseList = new ArrayList<>();
 
@@ -90,7 +93,7 @@ public class PostService {
         return postResponseList;
     }
 
-    public PostResponse findById(Integer postNum) {
+    public PostResponse findPostById(Integer postNum) {
         Optional<Post> optionalPost = postRepository.findById(postNum);
 
         if (optionalPost.isPresent())
@@ -100,7 +103,7 @@ public class PostService {
     }
 
     @Transactional
-    public String update(Post post) {
+    public String updatePost(Post post) {
         Optional<Post> optionalPost = postRepository.findById(post.getPostNum());
 
         if (optionalPost.isPresent()) {
@@ -119,7 +122,7 @@ public class PostService {
     }
 
     @Transactional
-    public String delete(Integer postNum) {
+    public String deletePost(Integer postNum) {
         Optional<Post> optionalPost = postRepository.findById(postNum);
 
         if (optionalPost.isPresent()) {
@@ -143,7 +146,7 @@ public class PostService {
             throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
     }
 
-    public List<PostResponse> findAllByWrittenDate() {
+    public List<PostResponse> findAllTodayPosts() {
         List<Post> postList = postRepository.findAllByWrittenDateBetween(LocalDateTime.of(LocalDateTime.now().toLocalDate(), LocalTime.MIN), LocalDateTime.of(LocalDateTime.now().toLocalDate(), LocalTime.MAX));
         List<PostResponse> postResponseList = new ArrayList<>();
 
@@ -154,7 +157,7 @@ public class PostService {
         return postResponseList;
     }
 
-    public List<PostResponse> findAllByModelModelName(String modelName) {
+    public List<PostResponse> findAllPostsByModelName(String modelName) {
         List<Post> postList = postRepository.findAllByModelModelName(modelName);
         List<PostResponse> postResponseList = new ArrayList<>();
 
@@ -166,7 +169,7 @@ public class PostService {
         return postResponseList;
     }
 
-    public List<PostResponse> searchByKeyword(String keyWord) {
+    public List<PostResponse> searchPostByKeyword(String keyWord) {
         List<Post> postList = postRepository.findByPostTitleContainingOrPostContentContainingOrderByWrittenDateDesc(keyWord, keyWord);
         List<PostResponse> postResponseList = new ArrayList<>();
 
@@ -178,7 +181,7 @@ public class PostService {
         return postResponseList;
     }
 
-    public List<PostResponse> findNearby(Double latitude, Double longitude, Double distance) {
+    public List<PostResponse> findAllNearbyPosts(Double latitude, Double longitude, Double distance) {
         Double earthRadius = 6371.0;
         Double latitudeAngularDistance = (distance / earthRadius) * (180.0 / Math.PI);
         Double longitudeAngularDistance = (distance / earthRadius) * (180.0 / Math.PI) / Math.cos(latitude * Math.PI / 180);
@@ -204,11 +207,11 @@ public class PostService {
         return postResponseList;
     }
 
-    public Location findLocation(Integer postNum) {
+    public Location findPostLocation(Integer postNum) {
         Optional<Post> optionalPost = postRepository.findById(postNum);
 
         if (optionalPost.isPresent()) {
-            Member member = memberService.findById(optionalPost.get().getMember().getMemberNum());
+            Member member = memberService.findMemberById(optionalPost.get().getMember().getMemberNum());
 
             return new Location(member.getLatitude(), member.getLongitude());
         } else
@@ -229,7 +232,7 @@ public class PostService {
             throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
     }
 
-    public List<PostResponse> findSoldOut(Integer memberNum) {
+    public List<PostResponse> findAllSoldOutPosts(Integer memberNum) {
         List<Post> postList = postRepository.findAllByMemberMemberNumAndStatusOrderByWrittenDate(memberNum, "판매 완료");
         List<PostResponse> postResponses = new ArrayList<>();
 

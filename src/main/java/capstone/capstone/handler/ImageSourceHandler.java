@@ -1,4 +1,4 @@
-package capstone.capstone.service;
+package capstone.capstone.handler;
 
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.metadata.Metadata;

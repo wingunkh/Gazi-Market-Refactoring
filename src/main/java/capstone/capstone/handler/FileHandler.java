@@ -1,4 +1,4 @@
-package capstone.capstone.service;
+package capstone.capstone.handler;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;

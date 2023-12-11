@@ -1,4 +1,4 @@
-package capstone.capstone.domain;
+package capstone.capstone.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

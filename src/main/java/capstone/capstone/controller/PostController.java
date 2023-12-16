@@ -126,15 +126,15 @@ public class PostController {
         return ResponseEntity.ok(postService.findPostLocation(postNum));
     }
 
-    // 해당 게시글 판매 완료 처리
-    @PatchMapping("/soldOut/{postNum}")
-    public ResponseEntity<String> soldOut(@PathVariable Integer postNum) {
-        return ResponseEntity.ok(postService.soldOut(postNum));
-    }
-
     // 해당 사용자의 판매 완료 게시글 전체 조회
     @GetMapping("/soldOut/{memberNum}")
     public ResponseEntity<List<PostResponse>> findAllSoldOutPosts(@PathVariable Integer memberNum) {
         return ResponseEntity.ok(postService.findAllSoldOutPosts(memberNum));
+    }
+
+    // 해당 게시글 판매 완료 처리
+    @PatchMapping("/soldOut/{postNum}")
+    public ResponseEntity<String> soldOut(@PathVariable Integer postNum) {
+        return ResponseEntity.ok(postService.soldOut(postNum));
     }
 }

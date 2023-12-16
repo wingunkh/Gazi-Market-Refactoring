@@ -23,7 +23,12 @@ public class ChattingController {
 
     // 채팅방 생성 후 입장
     @PostMapping("create/{guestNum}/{postNum}")
-    public ResponseEntity<List<ChattingMessage>> createChattingRoom(@PathVariable Integer guestNum, @PathVariable Integer postNum) {
+    public ResponseEntity<List<ChattingMessage>> createChattingRoom(
+            @PathVariable Integer guestNum,
+            // @PathVariable은 경로 변수를 추출할 때 사용
+            // @RequestParam은 쿼리 스트링의 쿼리 매개변수를 추출할 때 사용
+            @PathVariable Integer postNum
+    ) {
         Integer roomNum = chattingRoomService.createChattingRoom(guestNum, postNum).getRoomNum();
 
         return ResponseEntity.ok(chattingMessageService.enterChattingRoom(roomNum));
@@ -37,15 +42,13 @@ public class ChattingController {
 
     // 채팅 전송
     @MessageMapping
-    // 웹 소켓(Web Socket) 이란? HTTP와는 다른 통신 프로토콜로 웹 서버와 웹 브라우저가 서로 실시간 메시지를 교환하는 데 사용된다.
-    // HTTP 프로토콜을 통한 첫 번째 핸드셰이크를 주고받은 후 지속적으로 연결이 유지되는 것이 특징이다.
     // @MessageMapping 어노테이션은 웹 소켓 엔드포인트에서 클라이언트로부터 메시지를 수신하는 핸들러 메서드를 지정한다.
     // @Payload 어노테이션은 웹 소켓 메시지의 페이로드 (전송하고자 하는 실제 데이터)를 메서드 매개변수에 바인딩한다.
     public ResponseEntity<ChattingMessage> sendWebSocket(@Payload ChattingMessage chattingMessage) {
         ChattingMessage message = chattingMessageService.send(chattingMessage);
 
-        template.convertAndSend("sub/room/" + chattingMessage.getChattingRoom().getRoomNum(), message);
         // 웹 소켓을 통해 메시지를 해당 채팅방의 모든 클라이언트에게 브로드캐스트
+        template.convertAndSend("sub/room/" + chattingMessage.getChattingRoom().getRoomNum(), message);
 
         return ResponseEntity.ok(chattingMessage);
     }

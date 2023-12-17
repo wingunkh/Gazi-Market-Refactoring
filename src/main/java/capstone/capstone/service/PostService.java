@@ -229,6 +229,17 @@ public class PostService {
         return new Location(member.getLatitude(), member.getLongitude());
     }
 
+    public List<PostResponse> findAllSoldOutPosts(Integer memberNum) {
+        List<Post> postList = postRepository.findAllByMemberMemberNumAndStatusOrderByWrittenDate(memberNum, "판매 완료");
+        List<PostResponse> postResponses = new ArrayList<>();
+
+        for (Post post: postList) {
+            postResponses.add(convertPostToPostResponse(post));
+        }
+
+        return postResponses;
+    }
+
     @Transactional
     public String soldOut(Integer postNum) {
         Optional<Post> optionalPost = postRepository.findById(postNum);
@@ -242,17 +253,6 @@ public class PostService {
         targetPost.setStatus("판매 완료");
 
         return ResponseEntity.ok().toString();
-    }
-
-    public List<PostResponse> findAllSoldOutPosts(Integer memberNum) {
-        List<Post> postList = postRepository.findAllByMemberMemberNumAndStatusOrderByWrittenDate(memberNum, "판매 완료");
-        List<PostResponse> postResponses = new ArrayList<>();
-
-        for (Post post: postList) {
-            postResponses.add(convertPostToPostResponse(post));
-        }
-
-        return postResponses;
     }
 
     public Double calculateMarketPrice(String modelName, String grade) {

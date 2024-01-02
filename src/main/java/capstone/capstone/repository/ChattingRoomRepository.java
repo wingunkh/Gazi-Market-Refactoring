@@ -7,7 +7,9 @@ import java.util.List;
 
 @Repository
 public interface ChattingRoomRepository extends JpaRepository<ChattingRoom, Integer> {
-    ChattingRoom findByGuestNumAndPostNum(Integer guestNum, Integer postNum);
+    ChattingRoom findByGuestMemberNumAndPostPostNum(Integer memberNum, Integer postNum);
 
-    List<ChattingRoom> findAllByHostNumOrGuestNum(Integer hostNum, Integer guestNum);
+    List<ChattingRoom> findAllByHostMemberNum(Integer memberNum);
+
+    List<ChattingRoom> findAllByGuestMemberNum(Integer memberNum);
 }

@@ -17,9 +17,12 @@ public class ChattingRoom {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CHATTING_ROOM_SEQUENCE_GENERATOR")
     private Integer roomNum;
 
-    private Integer postNum;
+    @ManyToOne
+    private Post post;
 
-    private Integer hostNum;
+    @ManyToOne
+    private Member host;
 
-    private Integer guestNum;
+    @ManyToOne
+    private Member guest;
 }

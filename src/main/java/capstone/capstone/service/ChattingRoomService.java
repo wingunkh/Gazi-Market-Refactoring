@@ -1,11 +1,14 @@
 package capstone.capstone.service;
 
 import capstone.capstone.domain.ChattingRoom;
+import capstone.capstone.domain.Member;
 import capstone.capstone.domain.Post;
 import capstone.capstone.repository.ChattingRoomRepository;
+import capstone.capstone.repository.MemberRepository;
 import capstone.capstone.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,24 +19,39 @@ public class ChattingRoomService {
 
     private final PostRepository postRepository;
 
-    public ChattingRoom createChattingRoom(Integer guestNum, Integer postNum) {
-        ChattingRoom chattingRoom = chattingRoomRepository.findByGuestNumAndPostNum(guestNum, postNum);
+    private final MemberRepository memberRepository;
 
-        if (chattingRoom != null) {
-            return chattingRoom;
-        }
-
-        Optional<Post> optionalPost = postRepository.findById(postNum);
+    private static ChattingRoom getChattingRoom(Optional<Post> optionalPost, Optional<Member> optionalMember) {
         ChattingRoom newChattingRoom = new ChattingRoom();
 
         if (optionalPost.isEmpty()) {
             throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
         }
 
+        if (optionalMember.isEmpty()) {
+            throw new IllegalArgumentException("해당 사용자가 존재하지 않습니다.");
+        }
+
         Post post = optionalPost.get();
-        newChattingRoom.setPostNum(post.getPostNum());
-        newChattingRoom.setHostNum(post.getMember().getMemberNum());
-        newChattingRoom.setGuestNum(guestNum);
+        Member member = optionalMember.get();
+
+        newChattingRoom.setPost(post);
+        newChattingRoom.setHost(post.getMember());
+        newChattingRoom.setGuest(member);
+
+        return newChattingRoom;
+    }
+
+    public ChattingRoom createChattingRoom(Integer guestNum, Integer postNum) {
+        ChattingRoom chattingRoom = chattingRoomRepository.findByGuestMemberNumAndPostPostNum(guestNum, postNum);
+
+        if (chattingRoom != null) {
+            return chattingRoom;
+        }
+
+        Optional<Post> optionalPost = postRepository.findById(postNum);
+        Optional<Member> optionalMember = memberRepository.findById(guestNum);
+        ChattingRoom newChattingRoom = getChattingRoom(optionalPost, optionalMember);
 
         return chattingRoomRepository.save(newChattingRoom);
     }
@@ -43,6 +61,11 @@ public class ChattingRoomService {
     }
 
     public List<ChattingRoom> findAllChattingRoomsByHostNumOrGuestNum(Integer memberNum) {
-        return chattingRoomRepository.findAllByHostNumOrGuestNum(memberNum, memberNum);
+        List<ChattingRoom> chattingRoomList = new ArrayList<>();
+
+        chattingRoomList.addAll(chattingRoomRepository.findAllByHostMemberNum(memberNum));
+        chattingRoomList.addAll(chattingRoomRepository.findAllByGuestMemberNum(memberNum));
+
+        return chattingRoomList;
     }
 }

@@ -18,8 +18,7 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REPORT_SEQUENCE_GENERATOR")
     protected Integer reportNum;
 
-    @ManyToOne
-    protected Member member;
+    protected Integer reporterNum;
 
     protected Integer postNum;
 

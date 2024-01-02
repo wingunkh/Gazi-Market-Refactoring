@@ -35,17 +35,25 @@ public class ChattingController {
     }
 
     // 채팅 전송
-    @PostMapping
-    public ResponseEntity<ChattingMessage> sendHTTP(@RequestBody ChattingMessage chattingMessage) {
-        return ResponseEntity.ok(chattingMessageService.send(chattingMessage));
+    @PostMapping("/{roomNum}/{memberNum}")
+    public ResponseEntity<ChattingMessage> sendHTTP(
+            @PathVariable Integer roomNum,
+            @PathVariable Integer memberNum,
+            @RequestBody ChattingMessage chattingMessage
+    ) {
+        return ResponseEntity.ok(chattingMessageService.send(roomNum, memberNum, chattingMessage));
     }
 
     // 채팅 전송
-    @MessageMapping
+    @MessageMapping("/{roomNum}/{memberNum}")
     // @MessageMapping 어노테이션은 웹 소켓 엔드포인트에서 클라이언트로부터 메시지를 수신하는 핸들러 메서드를 지정한다.
     // @Payload 어노테이션은 웹 소켓 메시지의 페이로드 (전송하고자 하는 실제 데이터)를 메서드 매개변수에 바인딩한다.
-    public ResponseEntity<ChattingMessage> sendWebSocket(@Payload ChattingMessage chattingMessage) {
-        ChattingMessage message = chattingMessageService.send(chattingMessage);
+    public ResponseEntity<ChattingMessage> sendWebSocket(
+            @PathVariable Integer roomNum,
+            @PathVariable Integer memberNum,
+            @Payload ChattingMessage chattingMessage
+    ) {
+        ChattingMessage message = chattingMessageService.send(roomNum, memberNum, chattingMessage);
 
         // 웹 소켓을 통해 메시지를 해당 채팅방의 모든 클라이언트에게 브로드캐스트
         template.convertAndSend("sub/room/" + chattingMessage.getChattingRoom().getRoomNum(), message);

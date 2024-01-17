@@ -180,7 +180,7 @@ public class PostService {
     }
 
     public List<PostResponse> searchPostByKeyword(String keyWord) {
-        List<Post> postList = postRepository.findByPostTitleContainingOrPostContentContainingOrderByWrittenDateDesc(keyWord, keyWord);
+        List<Post> postList = postRepository.findAllByPostTitleContainingOrPostContentContainingOrderByWrittenDateDesc(keyWord, keyWord);
         List<PostResponse> postResponseList = new ArrayList<>();
 
         for (Post post : postList) {
@@ -256,7 +256,7 @@ public class PostService {
     }
 
     public Double calculateMarketPrice(String modelName, String grade) {
-        List<Post> postList = postRepository.findByModelModelNameAndGrade(modelName, grade);
+        List<Post> postList = postRepository.findAllByModelModelNameAndGrade(modelName, grade);
         Integer sum = 0;
         
         for (Post post : postList) {

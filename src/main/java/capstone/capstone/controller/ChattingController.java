@@ -25,8 +25,8 @@ public class ChattingController {
     @PostMapping("create/{guestNum}/{postNum}")
     public ResponseEntity<List<ChattingMessage>> createChattingRoom(
             @PathVariable Integer guestNum,
-            // @PathVariable은 경로 변수를 추출할 때 사용
-            // @RequestParam은 쿼리 스트링의 쿼리 매개변수를 추출할 때 사용
+            // @PathVariable 어노테이션은 경로 변수를 추출할 때 사용한다.
+            // @RequestParam 어노테이션은 쿼리 스트링의 쿼리 매개변수를 추출할 때 사용한다.
             @PathVariable Integer postNum
     ) {
         Integer roomNum = chattingRoomService.createChattingRoom(guestNum, postNum).getRoomNum();

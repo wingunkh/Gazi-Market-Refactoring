@@ -40,7 +40,8 @@ public class MemberController {
 
     // 해당 사용자의 프로필 이미지 수정
     @PatchMapping
-    // PATCH 메서드 : RequestBody를 통해 데이터 부분 수정
+    // PATCH 메서드 : 데이터 부분 수정
+    // PUT 메서드 : 데이터 전체 수정
     public ResponseEntity<String> updateProfileImage(
             @RequestPart(value = "memberNum")
             String memberNum,

@@ -30,7 +30,7 @@ public class PostController {
     @PostMapping("/react")
     public ResponseEntity<Post> savePost(
             @RequestPart(value = "post") Post post,
-            // HTTP Request Body에 multipart/form-data가 포함되어 있는 경우 사용
+            // HTTP Request Body가 JSON 데이터가 아닌 multipart/form-data 데이터일 경우 사용
             @RequestPart(value = "file") MultipartFile file
     ) throws Exception {
         return ResponseEntity.ok(postService.savePost(post, file));

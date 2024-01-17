@@ -11,10 +11,10 @@ public class ImageSourceHandler {
     // 해당 이미지가 직접 촬영한 이미지인지 도용한 이미지인지 확인
     public String detectImageSource(MultipartFile imageFile) {
         try {
-            // 이미지 파일의 메타데이터를 읽어온다.
+            // 이미지 파일의 메타데이터를 읽어옴
             Metadata metadata = ImageMetadataReader.readMetadata(imageFile.getInputStream());
 
-            // EXIF 메타데이터를 읽어오며 존재하지 않을 시 null 값이 저장된다.
+            // EXIF 메타데이터를 읽어오며 존재하지 않을 시 null 값이 저장됨
             ExifSubIFDDirectory directory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
 
             if (directory == null) {

@@ -21,27 +21,6 @@ public class ChattingRoomService {
 
     private final MemberRepository memberRepository;
 
-    private static ChattingRoom getChattingRoom(Optional<Post> optionalPost, Optional<Member> optionalMember) {
-        ChattingRoom newChattingRoom = new ChattingRoom();
-
-        if (optionalPost.isEmpty()) {
-            throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
-        }
-
-        if (optionalMember.isEmpty()) {
-            throw new IllegalArgumentException("해당 사용자가 존재하지 않습니다.");
-        }
-
-        Post post = optionalPost.get();
-        Member member = optionalMember.get();
-
-        newChattingRoom.setPost(post);
-        newChattingRoom.setHost(post.getMember());
-        newChattingRoom.setGuest(member);
-
-        return newChattingRoom;
-    }
-
     public ChattingRoom createChattingRoom(Integer guestNum, Integer postNum) {
         ChattingRoom chattingRoom = chattingRoomRepository.findByGuestMemberNumAndPostPostNum(guestNum, postNum);
 
@@ -67,5 +46,26 @@ public class ChattingRoomService {
         chattingRoomList.addAll(chattingRoomRepository.findAllByGuestMemberNum(memberNum));
 
         return chattingRoomList;
+    }
+
+    private static ChattingRoom getChattingRoom(Optional<Post> optionalPost, Optional<Member> optionalMember) {
+        ChattingRoom newChattingRoom = new ChattingRoom();
+
+        if (optionalPost.isEmpty()) {
+            throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
+        }
+
+        if (optionalMember.isEmpty()) {
+            throw new IllegalArgumentException("해당 사용자가 존재하지 않습니다.");
+        }
+
+        Post post = optionalPost.get();
+        Member member = optionalMember.get();
+
+        newChattingRoom.setPost(post);
+        newChattingRoom.setHost(post.getMember());
+        newChattingRoom.setGuest(member);
+
+        return newChattingRoom;
     }
 }

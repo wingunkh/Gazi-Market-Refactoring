@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 // HTTP Request와 HTTP Response를 처리하는 클래스임을 명시
-// @Controller에 @ResponseBody가 결합, 문자열과 JSON 등을 전송 가능
+// @Controller에 @ResponseBody가 결합, JSON 데이터 또는 XML 데이터 등을 전송 가능
 @RequiredArgsConstructor
 // final 또는 @NonNull이 붙은 필드 값을 파라미터로 받는 생성자 추가
 // 생성자가 하나일 경우 @Autowired 어노테이션을 생략 가능
@@ -24,9 +24,9 @@ public class CategoryController {
 
     // 카테고리 저장
     @PostMapping
-    // POST 메서드 : RequestBody를 통해 서버로 데이터를 전송, 주로 등록에 사용
+    // POST 메서드 : RequestBody를 통해 서버로 데이터를 전송, 주로 데이터 등록
     // POST 메서드는 멱등하지 않다.
-    // 멱등성(Idempotent)이란? 연산을 여러 번 적용하더라도 결과가 달라지지 않는 성질
+    // 멱등성 (Idempotent)이란? 연산을 여러 번 적용하더라도 결과가 달라지지 않는 성질
     public ResponseEntity<Category> saveCategory(@RequestBody Category category) {
         return ResponseEntity.ok(categoryService.saveCategory(category));
     }

@@ -46,15 +46,10 @@ public class FileHandler {
     private final AmazonS3Client amazonS3Client;
 
     public String saveToS3(MultipartFile multipartFile, String key) throws Exception {
-        String pictureUrl = "";
-
-        // 빈 파일이 들어오면 빈 pictureUrl 반환
         if (multipartFile.isEmpty()) {
-            return pictureUrl;
+            // 빈 파일이 들어오면 빈 문자열 반환
+            return "";
         }
-
-        // 업로드한 날짜를 파일명으로 지정
-        String currentDate = new SimpleDateFormat("yyyyMMdd").format(new Date());
 
         // 로컬 디렉터리에 임시 저장하기 위한 경로 설정
         String path = new File("").getAbsolutePath() + "/" + "images/";
@@ -62,31 +57,30 @@ public class FileHandler {
 
         // 저장할 경로에 디렉터리가 존재하지 않을 경우
         if (!file.exists()) {
-            // mkdir() 함수와 다른 점 : 상위 디렉터리가 존재하지 않을 때 상위 디렉터리까지 생성
+            // 디렉터리 생성
             file.mkdirs();
         }
 
+        // 파일 확장자명 설정
         String contentType = multipartFile.getContentType();
         String originalFileExtension = "";
 
-        // 확장자명이 없으면 잘못된 파일이므로 빈 pictureUrl 반환
         if (ObjectUtils.isEmpty(contentType)) {
-            return pictureUrl;
-        }
-
-        if (contentType.contains("image/jpeg")) {
+            // 확장자명이 없으면 잘못된 파일이므로 빈 문자열 반환
+            return "";
+        } else if (contentType.contains("image/jpeg")) {
             originalFileExtension = ".jpg";
         } else if (contentType.contains("image/png")) {
             originalFileExtension = ".png";
         } else if (contentType.contains("image/gif")) {
             originalFileExtension = ".gif";
         } else {
-            // 다른 확장자명이면 빈 pictureUrl 반환
-            return pictureUrl;
+            // 다른 확장자명이면 빈 문자열 반환
+            return "";
         }
 
-        // 파일명에 중복이 발생하지 않도록 나노 세컨드까지 동원하여 파일명 지정
-        String newFileName = System.nanoTime() + originalFileExtension;
+        // 파일명 설정 (중복이 발생하지 않도록 현재 날짜와 나노 세컨드까지 동원)
+        String newFileName = new SimpleDateFormat("yyyyMMdd").format(new Date()) + System.nanoTime() + originalFileExtension;
         file = new File(path + newFileName);
 
         // EOF 에러를 방지하기 위해 파일 크기 변경
@@ -95,10 +89,8 @@ public class FileHandler {
                 .toFile(file);
 
         try {
-            multipartFile.transferTo(file);
-
-            // Amazon S3 Bucket에 전달받은 파일 업로드
-            amazonS3Client.putObject(new PutObjectRequest(bucket, key + currentDate + newFileName, file));
+            // Amazon S3 Bucket에 파일 업로드
+            amazonS3Client.putObject(new PutObjectRequest(bucket, key + newFileName, file));
             System.gc();
         } catch (Exception e) {
             throw new Exception();
@@ -109,7 +101,7 @@ public class FileHandler {
             }
         }
 
-        return amazonS3Client.getUrl(bucket, key + currentDate + newFileName).toString();
+        return amazonS3Client.getUrl(bucket, key + newFileName).toString();
     }
 
     public void deleteFromS3(String pictureLocation) {

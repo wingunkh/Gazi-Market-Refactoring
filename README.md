@@ -27,7 +27,7 @@
 또한 사기 거래에 대한 위험성 때문에 신뢰할 수 있는 거래망이 형성되기 어려운 것이 현실입니다. <br>
 <br>
 이러한 신뢰성에 대한 문제를 해결하기 위해 가지마켓은 스마트폰의 상태 등급에 따른 거래 시세를 제공함과 동시에, <br>
-EXIF 이미지 파일 메타데이터 포맷을 활용하여 게시글의 사진이 판매자가 직접 촬영한 사진인지 또는 인터넷 등을 통해 다운로드된 사진인지 판별하는 기능을 제공합니다. <br>
+EXIF 메타데이터를 활용하여 게시글의 사진이 판매자가 직접 촬영한 사진인지 또는 인터넷 등을 통해 다운로드된 사진인지 판별하는 기능을 제공합니다. <br>
 <br>
 또한 딥러닝 기술을 기반으로 판매하고자 하는 스마트폰의 기종을 자동으로 분류하는 기능을 제공함과 동시에 <br>
 Kakao Map API를 활용한 위치 기반 서비스와 Web Socket 기술을 활용한 채팅 기능 등 다양한 편의 기능을 제공합니다.
@@ -49,8 +49,8 @@ Kakao Map API를 활용한 위치 기반 서비스와 Web Socket 기술을 활�
 <img width="325" height="720" alt="" src="https://github.com/wingunkh/Gazi-Market-Refactored/assets/58140360/569028bb-feab-4ce0-b56b-ffe4d1c58a8b">
 <br><br>
 
-> ### EXIF 이미지 파일 메타데이터 포맷을 통한 게시글 사진 출처 판별 기능
-- EXIF 이미지 파일 메타데이터 포맷을 통해 게시글의 사진이 직접 촬영된 사진인지 또는 인터넷 등을 통해 다운로드된 사진인지 판별 가능
+> ### EXIF 메타데이터를 통한 게시글 사진 출처 판별 기능
+- EXIF 메타데이터를 게시글의 사진이 직접 촬영된 사진인지 또는 인터넷 등을 통해 다운로드된 사진인지 판별 가능
 - 시세 기준 적정가이면서, 사진이 직접 촬영된 사진으로 판별됐을 경우 게시글이 보라색(안전)으로 표시
 - 적정가에서 벗어났을 경우 또는 사진이 다운로드된 사진으로 판별됐을 경우 게시글이 노란색(주의)으로 표시
 - 두 가지 경우에 모두 해당할 시 게시글이 빨간색(위험)으로 표시
@@ -144,40 +144,7 @@ Kakao Map API를 활용한 위치 기반 서비스와 Web Socket 기술을 활�
 
 ## 📜 시스템 구조도
 
-<img width="895" alt="image" src="https://github.com/wingunkh/Gazi-Market-Refactored/assets/58140360/46231d07-c1e8-485b-abf8-e81eaf3c733c">
-<br><br>
-
-## 💾 데이터베이스 설계도
-
-<img width="895" alt="image" src="https://github.com/wingunkh/findER-Refactored/assets/58140360/2591f2dd-2ec7-48e4-a6c8-6cc93e4337a6">
-<br><br>
-
-## 👨‍👨‍👦‍👦 팀원 및 담당 파트
-
-<div sytle="overflow:hidden;">
-<table>
-  <tr>
-    <td colspan="2" align="center"><strong>Back-End</strong></td>
-    <td colspan="2" align="center"><strong>Front-End</strong></td>
-  </tr>
-  <tr>
-    <td align="center">
-      <a href="https://github.com/wingunkh"><img src="https://avatars.githubusercontent.com/u/58140360?v=4" width="150px;" alt="김현근"/><br/><sub><b>김현근</b></sub></a>
-    </td>
-    <td align="center">
-      <a href="https://github.com/tjdgns99"><img src="https://avatars.githubusercontent.com/u/117345938?v=4" width="150px" alt="김성훈"/><br/><sub><b>김성훈</b></sub></a>
-    </td>
-    <td align="center">
-      <a href="https://github.com/qkrwodbs"><img src="https://avatars.githubusercontent.com/u/51899615?v=4" width="150px" alt="박재윤"/><br/><sub><b>박재윤</b></sub></a>
-    </td>
-    <td align="center">
-      <a href="https://github.com/BURI966"><img src="https://avatars.githubusercontent.com/u/108705172?v=4" width="150px" alt="김승우"/><br/><sub><b>김승우</b></sub></a>
-    </td>
-  </tr>
-</table>
-
-> 김현근 : Spring 사용 백엔드 애플리케이션 공동 개발 / Amazon Web Service EC2 관리 및 S3 관련 기능
-<br> / EXIF 이미지 파일 메타데이터 포맷을 통한 사진 출처 판별 기능 <br><br>
+<img width=를 통한 사진 출처 판별 기능 <br><br>
 > 김성훈 : Spring 사용 백엔드 애플리케이션 공동 개발 / 딥러닝을 통한 스마트폰 기종 자동 분류 기능
 <br> / 채팅 기능 <br><br>
 > 김승우 : React 사용 관리자 웹 페이지 개발 / Kakao Map API 관련 기능 <br><br>

@@ -144,7 +144,40 @@ Kakao Map API를 활용한 위치 기반 서비스와 Web Socket 기술을 활�
 
 ## 📜 시스템 구조도
 
-<img width=를 통한 사진 출처 판별 기능 <br><br>
+<img width="895" alt="image" src="https://github.com/wingunkh/Gazi-Market-Refactored/assets/58140360/46231d07-c1e8-485b-abf8-e81eaf3c733c">
+<br><br>
+
+## 💾 데이터베이스 설계도
+
+<img width="895" alt="image" src="https://github.com/wingunkh/findER-Refactored/assets/58140360/2591f2dd-2ec7-48e4-a6c8-6cc93e4337a6">
+<br><br>
+
+## 👨‍👨‍👦‍👦 팀원 및 담당 파트
+
+<div sytle="overflow:hidden;">
+<table>
+  <tr>
+    <td colspan="2" align="center"><strong>Back-End</strong></td>
+    <td colspan="2" align="center"><strong>Front-End</strong></td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/wingunkh"><img src="https://avatars.githubusercontent.com/u/58140360?v=4" width="150px;" alt="김현근"/><br/><sub><b>김현근</b></sub></a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/tjdgns99"><img src="https://avatars.githubusercontent.com/u/117345938?v=4" width="150px" alt="김성훈"/><br/><sub><b>김성훈</b></sub></a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/qkrwodbs"><img src="https://avatars.githubusercontent.com/u/51899615?v=4" width="150px" alt="박재윤"/><br/><sub><b>박재윤</b></sub></a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/BURI966"><img src="https://avatars.githubusercontent.com/u/108705172?v=4" width="150px" alt="김승우"/><br/><sub><b>김승우</b></sub></a>
+    </td>
+  </tr>
+</table>
+
+> 김현근 : Spring 사용 백엔드 애플리케이션 공동 개발 / Amazon Web Service EC2 관리 및 S3 관련 기능
+<br> / EXIF 메타데이터를 통한 사진 출처 판별 기능 <br><br>
 > 김성훈 : Spring 사용 백엔드 애플리케이션 공동 개발 / 딥러닝을 통한 스마트폰 기종 자동 분류 기능
 <br> / 채팅 기능 <br><br>
 > 김승우 : React 사용 관리자 웹 페이지 개발 / Kakao Map API 관련 기능 <br><br>

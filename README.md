@@ -1,9 +1,9 @@
 <h1 align="center">🍆<strong> 가지마켓 </strong>🍆</h1>
 
 <div align="center">
-<strong>2023년 한성대학교 컴퓨터공학부 캡스톤 디자인</strong>
+<strong>2023년 컴퓨터공학부 캡스톤 디자인</strong>
 <br><br>
-<em>가장 지능적인 중고 스마트폰 거래 애플리케이션, 가지마켓</em>
+<em>가장 지능적인 중고 스마트폰 거래 모바일 앱, 가지마켓</em>
 <br><br>
 <em>written by wingunkh</em>
 </div>
@@ -16,7 +16,9 @@
 - 시스템 구조도
 - 데이터베이스 설계도
 - 팀원 및 담당 파트
+<!--
 - 수상
+-->
 <br>
 
 ## ❔ 개요
@@ -176,15 +178,17 @@ Kakao Map API를 활용한 위치 기반 서비스와 Web Socket 기술을 활�
   </tr>
 </table>
 
-> 김현근 : Spring 사용 백엔드 애플리케이션 공동 개발 / Amazon Web Service EC2 관리 및 S3 관련 기능
+> 김현근 : Spring 사용 백엔드 API 서버 공동 개발 / Amazon Web Service EC2 관리 및 S3 관련 기능
 <br> / EXIF 메타데이터를 통한 사진 출처 판별 기능 <br><br>
-> 김성훈 : Spring 사용 백엔드 애플리케이션 공동 개발 / 딥러닝을 통한 스마트폰 기종 자동 분류 기능
+> 김성훈 : Spring 사용 백엔드 API 서버 공동 개발 / 딥러닝을 통한 스마트폰 기종 자동 분류 기능
 <br> / 채팅 기능 <br><br>
 > 김승우 : React 사용 관리자 웹 페이지 개발 / Kakao Map API 관련 기능 <br><br>
 > 박재윤 : React Native 사용 모바일 애플리케이션 개발
 </div>
 <br>
 
+<!--
 ## 🥇 수상
 
 <img width="550" height="800" alt="장려상 수상" src="https://github.com/wingunkh/Gazi-Market-Refactored/assets/58140360/0c7ef357-4bf5-40d9-9a6f-c0fdd3cfc051">
+-->

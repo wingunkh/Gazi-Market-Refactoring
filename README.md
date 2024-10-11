@@ -15,6 +15,7 @@
 - 기술 스택
 - 시스템 구조도
 - 팀원 및 담당 파트
+- 수상
 <br>
 
 ## ❔ 개요
@@ -174,8 +175,6 @@
 </div>
 <br>
 
-<!--
 ## 🥇 수상
 
 <img width="550" height="800" alt="장려상 수상" src="https://github.com/wingunkh/Gazi-Market-Refactored/assets/58140360/0c7ef357-4bf5-40d9-9a6f-c0fdd3cfc051">
--->
